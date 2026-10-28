@@ -216,7 +216,7 @@ const gdId=()=>String(GD_CLIENT_ID||(GD.get()||{}).cid||'').trim(),gdCfg=()=>{co
 let gfold=(()=>{try{return JSON.parse(localStorage.getItem('imv_gdf')||'{}')}catch(e){return{}}})();const gfs=()=>{try{localStorage.setItem('imv_gdf',JSON.stringify(gfold))}catch(e){}};
 const gtokOk=()=>gtok&&Date.now()<gexp-60000,gdPending=()=>items.filter(i=>i.type=='file'&&!i.trashed&&i.sync!='done').length;
 const gisReady=()=>new Promise((res,rej)=>{if(window.google&&google.accounts&&google.accounts.oauth2)return res();let t=document.getElementById('gsi');if(!t){t=document.createElement('script');t.id='gsi';t.src='https://accounts.google.com/gsi/client';t.async=true;document.head.append(t)}t.addEventListener('load',()=>res());t.addEventListener('error',()=>{t.remove();rej(new Error('Cannot load Google sign-in (check internet)'))})});
-function gdTok(ia,prompt){if(gtokOk())return Promise.resolve(gtok);if(!ia)return Promise.reject(new Error('Google session expired — tap ☁ Sync now to reconnect'));return gisReady().then(()=>new Promise((res,rej)=>{const cid=gdId();if(!cid)return rej(new Error('No Google Client ID'));if(!/^[\w-]+\.apps\.googleusercontent\.com$/.test(cid))return rej(new Error('Client ID format is wrong (must end with .apps.googleusercontent.com)'));let done=false;const fin=(f,v)=>{if(!done){done=true;clearTimeout(t);f(v)}},t=setTimeout(()=>fin(rej,new Error('Sign-in timed out')),180000);const cl=google.accounts.oauth2.initTokenClient({client_id:cid,scope:'https://www.googleapis.com/auth/drive.file',callback:r=>{if(r.error||!r.access_token)return fin(rej,new Error(r.error_description||r.error||'Sign-in failed'));gtok=r.access_token;gexp=Date.now()+(+r.expires_in||3600)*1000;fin(res,gtok)},error_callback:e=>fin(rej,new Error(e&&e.type==='popup_closed'?'Sign-in cancelled':(e&&e.type)||'Sign-in failed'))});cl.requestAccessToken({prompt:prompt||''})}))}
+function gdTok(ia,prompt){if(gtokOk())return Promise.resolve(gtok);if(!ia)return Promise.reject(new Error('Google session expired — tap ☁ Sync now to reconnect'));return gisReady().then(()=>new Promise((res,rej)=>{const cid=gdId();if(!cid)return rej(new Error('No Google Client ID'));if(!/^[\w-]+\.apps\.googleusercontent\.com$/.test(cid))return rej(new Error('Client ID format is wrong (must end with .apps.googleusercontent.com)'));let done=false;const fin=(f,v)=>{if(!done){done=true;clearTimeout(t);f(v)}},t=setTimeout(()=>fin(rej,new Error('Sign-in timed out')),180000),g0=GD.get()||{},silent=!prompt&&g0.on;const mk=pr=>{const cl=google.accounts.oauth2.initTokenClient({client_id:cid,scope:'https://www.googleapis.com/auth/drive.file',...(g0.email?{hint:g0.email}:{}),callback:r=>{if(r.error||!r.access_token){if(pr=='none')return mk('');return fin(rej,new Error(r.error_description||r.error||'Sign-in failed'))}gtok=r.access_token;gexp=Date.now()+(+r.expires_in||3600)*1000;fin(res,gtok)},error_callback:e=>{if(pr=='none')return mk('');fin(rej,new Error(e&&e.type==='popup_closed'?'Sign-in cancelled':(e&&e.type)||'Sign-in failed'))}});cl.requestAccessToken({prompt:pr})};mk(silent?'none':(prompt||''))}))}
 async function gapi(url,opt={}){const tk=await gdTok(false);const r=await fetch(url,{...opt,headers:{...(opt.headers||{}),Authorization:'Bearer '+tk}});if(r.status==401)gtok=null;if(!r.ok){let m='';try{m=(await r.json()).error.message}catch(e){}throw new Error(m||'Drive HTTP '+r.status)}return r}
 const J=async r=>(await r).json(),qs=x=>encodeURIComponent(x),qq=x=>String(x).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
 async function gdFolder(parts){let pid='root',key='';for(const nm of parts){key+='/'+nm;if(gfold[key]){pid=gfold[key];continue}const q="name='"+qq(nm)+"' and mimeType='application/vnd.google-apps.folder' and '"+pid+"' in parents and trashed=false and appProperties has { key='imv' and value='1' }";const f=await J(gapi('https://www.googleapis.com/drive/v3/files?pageSize=1&fields=files(id)&q='+qs(q)));let id=f.files&&f.files[0]&&f.files[0].id;if(!id)id=(await J(gapi('https://www.googleapis.com/drive/v3/files?fields=id',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:nm,mimeType:'application/vnd.google-apps.folder',parents:[pid],appProperties:{imv:'1'}})}))).id;gfold[key]=pid=id;gfs()}return pid}
@@ -229,7 +229,27 @@ async function gdUp(i,ia){const c=gdCfg();if(!c)return;if(!navigator.onLine){i.s
  catch(e){const exp=!gtokOk()&&!ia;i.sync=exp?'pending':'error';i.syncErr=String(e.message||e);await saveQ(i);if(!exp)toast('Drive sync failed: '+i.name);else if(Date.now()-gwarn>20000){gwarn=Date.now();toast('☁ Google session expired — tap “Sync now” to reconnect')}}}
 const gdQ=(i,ia)=>{if(GB.has(i.id))return;GB.add(i.id);gq=gq.then(()=>gdUp(i,ia)).catch(()=>{}).then(()=>{GB.delete(i.id);render()});render()};
 const gdAll=ia=>items.filter(i=>i.type=='file'&&!i.trashed&&i.sync!='done').forEach(x=>gdQ(x,ia));
-async function gdConnect(a,sw){if(!gdId()){gdM();return}const prev=GD.get()||{},t0=a?a.textContent:'';GD.set({...prev,auto:prev.auto!==false});gtok=null;if(a){a.disabled=true;a.textContent='Connecting…'}try{await gdTok(true,sw?'select_account':'');let em='';try{em=((await J(gapi('https://www.googleapis.com/drive/v3/about?fields=user(emailAddress)'))).user||{}).emailAddress||''}catch(e){}GD.set({...GD.get(),on:true,email:em});gfold={};gfs();toast('✔ Connected'+(em?' · '+em:''));$('#m').classList.remove('on');$('#m').innerHTML='';render();if(gdPending())gdAll(true)}catch(er){toast('Sign-in failed: '+er.message)}finally{if(a){a.disabled=false;a.textContent=t0}syncSt(navigator.onLine)}}
+
+/* ===== Drive data sync: Meeting / Task / Plan / Project / Note / Folder / Goal ===== */
+let gdel=(()=>{try{return JSON.parse(localStorage.getItem('imv_gdd')||'{}')}catch(e){return{}}})(),gSyncing=false;const gds=()=>{try{localStorage.setItem('imv_gdd',JSON.stringify(gdel))}catch(e){}},gdTomb=x=>{if(x&&x.type!='file'){gdel[x.id]=Date.now();gds()}};
+const GD_DATA='imvannda-data.json';
+async function gdSync(){if(gSyncing)return;if(!navigator.onLine){toast('Offline — cannot sync');return}gSyncing=true;
+ try{const f=await J(gapi('https://www.googleapis.com/drive/v3/files?pageSize=1&orderBy=modifiedTime%20desc&fields=files(id)&q='+qs("appProperties has { key='imvdata' and value='1' } and trashed=false")));let fid=f.files&&f.files[0]&&f.files[0].id,R={items:[],del:{}};
+  if(fid){R=await J(gapi('https://www.googleapis.com/drive/v3/files/'+fid+'?alt=media'));R.items=R.items||[];R.del=R.del||{}}
+  const D={...R.del};for(const k in gdel)if(!(D[k]>=gdel[k]))D[k]=gdel[k];
+  let pulled=0;
+  for(const id in D){const x=get(id);if(x&&x.type!='file'&&(x.updated||0)<=D[id]){items=items.filter(y=>y!==x);await tx('readwrite',s=>s.delete(id));pulled++}}
+  for(const r of R.items){if(!r||!r.id||r.type=='file')continue;if(D[r.id]&&D[r.id]>=(r.updated||0))continue;const l=get(r.id);if(!l){items.push(r);await saveQ(r);pulled++}else if((r.updated||0)>(l.updated||0)){Object.keys(l).forEach(k=>delete l[k]);Object.assign(l,r);await saveQ(l);pulled++}}
+  gdel=D;gds();
+  const S=items.filter(x=>x.type!='file'),rm={};R.items.forEach(r=>{if(r&&r.id)rm[r.id]=r});
+  const need=!fid||S.length!=R.items.length||S.some(x=>!rm[x.id]||(x.updated||0)>(rm[x.id].updated||0))||Object.keys(D).some(k=>!(R.del[k]>=D[k]));
+  if(need){const body=JSON.stringify({v:1,t:Date.now(),items:S,del:D});
+   if(fid)await gapi('https://www.googleapis.com/upload/drive/v3/files/'+fid+'?uploadType=media',{method:'PATCH',headers:{'Content-Type':'application/json; charset=UTF-8'},body});
+   else{const pid=await gdFolder(['Imvannda Workspace']),bd='imvd'+Math.random().toString(36).slice(2);await gapi('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id',{method:'POST',headers:{'Content-Type':'multipart/related; boundary='+bd},body:'--'+bd+'\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n'+JSON.stringify({name:GD_DATA,parents:[pid],appProperties:{imvdata:'1'}})+'\r\n--'+bd+'\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n'+body+'\r\n--'+bd+'--'})}}
+  render();toast('✔ Synced'+(pulled?' · '+pulled+' item(s) from Drive':'')+(need?' · saved to Drive':''))}
+ catch(e){if(/not found/i.test(e.message)){gfold={};gfs()}toast('Sync failed: '+(e.message||e))}
+ finally{gSyncing=false;syncSt(navigator.onLine)}}
+async function gdConnect(a,sw){if(!gdId()){gdM();return}const prev=GD.get()||{},t0=a?a.textContent:'';GD.set({...prev,auto:prev.auto!==false});gtok=null;if(a){a.disabled=true;a.textContent='Connecting…'}try{await gdTok(true,sw?'select_account':'');let em='';try{em=((await J(gapi('https://www.googleapis.com/drive/v3/about?fields=user(emailAddress)'))).user||{}).emailAddress||''}catch(e){}GD.set({...GD.get(),on:true,email:em});gfold={};gfs();toast('✔ Connected'+(em?' · '+em:''));$('#m').classList.remove('on');$('#m').innerHTML='';render();await gdSync();if(gdPending())gdAll(true)}catch(er){toast('Sign-in failed: '+er.message)}finally{if(a){a.disabled=false;a.textContent=t0}syncSt(navigator.onLine)}}
 if(gdId())gisReady().catch(()=>{});
 const gdRetry=()=>{const c=gdCfg();if(!c)return;gisReady().catch(()=>{});if(c.auto!==false&&navigator.onLine&&gtokOk())items.filter(i=>i.type=='file'&&!i.trashed&&(i.sync=='error'||i.sync=='pending')).forEach(x=>gdQ(x,false))};
 const gdPill=i=>{if(i.type!='file'||i.trashed)return'';const c=gdCfg(),s=i.sync;if(GB.has(i.id))return'<span class="pill wt">⏳ Uploading…</span>';if(s=='done')return'<span class="pill ok cl" data-a=gdopen title="Open in Google Drive">☁ Drive</span>';if(s=='error')return`<span class="pill er cl" data-a=gdretry title="${esc(i.syncErr||'')} — click to retry">⚠ Retry</span>`;if(s=='pending')return'<span class="pill wt cl" data-a=gdretry title="Tap to upload">⏳ Waiting</span>';return c?'<span class="pill cl" data-a=gdretry title="Upload to Google Drive">☁ Upload</span>':''};
@@ -280,8 +300,9 @@ function dl(i){const a=document.createElement('a');a.href=URL.createObjectURL(i.
 const name=(p,d='')=>{const n=prompt(p,d);return n&&n.trim()};
 document.addEventListener('click',e=>{if(!e.target.closest('[data-a=fmenu]'))document.querySelectorAll('.fm.on').forEach(x=>x.classList.remove('on'))});
 document.addEventListener('mousedown',e=>{if(e.target.dataset.c)e.preventDefault()});
+const vs=[];
 document.addEventListener('click',async e=>{
- const cm=e.target.dataset.c;if(cm){document.execCommand(cm,false,e.target.dataset.v||null);$('#ne').dispatchEvent(new Event('input'));return}
+ const v0=view;const cm=e.target.dataset.c;if(cm){document.execCommand(cm,false,e.target.dataset.v||null);$('#ne').dispatchEvent(new Event('input'));return}
  const a=e.target.closest('[data-a]');if(!a)return;const act=a.dataset.a,id=a.closest('[data-id]')?.dataset.id,i=id&&get(id);
  if(act=='nav'){q='';$('#q').value='';view=a.dataset.v=='folder'?{k:'folder',id}:{k:a.dataset.v};$('#sb').classList.remove('on');document.body.classList.remove('so');document.body.classList.add('hs')}
  else if(act=='back'){const c=get(view.id);view=c&&c.parent?{k:'folder',id:c.parent}:{k:'projects'}} else if(act=='exp'){OPEN.has(id)?OPEN.delete(id):OPEN.add(id)} else if(act=='sw'||act=='si'){pj[act=='sw'?'color':'icon']=a.dataset.v;pvu();return} else if(act=='mkp'){const n=$('#pn').value.trim();if(!n){$('#pn').focus();$('#pn').style.borderColor='red';return}const p=await add('project',n,{parent:null,color:pj.color,icon:pj.icon,desc:$('#pd').value,pstatus:$('#ps').value});OPEN.add(p.id);$('#m').classList.remove('on');$('#m').innerHTML='';view={k:'folder',id:p.id}} else if(act=='burger'){if(innerWidth<=800){$('#sb').classList.toggle('on');document.body.classList.toggle('so',$('#sb').classList.contains('on'))}else document.body.classList.toggle('hs')}
@@ -291,7 +312,7 @@ document.addEventListener('click',async e=>{
  else if(act=='pvrot'){pv_.rot=(pv_.rot+90)%360;pvTh();pvRe();return}
  else if(act=='pvpr'){pvPrint();return}
  else if(act=='pvth'){pvGo(+a.dataset.n);return}
- else if(act=='gdset'){if(!gdCfg()){await gdConnect(a);return}if(!gtokOk()){try{await gdTok(true,'')}catch(er){toast('Sign-in failed: '+er.message);return}}const n=gdPending();gdAll(true);toast(n?'Uploading '+n+' file(s) to Google Drive…':'✔ Everything is already in Google Drive');return}
+ else if(act=='gdset'){if(!gdCfg()){await gdConnect(a);return}if(!gtokOk()){try{await gdTok(true,'')}catch(er){toast('Sign-in failed: '+er.message);return}}await gdSync();const n=gdPending();gdAll(true);if(n)toast('Uploading '+n+' file(s) to Google Drive…');return}
  else if(act=='fmenu'){const m=a.parentElement.querySelector('.fm'),on=m.classList.contains('on');document.querySelectorAll('.fm.on').forEach(x=>x.classList.remove('on'));if(!on)m.classList.add('on');return}
  else if(act=='attpick'){const inp=document.createElement('input');inp.type='file';inp.multiple=true;inp.onchange=()=>{stg.pf.push(...inp.files);if($('#attl'))$('#attl').innerHTML=attL(ed)};inp.click();return}
  else if(act=='attopen'){if(i&&i.blob){const sn={html:$('#m').innerHTML,vals:[...document.querySelectorAll('#m input,#m select,#m textarea')].map(e=>[e.id,e.type=='checkbox'?e.checked:e.value])};await prev(i);bk=sn}return}
@@ -300,7 +321,7 @@ document.addEventListener('click',async e=>{
  else if(act=='gdm'){gdM();return}
  else if(act=='gdopen'){if(i&&i.driveUrl)window.open(i.driveUrl,'_blank','noopener');return}
  else if(act=='gdretry'){if(i)gdQ(i,true);return}
- else if(act=='gdall'){if(!gdCfg()){await gdConnect(a);return}const n=gdPending();gdAll(true);toast(n?'Uploading '+n+' file(s) to Google Drive…':'Everything is already in Google Drive');return}
+ else if(act=='gdall'){if(!gdCfg()){await gdConnect(a);return}if(!gtokOk()){try{await gdTok(true,'')}catch(er){toast('Sign-in failed: '+er.message);return}}await gdSync();const n=gdPending();gdAll(true);if(n)toast('Uploading '+n+' file(s) to Google Drive…');return}
  else if(act=='gdoff'){if(await dlg({title:'Disconnect Google Drive?',msg:'ឯកសារដែលមានស្រាប់ក្នុង Drive នៅដដែល។ គ្រាន់តែឈប់ Sync ថ្មី។',icon:'☁',ok:'Disconnect',danger:1})){try{gtok&&google.accounts.oauth2.revoke(gtok)}catch(e){}gtok=null;gfold={};gfs();GD.set(null);$('#m').classList.remove('on');$('#m').innerHTML=''}}
  else if(act=='gdconn'){const inp=$('#gc'),ga=$('#ga'),pv=GD.get()||{};GD.set({...pv,...(!GD_CLIENT_ID&&inp&&inp.value.trim()?{cid:inp.value.trim()}:{}),...(ga?{auto:ga.checked}:{})});await gdConnect(a,!!pv.on);return}
  else if(act=='xl'){xlAct(a.dataset.v);return}
@@ -310,7 +331,7 @@ document.addEventListener('click',async e=>{
  else if(act=='ck'){const S=view.sel||(view.sel=new Set());S.has(id)?S.delete(id):S.add(id)}
  else if(act=='sall'){const T=items.filter(x=>x.trashed&&!get(x.parent)?.trashed),S=view.sel||(view.sel=new Set());if(S.size==T.length)S.clear();else T.forEach(x=>S.add(x.id))}
  else if(act=='bres'){for(const sid of [...(view.sel||[])]){const x=get(sid);if(x)for(const y of [x,...desc(x.id)]){y.trashed=false;await save(y)}}view.sel=new Set();toast('Restored')}
- else if(act=='bkill'){const n=view.sel?.size||0;if(n&&await dlg({title:'Delete '+n+' item(s) forever?',msg:'This cannot be undone.',icon:'🗑',danger:1,ok:'Delete'})){for(const sid of [...view.sel]){const x=get(sid);if(x)for(const y of [x,...desc(x.id)]){items=items.filter(z=>z!==y);await tx('readwrite',s=>s.delete(y.id))}}view.sel=new Set()}}
+ else if(act=='bkill'){const n=view.sel?.size||0;if(n&&await dlg({title:'Delete '+n+' item(s) forever?',msg:'This cannot be undone.',icon:'🗑',danger:1,ok:'Delete'})){for(const sid of [...view.sel]){const x=get(sid);if(x)for(const y of [x,...desc(x.id)]){gdTomb(y);items=items.filter(z=>z!==y);await tx('readwrite',s=>s.delete(y.id))}}view.sel=new Set()}}
  else if(act=='newp'){projM();return}
  else if(act=='newf'){const n=await dlg({title:'New folder',label:'Folder name',input:'',ph:'ឧ. គណៈកម្មការ…',icon:'📁',ok:'Create'});if(n)await add('folder',n)}
  else if(act=='newn'){noteM(draft('note','Untitled note',{html:'',text:''}));return}
@@ -331,9 +352,10 @@ document.addEventListener('click',async e=>{
  else if(act=='mv'){const ex=isC(i)?[i.id,...desc(i.id).map(x=>x.id)]:[];modal(`<b>Move “${esc(i.name)}”</b><select id=mt>${opts(i.parent,ex)}</select><button class=pr data-a=domv data-id=${i.id}>Move</button><button data-a=close>Cancel</button>`);return}
  else if(act=='domv'){const t=$('#mt').value||null;if(i.type=='project'&&t)return toast('Projects stay at top level.');i.parent=t;await save(i);$('#m').classList.remove('on')}
  else if(act=='del'||act=='res'){const on=act=='del';if(on&&!await dlg({title:'ពិតជាចង់លុបមែនទេ?',msg:'“'+(i.name||'Untitled')+'” នឹងត្រូវផ្លាស់ទៅ Trash ហើយអ្នកអាចស្ដារវិញបាន។',icon:'🗑',danger:1,ok:'លុប'}))return;for(const x of [i,...desc(i.id)]){x.trashed=on;await save(x)}}
- else if(act=='kill'){if(await dlg({title:'Delete forever?',msg:'This cannot be undone.',icon:'🗑',danger:1,ok:'Delete'}))for(const x of [i,...desc(i.id)]){items=items.filter(y=>y!==x);await tx('readwrite',s=>s.delete(x.id))}}
+ else if(act=='kill'){if(await dlg({title:'Delete forever?',msg:'This cannot be undone.',icon:'🗑',danger:1,ok:'Delete'}))for(const x of [i,...desc(i.id)]){gdTomb(x);items=items.filter(y=>y!==x);await tx('readwrite',s=>s.delete(x.id))}}
  else if(act=='savet'){ed.name=$('#tn').value.trim()||'Untitled task';ed.status=$('#ts').value;ed.priority=$('#tp').value;ed.due=$('#td').value;ed.time=$('#tt').value;ed.desc=$('#tdd').value;ed.done=ed.status=='done';ed.parent=$('#tl').value||null;await commit(ed);await attCommit();close();return}
  else if(act=='close'){if(bk){const b=bk;pdfEnd();if(document.fullscreenElement)document.exitFullscreen();if(url)URL.revokeObjectURL(url);url=null;$('#m').innerHTML=b.html;bk=null;b.vals.forEach(([k,v])=>{const e=k&&document.getElementById(k);if(e){if(typeof v=='boolean')e.checked=v;else e.value=v}});return}close();return}
+ if(view!==v0&&act!='back'&&(view.k!==v0.k||view.id!==v0.id)){vs.push(v0);if(vs.length>50)vs.shift()}
  render()});
 document.addEventListener('input',e=>{if(e.target.id=='pn'||e.target.id=='pd'){pvu();return}if(!ed||ed.type!='note'||!items.includes(ed))return;if(e.target.id=='nt'||e.target.id=='ne'){ed.name=$('#nt').value;ed.html=$('#ne').innerHTML;ed.text=$('#ne').innerText;save(ed)}});
 document.addEventListener('change',e=>{if(e.target.id=='np'&&ed){ed.parent=e.target.value||null;save(ed)}});
@@ -343,6 +365,22 @@ $('#q').oninput=e=>{q=e.target.value.trim();render()};
 document.addEventListener('change',e=>{if(e.target.id=='pg'&&pv_.doc)pvGo(Math.min(pv_.doc.numPages,Math.max(1,+e.target.value||1)))});
 document.addEventListener('keydown',e=>{if(e.target.id=='pg'&&e.key=='Enter')e.target.blur()});
 let rzt;const rz=()=>{clearTimeout(rzt);rzt=setTimeout(()=>{const m=$('#pvm');if(pv_.doc&&m&&Math.abs(m.clientWidth-(pv_.w||0))>2)pvRe()},150)};addEventListener('resize',rz);document.addEventListener('fullscreenchange',rz);
+
+/* ===== Back button / swipe-back: close one layer at a time, never leave the page ===== */
+function backStep(){
+ if($('#d').classList.contains('on')){const x=$('#d .x');if(x){x.click();return}}
+ if($('#m').classList.contains('on')){const x=$('#m .x');if(x){x.click();return}}
+ if(innerWidth<=800&&$('#sb').classList.contains('on')){$('#sb').classList.remove('on');document.body.classList.remove('so');return}
+ const fm=document.querySelector('.fm.on');if(fm){fm.classList.remove('on');return}
+ if(q){q='';$('#q').value='';render();return}
+ if(vs.length){view=vs.pop();render();return}
+ if(view.k=='folder'){const c=get(view.id);view=c&&c.parent?{k:'folder',id:c.parent}:{k:'projects'};render();return}
+ if(view.k!='home'){view={k:'home'};render()}
+}
+let bkArmed=false;
+const bkArm=()=>{if(bkArmed)return;bkArmed=true;try{history.replaceState({imv:0},'');history.pushState({imv:1},'')}catch(e){}};
+['pointerdown','touchstart','keydown'].forEach(t=>addEventListener(t,bkArm,{capture:true,passive:true}));
+addEventListener('popstate',()=>{if(!bkArmed)return;backStep();try{history.pushState({imv:1},'')}catch(e){}});
 addEventListener('online',()=>{stor();gdRetry()});addEventListener('offline',stor);
 DB.then(()=>tx('readonly',s=>s.getAll())).then(r=>{items=r||[];render();gdRetry()}).catch(e=>{$('#main').innerHTML='<div class=empty>Could not open local database: '+esc(e)+'</div>'});
 setInterval(()=>{if(!q&&!$('#m').classList.contains('on')&&!$('#d').classList.contains('on'))render()},6e4);
