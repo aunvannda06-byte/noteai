@@ -313,6 +313,7 @@ mark{background:#fde047;color:inherit;border-radius:3px;padding:0 1px}
 .srr{display:flex;gap:14px;align-items:flex-start;background:var(--c);border:1px solid var(--b);border-radius:14px;padding:14px;cursor:pointer;transition:.15s;min-width:0}.srr:hover{box-shadow:0 6px 18px #2563eb1a}.srr.on{border-color:var(--p);box-shadow:0 0 0 2px #2563eb22}
 .srb{flex:1;min-width:0}.srt{font-weight:700;font-size:15px;overflow-wrap:anywhere}.srb>small{display:block;color:var(--m);font-size:12px;margin-top:4px}
 .srs{margin-top:8px;font-size:13.5px;line-height:1.75;color:#334155;overflow-wrap:anywhere}
+.srst{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--m);margin:0 0 10px}
 .srpc2{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .srp{display:inline-flex;align-items:center;gap:5px;background:var(--pl);color:var(--p);border-radius:99px;padding:3px 11px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid transparent}.srp.on{background:var(--p);color:#fff}.srp:hover{border-color:var(--p)}
 .srx{display:flex;gap:6px;align-items:center;flex:none}.srx>button:first-child{font-weight:600}
@@ -915,6 +916,7 @@ let rzt;const rz=()=>{clearTimeout(rzt);rzt=setTimeout(()=>{const m=$('#pvm');if
 
 /* ===== Documents tab (mock UI) + Advanced content search ===== */
 const isDoc=x=>x.type=='file'&&!x.trashed&&!x.media&&!/^image\//.test(x.mime||'');
+const isImgF=x=>/^image\//.test(x.mime||'')||/^(png|jpe?g|webp|bmp|gif)$/.test(ext(x.name||'')),isSr=x=>x.type=='file'&&!x.trashed&&(isDoc(x)||isImgF(x));
 const DV={tab:'all',ft:new Set(),df:'any',d1:'',d2:'',cat:'',sort:'mod',dm:'list',sel:new Set()};
 const SR={adv:false,n:1,c:1,mode:'any',ft:new Set(),df:'any',d1:'',d2:'',cat:'',sort:'rel',dm:'list',sel:null,pg:null,mo:0};
 const FTS=[['pdf','PDF'],['word','Word'],['excel','Excel'],['ppt','PowerPoint'],['other','Others']],BT={pdf:'PDF',word:'W',excel:'X',ppt:'P',other:'•••'};
@@ -970,8 +972,10 @@ function khFix(t){
   for(const u of U)o+=u[1]}
  return o}
 const khBad=t=>{const m=t.match(/[\u1780-\u17FF]/g);if(!m||m.length<6)return false;const a=t.match(/(?<![\u1780-\u17D3\u17DD])[\u17B6-\u17D3\u17DD]/g),b=t.match(/\u17D2(?![\u1780-\u17A2])/g),n=(a?a.length:0)+(b?b.length:0);return n>=2||n/m.length>.005};
+const noTxt=t=>t.replace(/\s/g,'').length<12,
+ lgBad=t=>{const q=t.replace(/\s/g,'');if(q.length<30)return false;const kh=(q.match(/[\u1780-\u17FF]/g)||[]).length,lx=(q.match(/[\u00A1-\u00FF\u0152\u0153\u0160\u0161\u0178\u017D\u017E\u0192\u02C6\u02DC\u2013-\u203A\u2122]/g)||[]).length;return kh/q.length<.05&&lx/q.length>.1};
 /* ===== content index (PDF / DOCX / PPTX / XLSX / text) ===== */
-const IDXV=2,IDX={busy:false,done:0,total:0,oc:null},KZ=/[\u200b-\u200d\u2060\ufeff\u00ad\u17b4\u17b5]/g,nrm=s=>khFix(String(s==null?'':s).normalize('NFC').replace(KZ,'')),PP=new WeakMap();
+const IDXV=3,IDX={busy:false,done:0,total:0,oc:null},KZ=/[\u200b-\u200d\u2060\ufeff\u00ad\u17b4\u17b5]/g,nrm=s=>khFix(String(s==null?'':s).normalize('NFC').replace(KZ,'')),PP=new WeakMap();
 const KDG='០១២៣៤៥៦៧៨៩';
 const prepT=t=>{t=nrm(t);let sq='';const mp=[],me=[];for(let i=0;i<t.length;i++){let c=t[i];if(/\s/.test(c))continue;const k=KDG.indexOf(c);if(k>=0)c=String(k);const l=c.toLowerCase();for(let j=0;j<l.length;j++){const ch=l[j],n=sq.length;
  if(n&&sq[n-1]=='\u17C1'&&(ch=='\u17B8'||ch=='\u17B6')){sq=sq.slice(0,n-1)+(ch=='\u17B8'?'\u17BE':'\u17C4');me[n-1]=i;continue}
@@ -993,7 +997,7 @@ function pgParts(items){const P=[];for(const it of items)if(typeof it.str=='stri
   else{const h=Math.abs(a.transform[3])||a.height||10;if(Math.abs(b.transform[5]-a.transform[5])>h*.6)sp='\n';else{const g=b.transform[4]-(a.transform[4]+(a.width||0));if((g>h*.15||g<-h*.5)&&!/\s$/.test(P[i].s)&&!/^\s/.test(P[i+1].s))sp=' '}}
   P[i].sep=sp}
  return P}
-async function xPdf(b){if(!window.pdfjsLib)throw noLib();pdfInit();const doc=await pdfjsLib.getDocument({data:await b.arrayBuffer()}).promise,u=[];try{for(let n=1;n<=doc.numPages;n++){const pg=await doc.getPage(n),tc=await pg.getTextContent(),t=pgParts(tc.items).map(p=>p.s+p.sep).join('').slice(0,200000),o={l:'Page '+n,t};if(khBad(t))o.bad=1;u.push(o);pg.cleanup&&pg.cleanup()}}finally{doc.destroy&&doc.destroy()}return u}
+async function xPdf(b){if(!window.pdfjsLib)throw noLib();pdfInit();const doc=await pdfjsLib.getDocument({data:await b.arrayBuffer()}).promise,u=[];try{for(let n=1;n<=doc.numPages;n++){const pg=await doc.getPage(n),tc=await pg.getTextContent(),t=pgParts(tc.items).map(p=>p.s+p.sep).join('').slice(0,200000),o={l:'Page '+n,t};if(khBad(t)||noTxt(t)||lgBad(t))o.bad=1;u.push(o);pg.cleanup&&pg.cleanup()}}finally{doc.destroy&&doc.destroy()}return u}
 /* ----- Khmer OCR fallback (only for PDF pages whose text layer is garbled) ----- */
 const OCRMAX=60,OC={lib:null,w:{},fail:0},ocrRe=/^[A-Za-z0-9][A-Za-z0-9.,:;()\/&+@#%'’\-–_]*$/,ocrT=o=>o.map(w=>w[0]+(w[5]?'\n':' ')).join('');
 const ocrLib=()=>OC.lib||(OC.lib=new Promise((ok,no)=>{if(window.Tesseract)return ok(window.Tesseract);const e=document.createElement('script');e.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';e.onload=()=>window.Tesseract?ok(window.Tesseract):no(new Error('ocr'));e.onerror=()=>no(new Error('ocr'));document.head.append(e)}));
@@ -1006,19 +1010,22 @@ async function ocrPage(cv){
  }catch(e){}
  const o=[];for(const ln of L)ln.forEach((w,k)=>{const t=nrm(w.t);if(t)o.push([t,+(w.b[0]/W).toFixed(4),+(w.b[1]/H).toFixed(4),+(w.b[2]/W).toFixed(4),+(w.b[3]/H).toFixed(4),k==ln.length-1?1:0])});
  return o}
+async function imgCv(b){const u=URL.createObjectURL(b);try{const im=await new Promise((ok,no)=>{const e=new Image();e.onload=()=>ok(e);e.onerror=()=>no(new Error('img'));e.src=u});const w0=im.naturalWidth,h0=im.naturalHeight;if(!w0||!h0)return null;const sc=Math.min(Math.max(1700/w0,1),3000/Math.max(w0,h0)),cv=document.createElement('canvas');cv.width=Math.max(1,Math.floor(w0*sc));cv.height=Math.max(1,Math.floor(h0*sc));const x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,cv.width,cv.height);x.drawImage(im,0,0,cv.width,cv.height);return cv}finally{URL.revokeObjectURL(u)}}
 async function ocrAll(){
- if(OC.fail||!window.pdfjsLib)return;const todo=live().filter(isDoc).filter(f=>f.idx&&f.idx.u&&f.idx.u.some(u=>u.bad));let tot=0;for(const f of todo)tot+=Math.min(f.idx.u.filter(u=>u.bad).length,OCRMAX);if(!tot)return;
+ if(OC.fail)return;const todo=live().filter(isSr).filter(f=>f.idx&&f.idx.u&&f.idx.u.some(u=>u.bad)&&(isImgF(f)||window.pdfjsLib));let tot=0;for(const f of todo)tot+=Math.min(f.idx.u.filter(u=>u.bad).length,OCRMAX);if(!tot)return;
  IDX.oc={done:0,total:tot};srRend();
  try{await ocrW('khm')}catch(e){OC.fail=1;return}
  for(const f of todo){let blob=f.blob;if(!blob){try{if(f.driveId&&gtokOk()&&await gdBlob(f,true))blob=f.blob}catch(e){}}if(!blob)continue;
   let doc=null,n=0,ch=0;
-  try{pdfInit();doc=await pdfjsLib.getDocument({data:await blob.arrayBuffer()}).promise;
+  try{
+   if(isImgF(f)){const u=f.idx.u[0];if(u&&u.bad){n++;try{const cv=await imgCv(blob);if(cv){const o=await ocrPage(cv);cv.width=cv.height=0;if(o.length){u.o=o;u.t=nrm(ocrT(o)).slice(0,200000);PP.delete(u)}}u.bad=0;ch++}catch(e){u.bad=0}IDX.oc.done++;SRC.k='';srRend()}}
+   else{pdfInit();doc=await pdfjsLib.getDocument({data:await blob.arrayBuffer()}).promise;
    for(let k=0;k<f.idx.u.length&&n<OCRMAX;k++){const u=f.idx.u[k];if(!u.bad)continue;n++;
     try{const pg=await doc.getPage(k+1),v0=pg.getViewport({scale:1}),sc=Math.min(Math.max(1700/v0.width,1.5),3000/Math.max(v0.width,v0.height)),v=pg.getViewport({scale:sc}),cv=document.createElement('canvas');cv.width=Math.floor(v.width);cv.height=Math.floor(v.height);
      await pg.render({canvasContext:cv.getContext('2d'),viewport:v}).promise;const o=await ocrPage(cv);cv.width=cv.height=0;pg.cleanup&&pg.cleanup();
      if(o.length){u.o=o;u.t=nrm(ocrT(o)).slice(0,200000);PP.delete(u)}
      u.bad=0;ch++}catch(e){u.bad=0}
-    IDX.oc.done++;SRC.k='';srRend()}
+    IDX.oc.done++;SRC.k='';srRend()}}
   }catch(e){}
   finally{try{doc&&doc.destroy()}catch(e){}if(ch){try{await saveQ(f)}catch(e){}}SRC.k='';srRend()}}
 }
@@ -1026,11 +1033,11 @@ async function xDocx(b){const z=await unzip(b),x=await z.get('word/document.xml'
 async function xPptx(b){const z=await unzip(b),N=z.names.filter(n=>/^ppt\/slides\/slide\d+\.xml$/.test(n)).sort((a,b)=>parseInt(a.match(/\d+/)[0])-parseInt(b.match(/\d+/)[0])),u=[];for(const n of N){const x=await z.get(n);u.push({l:'Slide '+n.match(/\d+/)[0],t:nrm(x.replace(/<\/a:p>/g,'\n').replace(/<a:t(?:\s[^>]*)?>([^<]*)<\/a:t>/g,(m,t)=>xent(t)).replace(/<[^>]+>/g,'')).slice(0,200000)})}return u}
 async function xXls(b){if(!window.XLSX)throw noLib();const wb=XLSX.read(await b.arrayBuffer(),{type:'array'});return wb.SheetNames.map(n=>({l:'Sheet '+n,t:nrm(XLSX.utils.sheet_to_csv(wb.Sheets[n],{FS:' ',RS:'\n'})).slice(0,200000)}))}
 async function idxFile(f){let blob=f.blob;if(!blob){try{if(f.driveId&&gtokOk()&&await gdBlob(f,true))blob=f.blob}catch(e){}}if(!blob)return;const e=ext(f.name),m=f.mime||'';let u=[];
- try{if((f.size||0)>8e7)u=[];else if(e=='pdf'||m=='application/pdf')u=await xPdf(blob);else if(e=='docx')u=await xDocx(blob);else if(e=='pptx')u=await xPptx(blob);else if(/^(xlsx|xlsm|xls)$/.test(e))u=await xXls(blob);else if(/^(txt|md|csv|tsv|json|xml|html?|log)$/.test(e)||/^text\//.test(m))u=[{l:'Page 1',t:nrm(await blob.text()).slice(0,500000)}];else u=[]}
+ try{if((f.size||0)>8e7)u=[];else if(isImgF(f))u=[{l:'Image',t:'',bad:1}];else if(e=='pdf'||m=='application/pdf')u=await xPdf(blob);else if(e=='docx')u=await xDocx(blob);else if(e=='pptx')u=await xPptx(blob);else if(/^(xlsx|xlsm|xls)$/.test(e))u=await xXls(blob);else if(/^(txt|md|csv|tsv|json|xml|html?|log)$/.test(e)||/^text\//.test(m))u=[{l:'Page 1',t:nrm(await blob.text()).slice(0,500000)}];else u=[]}
  catch(er){if(er&&er.noLib)return;u=[]}
  f.idx={v:IDXV,s:f.size||0,u};await saveQ(f)}
 let srT;const srRend=()=>{clearTimeout(srT);srT=setTimeout(()=>{if(q&&view.k!='shared'&&!$('#m').classList.contains('on')&&!$('#d').classList.contains('on'))render()},400)};
-async function idxAll(){if(IDX.busy)return;const seen=new Set();IDX.busy=true;try{for(;;){const todo=live().filter(isDoc).filter(f=>(!f.idx||f.idx.v!=IDXV)&&!seen.has(f.id));if(!todo.length)break;IDX.total=seen.size+todo.length;IDX.done=seen.size;for(const f of todo){seen.add(f.id);await idxFile(f);IDX.done++;srRend()}}await ocrAll()}finally{IDX.busy=false;IDX.oc=null;srRend()}}
+async function idxAll(){if(IDX.busy)return;const seen=new Set();IDX.busy=true;try{for(;;){const todo=live().filter(isSr).filter(f=>(!f.idx||f.idx.v!=IDXV)&&!seen.has(f.id));if(!todo.length)break;IDX.total=seen.size+todo.length;IDX.done=seen.size;for(const f of todo){seen.add(f.id);await idxFile(f);IDX.done++;srRend()}}await ocrAll()}finally{IDX.busy=false;IDX.oc=null;srRend()}}
 /* ===== search ===== */
 function srFile(f,T){const nm=prepT(f.name||''),nameR=[],mt=new Set(),pages=[];
  if(SR.n)for(const sq of T){const r=fAll(nm,sq);if(r.length){mt.add(sq);nameR.push(...r)}}
@@ -1043,10 +1050,10 @@ const bestP=r=>r.pages.slice().sort((a,b)=>b.n-a.n||a.k-b.k)[0];
 const snip=(u,R)=>{const p=prU(u),s0=Math.min(...R.map(r=>r[0])),e0=R.filter(r=>r[0]==s0)[0][1],ws=Math.max(0,s0-60),we=Math.min(p.t.length,e0+120);return(ws>0?'… ':'')+hlt(p.t,R,ws,we)+(we<p.t.length?' …':'')};
 function pvText(f,k,T){const u=f.idx&&f.idx.u&&f.idx.u[k];if(!u)return'';const p=prU(u),R=[];for(const sq of T)R.push(...fAll(p,sq));const m=mrg(R),s0=m.length?Math.max(0,m[0][0]-200):0,e0=Math.min(p.t.length,s0+1200);return(s0>0?'… ':'')+hlt(p.t,R,s0,e0)+(e0<p.t.length?' …':'')}
 function srMain(){
- const A=live().filter(isDoc),T=srTerms(q,SR.mode),M=srBase(A,T),t=q.toLowerCase();
+ const A=live().filter(isSr),T=srTerms(q,SR.mode),M=srBase(A,T),t=q.toLowerCase();
  const fl=(r,ign)=>(ign=='ft'||!SR.ft.size||SR.ft.has(ftype(r.f)))&&dfOK(r.f.updated,SR.df,SR.d1,SR.d2)&&(ign=='cat'||!SR.cat||(SR.cat=='_none'?!r.f.parent:anc(r.f).includes(SR.cat)));
  let R=M.filter(r=>fl(r));R=R.slice().sort((a,b)=>SR.sort=='date'?(b.f.updated||0)-(a.f.updated||0):SR.sort=='name'?String(a.f.name).localeCompare(String(b.f.name),'km'):b.score-a.score||(b.f.updated||0)-(a.f.updated||0));
- const OH=x=>{const p=prepT(x||'');return SR.mode=='all'?T.every(z=>p.sq.includes(z)):T.some(z=>p.sq.includes(z))},O=T.length?byU(live().filter(i=>!isDoc(i)&&(OH(i.name)||OH(i.text)))):[],total=R.length+O.length,pgR=pgr(R);
+ const OH=x=>{const p=prepT(x||'');return SR.mode=='all'?T.every(z=>p.sq.includes(z)):T.some(z=>p.sq.includes(z))},RI=new Set(M.map(r=>r.f.id)),O=T.length?byU(live().filter(i=>!isDoc(i)&&!RI.has(i.id)&&(OH(i.name)||OH(i.text)))):[],total=R.length+O.length,pgR=pgr(R);
  let sel=SR.sel===''?null:(R.find(r=>r.f.id==SR.sel)||R[0]||null);if(sel&&SR.sel!==sel.f.id){SR.sel=sel.f.id;SR.pg=null}
  if(sel&&(SR.pg==null||SR.pg<0)){const b=bestP(sel);SR.pg=b?b.k:0}
  const idxd=A.filter(f=>f.idx).length,cnt=x=>M.filter(r=>fl(r,'ft')&&ftype(r.f)==x).length,cats=catOf(M.filter(r=>fl(r,'cat')).map(r=>r.f)).slice(0,10);
@@ -1054,27 +1061,31 @@ function srMain(){
  const adv='';
  const left=`<div class=srf><div class=dfh>${dic('filt',18)} <b>Filter Results</b> <a class=cl data-a=srclr>Clear all</a></div><div class=dfs>File Type</div>${FTS.map(([x,l])=>`<label class=dfl><input type=checkbox class=ck data-a=srft data-v=${x} ${SR.ft.has(x)?'checked':''}><span class="fti sm ${x}">${BT[x]}</span><span class=dfn>${l}</span><em>${cnt(x)}</em></label>`).join('')}<div class=dfs>By Date</div>${DFL.map(([v,l])=>`<label class=dfl><input type=radio name=srdf class=ck data-a=srdf data-v=${v} ${SR.df==v?'checked':''}><span class=dfn>${l}</span></label>`).join('')}${SR.df=='custom'?`<div class=g2><input type=date id=sd1 value="${SR.d1}"><input type=date id=sd2 value="${SR.d2}"></div>`:''}<div class=dfs>By Category</div>${cats.map(c=>`<div class="srcl ${SR.cat==c[0]?'on':''}" data-a=srcat data-v="${esc(c[0])}">${dic('folder',16)}<span>${esc(c[1])}</span><em>${c[2]}</em></div>`).join('')||'<small style="color:var(--m)">—</small>'}</div>`;
  const rrow=r=>{const f=r.f,b=bestP(r),u=b&&f.idx.u[b.k],extra=Math.max(0,r.pages.length-4);return `<div class="srr ${sel&&sel.f.id==f.id?'on':''}" data-id=${f.id} data-a=srsel>${fbadge(f)}<div class=srb><div class=srt>${hlt(r.nm.t,r.nameR)}</div><small>${fmeta(f)}</small>${u?`<div class=srs>${snip(u,b.R)}</div>`:''}${r.pages.length?`<div class=srpc2>${r.pages.slice(0,4).map(p=>`<span class=srp data-a=srpg data-p=${p.k}>${dic('list',12)} ${esc(p.l)}</span>`).join('')}${extra?`<span class=srp>+${extra}</span>`:''}</div>`:''}</div><div class=srx><button data-a=sropen data-p=${b?b.k:0}>Open ${dic('ext',13)}</button>${fmenuF(f)}</div></div>`};
- const idxLine=IDX.busy?`<small style="color:var(--m)">${SPN}${IDX.oc?'កំពុងអានអក្សរខ្មែរ (OCR) '+IDX.oc.done+'/'+IDX.oc.total:'កំពុងរៀបចំលិបិក្រមខ្លឹមសារ '+IDX.done+'/'+IDX.total}…</small>`:'';
- const center=`<div class=srm><div class=srh><b>${R.length} result${R.length==1?'':'s'}</b> ${idxLine}<span class=dlr><label>Sort by: <select id=srsort>${[['rel','Relevance'],['date','Date'],['name','Name']].map(([v,l])=>`<option value=${v} ${SR.sort==v?'selected':''}>${l}</option>`).join('')}</select></label>${viewTg(SR.dm,'srview',1)}</span></div><div class="srl ${SR.dm=='grid'?'grid':''}">${pgR.map(rrow).join('')||`<div class=empty>${T.length?'No files match.':''}${SR.c&&IDX.busy?'<br>កំពុងរៀបចំលិបិក្រម… លទ្ធផលនឹងកើនឡើងបន្តិចម្ដងៗ':''}</div>`}</div>${pgb(R)}${O.length?`<h3>Other items</h3>${list(O)}`:''}</div>`;
+ const stLine=IDX.busy?`<div class=srst>${SPN}<span>${IDX.oc?'កំពុងស្កេនអក្សរខ្មែរ (OCR) ក្នុង PDF / រូបភាព… '+IDX.oc.done+'/'+IDX.oc.total:'កំពុងស្វែងរកខ្លឹមសារក្នុង PDF… '+IDX.done+'/'+IDX.total}</span></div>`:'';
+ const center=`<div class=srm><div class=srh><b>${R.length} result${R.length==1?'':'s'}</b><span class=dlr><label>Sort by: <select id=srsort>${[['rel','Relevance'],['date','Date'],['name','Name']].map(([v,l])=>`<option value=${v} ${SR.sort==v?'selected':''}>${l}</option>`).join('')}</select></label>${viewTg(SR.dm,'srview',1)}</span></div><div class="srl ${SR.dm=='grid'?'grid':''}">${pgR.map(rrow).join('')||`<div class=empty>${T.length?'No files match.':''}${SR.c&&IDX.busy?'<br>កំពុងរៀបចំលិបិក្រម… លទ្ធផលនឹងកើនឡើងបន្តិចម្ដងៗ':''}</div>`}</div>${pgb(R)}${O.length?`<h3>Other items</h3>${list(O)}`:''}</div>`;
  let pv='<div class=srp2 id=srpv style="visibility:hidden"></div>';
- if(sel){const f=sel.f,u=(f.idx&&f.idx.u)||[],N=u.length,k=Math.min(Math.max(SR.pg||0,0),Math.max(N-1,0)),tot2=sel.pages.reduce((a,p)=>a+p.c,0)+sel.nameR.length,isP=ftype(f)=='pdf';SR.pg=k;
-  pv=`<div class="srp2 ${SR.mo?'mo':''}" id=srpv data-id=${f.id}><div class=srph>${fbadge(f,'sm')}<b title="${esc(f.name)}">${esc(f.name)}</b><button data-a=sropen data-p=${k} title=Open>${dic('ext',15)}</button><button data-a=srx title=Close>${dic('x',15)}</button></div>${N>1||isP?`<div class=srpn><button data-a=srpn data-v=-1 ${k<=0?'disabled':''}>${dic('left',16)}</button><span>${N?k+1+' / '+N:'—'}</span><button data-a=srpn data-v=1 ${k>=N-1?'disabled':''}>${dic('right',16)}</button><button data-a=sropen data-p=${k} title=Expand>${dic('exp',16)}</button></div>`:''}<div class=srpc id=srpc data-id=${f.id} data-k=${k} ${isP?'':'style="display:none"'}></div><div class=srpt>${pvText(f,k,T)||(N?'<i style="color:var(--m)">— (no text on this page)</i>':'<i style="color:var(--m)">'+(IDX.busy?'កំពុងរៀបចំលិបិក្រម…':'មិនមានខ្លឹមសារអក្សរដែលអាចស្វែងរកបាន')+'</i>')}</div><div class=srpf>💡 ${tot2?`Found ${tot2} match${tot2==1?'':'es'} in this document${sel.pages.length?':':''}`:'No matches in this document'} ${sel.pages.map(p=>`<span class="srp ${p.k==k?'on':''}" data-a=srpg data-p=${p.k}>${esc(p.l)}</span>`).join('')}</div></div>`}
- return hero+adv+`<div class=srg>${left}${center}${pv}</div>`}
+ if(sel){const f=sel.f,u=(f.idx&&f.idx.u)||[],N=u.length,k=Math.min(Math.max(SR.pg||0,0),Math.max(N-1,0)),tot2=sel.pages.reduce((a,p)=>a+p.c,0)+sel.nameR.length,isP=ftype(f)=='pdf',isV=isP||isImgF(f);SR.pg=k;
+  pv=`<div class="srp2 ${SR.mo?'mo':''}" id=srpv data-id=${f.id}><div class=srph>${fbadge(f,'sm')}<b title="${esc(f.name)}">${esc(f.name)}</b><button data-a=sropen data-p=${k} title=Open>${dic('ext',15)}</button><button data-a=srx title=Close>${dic('x',15)}</button></div>${N>1||isP?`<div class=srpn><button data-a=srpn data-v=-1 ${k<=0?'disabled':''}>${dic('left',16)}</button><span>${N?k+1+' / '+N:'—'}</span><button data-a=srpn data-v=1 ${k>=N-1?'disabled':''}>${dic('right',16)}</button><button data-a=sropen data-p=${k} title=Expand>${dic('exp',16)}</button></div>`:''}<div class=srpc id=srpc data-id=${f.id} data-k=${k} ${isV?'':'style="display:none"'}></div><div class=srpt ${isV?'style="display:none"':''}>${pvText(f,k,T)||(N?'<i style="color:var(--m)">— (no text on this page)</i>':'<i style="color:var(--m)">'+(IDX.busy?'កំពុងរៀបចំលិបិក្រម…':'មិនមានខ្លឹមសារអក្សរដែលអាចស្វែងរកបាន')+'</i>')}</div><div class=srpf>💡 ${tot2?`Found ${tot2} match${tot2==1?'':'es'} in this document${sel.pages.length?':':''}`:'No matches in this document'} ${sel.pages.map(p=>`<span class="srp ${p.k==k?'on':''}" data-a=srpg data-p=${p.k}>${esc(p.l)}</span>`).join('')}</div></div>`}
+ return stLine+hero+adv+`<div class=srg>${left}${center}${pv}</div>`}
 const SRP={tok:0,id:null,doc:null};
-async function srPrev(){const box=$('#srpc');if(!box||box.style.display=='none')return;const id=box.dataset.id,k=+box.dataset.k,f=get(id);if(!f||!window.pdfjsLib)return;const tok=++SRP.tok;
- try{if(!(f.blob||await gdBlob(f,true)))return;pdfInit();let doc=SRP.id==id?SRP.doc:null;if(!doc){try{SRP.doc&&SRP.doc.destroy()}catch(e){}SRP.doc=null;doc=await pdfjsLib.getDocument({data:await f.blob.arrayBuffer()}).promise;if(tok!=SRP.tok){doc.destroy();return}SRP.doc=doc;SRP.id=id}
-  const n=Math.min(Math.max(k+1,1),doc.numPages),page=await doc.getPage(n),W=box.clientWidth||320,sc=W/page.getViewport({scale:1}).width,v=page.getViewport({scale:sc}),r=Math.min(devicePixelRatio||1,2),cv=document.createElement('canvas');
-  cv.width=Math.floor(v.width*r);cv.height=Math.floor(v.height*r);cv.style.cssText=`width:${v.width}px;height:${v.height}px`;await page.render({canvasContext:cv.getContext('2d'),viewport:v,transform:[r,0,0,r,0,0]}).promise;if(tok!=SRP.tok)return;
+async function srPrev(){const box=$('#srpc');if(!box||box.style.display=='none')return;const id=box.dataset.id,k=+box.dataset.k,f=get(id);if(!f)return;const img=isImgF(f);if(!img&&!window.pdfjsLib)return;const tok=++SRP.tok;
+ try{if(!(f.blob||await gdBlob(f,true)))return;
+  const W=box.clientWidth||320,r=Math.min(devicePixelRatio||1,2),cv=document.createElement('canvas');let v,page=null,sc=1;
+  if(img){const u0=URL.createObjectURL(f.blob);try{const im=await new Promise((ok,no)=>{const e=new Image();e.onload=()=>ok(e);e.onerror=()=>no(new Error('img'));e.src=u0});if(tok!=SRP.tok)return;sc=W/im.naturalWidth;v={width:W,height:im.naturalHeight*sc};cv.width=Math.floor(v.width*r);cv.height=Math.floor(v.height*r);cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height)}finally{URL.revokeObjectURL(u0)}cv.style.cssText=`width:${v.width}px;height:${v.height}px`}
+  else{pdfInit();let doc=SRP.id==id?SRP.doc:null;if(!doc){try{SRP.doc&&SRP.doc.destroy()}catch(e){}SRP.doc=null;doc=await pdfjsLib.getDocument({data:await f.blob.arrayBuffer()}).promise;if(tok!=SRP.tok){doc.destroy();return}SRP.doc=doc;SRP.id=id}
+   const n=Math.min(Math.max(k+1,1),doc.numPages);page=await doc.getPage(n);sc=W/page.getViewport({scale:1}).width;v=page.getViewport({scale:sc});
+   cv.width=Math.floor(v.width*r);cv.height=Math.floor(v.height*r);cv.style.cssText=`width:${v.width}px;height:${v.height}px`;await page.render({canvasContext:cv.getContext('2d'),viewport:v,transform:[r,0,0,r,0,0]}).promise;if(tok!=SRP.tok)return}
   const wrap=document.createElement('div');wrap.style.cssText=`position:relative;width:${v.width}px;height:${v.height}px`;wrap.append(cv);
   const T=srTerms(q,SR.mode);if(T.length&&SR.c){const uu=(f.idx&&f.idx.u&&f.idx.u[k])||null;let cat='';const offs=[];
    if(uu&&uu.o){for(const w of uu.o){offs.push([cat.length,cat.length+w[0].length,null,w]);cat+=w[0]+(w[5]?'\n':' ')}}
-   else{const tc=await page.getTextContent();for(const p of pgParts(tc.items)){offs.push([cat.length,cat.length+p.s.length,p.it,null]);cat+=p.s+p.sep}}
+   else if(page){const tc=await page.getTextContent();for(const p of pgParts(tc.items)){offs.push([cat.length,cat.length+p.s.length,p.it,null]);cat+=p.s+p.sep}}
    const P=prepT(cat),R=[];for(const sq of T)R.push(...fAll(P,sq));
    for(const [s,e] of mrg(R))for(const [o0,o1,it,w] of offs){const a=Math.max(s,o0),b=Math.min(e,o1);if(b<=a||o1<=o0)continue;const x0=(a-o0)/(o1-o0),x1=(b-o0)/(o1-o0),d=document.createElement('div');d.className='srhl';
     if(w){const X=w[1]*v.width,Y=w[2]*v.height,Wd=(w[3]-w[1])*v.width,Hh=(w[4]-w[2])*v.height;d.style.cssText=`left:${X+Wd*x0}px;top:${Y}px;width:${Math.max(3,Wd*(x1-x0))}px;height:${Hh}px`}
     else{const tr=pdfjsLib.Util.transform(v.transform,it.transform),wd=(it.width||0)*sc,h=Math.hypot(tr[2],tr[3])||10;d.style.cssText=`left:${tr[4]+wd*x0}px;top:${tr[5]-h*.92}px;width:${Math.max(3,wd*(x1-x0))}px;height:${h*1.15}px`}
     wrap.append(d)}}
-  if(tok!=SRP.tok||!box.isConnected)return;box.innerHTML='';box.append(wrap)}catch(e){}}
+  if(tok!=SRP.tok||!box.isConnected)return;box.innerHTML='';box.append(wrap);
+  const h1=wrap.querySelector('.srhl'),pn=box.closest('.srp2');if(h1&&pn){const a=h1.getBoundingClientRect(),b=pn.getBoundingClientRect();pn.scrollTop+=a.top-b.top-b.height/3}}catch(e){}}
 const srAfter=()=>{const x=$('#qx');if(x)x.style.display=q?'':'none';if(q&&view.k!='shared')srPrev()};
 /* ===== actions ===== */
 const DA=new Set(['dfold','dtab','dcat','ddf','dft','dreset','dview','dsel','dsall','dbdl','dbdel','dclr','sradv','srscope','srreidx','srft','srdf','srcat','srclr','srview','srsel','srpg','srpn','srx','sropen']);
@@ -1093,7 +1104,7 @@ async function docAct(act,a,id,i){const v=a.dataset.v;
  else if(act=='dbdel'){const n=DV.sel.size;if(n&&await dlg({title:'ពិតជាចង់លុបមែនទេ?',msg:n+' file(s) នឹងត្រូវផ្លាស់ទៅ Trash ហើយអ្នកអាចស្ដារវិញបាន។',icon:'🗑',danger:1,ok:'លុប'})){for(const x of [...DV.sel].map(get)){if(x){x.trashed=true;await save(x)}}DV.sel.clear()}}
  else if(act=='sradv'){SR.adv=!SR.adv}
  else if(act=='srscope'){SR[v]=SR[v]?0:1;if(!SR.n&&!SR.c)SR[v=='n'?'c':'n']=1;view.p=1}
- else if(act=='srreidx'){for(const f of live().filter(isDoc)){f.idx=null;await saveQ(f)}SRC.k='';idxAll()}
+ else if(act=='srreidx'){for(const f of live().filter(isSr)){f.idx=null;await saveQ(f)}SRC.k='';idxAll()}
  else if(act=='srft'){SR.ft.has(v)?SR.ft.delete(v):SR.ft.add(v);view.p=1}
  else if(act=='srdf'){SR.df=v;view.p=1}
  else if(act=='srcat'){SR.cat=SR.cat==v?'':v;view.p=1}
