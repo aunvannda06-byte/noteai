@@ -325,6 +325,39 @@ mark{background:#fde047;color:inherit;border-radius:3px;padding:0 1px}
 .srpf{background:var(--pl);color:#1e3a8a;border-radius:12px;padding:10px 12px;font-size:13px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 @media(max-width:1250px){.srg{grid-template-columns:220px minmax(0,1fr)}.srp2{display:none}.srp2.mo{display:flex;position:fixed;z-index:12;top:0;right:0;bottom:0;width:min(440px,100vw);max-height:none;border-radius:0;box-shadow:-10px 0 30px #0b1b3a44;padding-top:max(12px,env(safe-area-inset-top))}}
 @media(max-width:800px){.srg,.dlay{grid-template-columns:1fr}.dhero{padding:16px;gap:12px;flex-wrap:wrap}.dht h1{font-size:22px}.dhi{width:54px;height:54px}.dha button{padding:8px 12px}.dfp,.srf{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}.dfp>.dfh,.dfp>.dfr,.srf>.dfh,.srf>.dfr,.dfp>.g2,.srf>.g2{grid-column:1/-1}.dtb{padding:8px 12px}.srr{flex-wrap:wrap}.row.dr .acts{flex:none;order:0;border:0;padding:0;margin:0}.srx{flex:1 0 100%;justify-content:flex-end}}
+
+/* === phone layout: Weekly Plan + Documents (desktop unchanged) === */
+.dfc{display:none;margin-left:auto;transition:transform .15s}
+@media(max-width:800px){
+ .wp{gap:12px}
+ .wp0{flex-direction:column;align-items:stretch;gap:12px}
+ .wpti{gap:12px}.wpti>i{width:44px;height:44px;border-radius:13px}.wpti h1{font-size:20px}.wpti p{font-size:12.5px;line-height:1.5}
+ .wpnav{width:100%;box-sizing:border-box;justify-content:space-between}.wpnav span{flex:1;justify-content:center;font-size:13px;padding:0 4px}
+ .wpst{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+ .wps{min-width:0;padding:12px;gap:10px;border-radius:14px}.wps i{width:40px;height:40px;border-radius:12px}.wps b{font-size:21px}.wps small{font-size:12px;line-height:1.35}
+ .wpp{min-width:0;flex:none}
+ .wpst>.mw{display:block;grid-column:1/-1}.wpst>.mw .fm{left:0;right:0;top:calc(100% + 6px)}
+ .wpadd{display:block;width:100%;margin:0;padding:12px 16px}
+ .wpbar{gap:8px}
+ .wpchs{flex:1 0 100%;flex-wrap:nowrap;overflow-x:auto;gap:8px;padding:2px 2px 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}.wpchs::-webkit-scrollbar{display:none}
+ .wpch{flex:none;white-space:nowrap;padding:8px 14px;font-size:13px}
+ .wpvs{flex:1;min-width:0}.wpvs button{flex:1;padding:8px 6px;font-size:13px}
+ .wpbar>button:not(.wpfb){height:42px;padding:0 12px;border-radius:12px;white-space:nowrap}
+ .wpcr{display:grid;grid-template-columns:1fr 1fr;gap:10px}.wpcr label{flex-direction:column;align-items:stretch;gap:4px}.wpcr input{width:100%;box-sizing:border-box;min-width:0}
+ .wpg{grid-template-columns:1fr;overflow:visible;padding:0;gap:10px}.wpd{min-height:0}.wpz{padding:14px 0}
+ .wpal{grid-template-columns:1fr}.wpbt{grid-template-columns:1fr}.wpbs{margin-left:0}
+ .dhero{padding:16px;gap:12px;border-radius:18px;flex-wrap:wrap}
+ .dhi{width:52px;height:52px;border-radius:16px}.dhi svg{width:28px;height:28px}
+ .dht{flex:1 1 calc(100% - 70px);min-width:0}.dht h1{font-size:22px}.dht p{font-size:13px;line-height:1.5}
+ .dha{flex:1 0 100%}.dha button{flex:1 1 140px;justify-content:center;padding:10px 12px;white-space:nowrap}
+ .dsts{grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+ .dst{padding:12px;gap:10px;border-radius:16px}.dsi{width:40px;height:40px}.dsb b{font-size:22px}.dsb small{font-size:12px}.dsb em{display:block;margin:2px 0 0}.dsp{display:none}
+ .dtabs{gap:10px}.dtb{padding:8px 13px;font-size:13px;gap:6px}.dtabs>.dvs2{margin-left:auto}.dtl .mw .fm{max-width:calc(100vw - 32px)}
+ .dfp .dfh{cursor:pointer;margin-bottom:0}.dfp .dfc{display:inline-grid}.dfp:not(.fold) .dfh{margin-bottom:10px}.dfp:not(.fold) .dfc{transform:rotate(180deg)}.dfp.fold>:not(.dfh){display:none}
+ .dlh{gap:8px}.dlh>span:first-child{flex:1 0 100%;font-size:13px}.dlr{width:100%;justify-content:space-between;gap:8px}.dlr select{max-width:150px}
+ .row.dr{padding:10px 12px;gap:10px;flex-wrap:wrap}.row.dr .fti{width:34px;height:40px}.row.dr .nm{flex:1 1 0;min-width:120px}.row.dr .nm small{font-size:11.5px;line-height:1.5}
+ .dgg{grid-template-columns:1fr 1fr;gap:10px}.dgc{padding:10px}.dgb b{font-size:13px}
+}
 </style></head><body>
 <aside id=sb><div class=logo style="display:flex;justify-content:space-between;align-items:center">◆ Imvannda<button data-a=burger title="Hide sidebar" style="padding:3px 11px;font-size:18px;line-height:1.2">☰</button></div><div id=nav></div>
 <div class=box><b>Storage (this browser)</b><div class=bar><i id=sbar style="width:0"></i></div><span id=stxt>…</span></div>
@@ -916,16 +949,35 @@ function docsMain(){
  const nsel=DV.sel.size,allp=pg.length>0&&pg.every(f=>DV.sel.has(f.id)),cnt=t=>base.filter(f=>ftype(f)==t).length;
  const hero=`<div class=dhero><div class=dhi>${dic('folder',40)}</div><div class=dht><h1>Documents</h1><p>Manage and access all your files in one place</p></div><div class=dha>${gdCfg()?`<button data-a=gdall ${gBusy()?'disabled':''}>${gBusy()?SPN+'Syncing…':'☁ Sync now ('+gdPending()+')'}</button>`:''}<button data-a=pick>${dic('up',16)} Upload File</button></div></div>`;
  const tabs=`<div class=dtabs><div class=dtl><button class="dtb ${DV.tab=='all'&&!DV.cat?'on':''}" data-a=dtab data-v=all>${dic('grid',16)} All Documents (${A.length})</button><span class=mw><button class="dtb ${DV.cat?'on':''}" data-a=fmenu>${dic('folder',16)} By Category ${dic('chev',14)}</button><div class=fm><button data-a=dcat data-v="">${DV.cat?'':'✔ '}All categories</button>${cats.map(c=>`<button data-a=dcat data-v="${esc(c[0])}">${DV.cat==c[0]?'✔ ':''}${esc(c[1])} (${c[2]})</button>`).join('')}</div></span><span class=mw><button class="dtb ${DV.df!='any'?'on':''}" data-a=fmenu>${mi('cal',16)} By Date ${dic('chev',14)}</button><div class=fm>${DFL.map(([v,l])=>`<button data-a=ddf data-v=${v}>${DV.df==v?'✔ ':''}${l}</button>`).join('')}</div></span><button class="dtb ${DV.tab=='fav'?'on':''}" data-a=dtab data-v=fav>${dic('star',16)} Favorites</button><button class=dtb data-a=nav data-v=shared>${dic('share',16)} Shared with me</button></div>${viewTg(DV.dm,'dview')}</div>`;
- const panel=`<div class=dfp><div class=dfh>${dic('filt',18)} <b>Filter</b></div><div class=dfs>File Type</div>${FTS.map(([t,l])=>`<label class=dfl><input type=checkbox class=ck data-a=dft data-v=${t} ${DV.ft.has(t)?'checked':''}><span class="fti sm ${t}">${BT[t]}</span><span class=dfn>${l}</span><em>(${cnt(t)})</em></label>`).join('')}<div class=dfs>Date Modified</div>${DFL.map(([v,l])=>`<label class=dfl><input type=radio name=ddf class=ck data-a=ddf data-v=${v} ${DV.df==v?'checked':''}><span class=dfn>${l}</span></label>`).join('')}${DV.df=='custom'?`<div class=g2><input type=date id=d1 value="${DV.d1}"><input type=date id=d2 value="${DV.d2}"></div>`:''}<button class=dfr data-a=dreset>${dic('reset',15)} Reset Filter</button></div>`;
+ const panel=`<div class="dfp ${DV.fo?'':'fold'}"><div class=dfh data-a=dfold>${dic('filt',18)} <b>Filter</b><span class=dfc>${dic('chev',16)}</span></div><div class=dfs>File Type</div>${FTS.map(([t,l])=>`<label class=dfl><input type=checkbox class=ck data-a=dft data-v=${t} ${DV.ft.has(t)?'checked':''}><span class="fti sm ${t}">${BT[t]}</span><span class=dfn>${l}</span><em>(${cnt(t)})</em></label>`).join('')}<div class=dfs>Date Modified</div>${DFL.map(([v,l])=>`<label class=dfl><input type=radio name=ddf class=ck data-a=ddf data-v=${v} ${DV.df==v?'checked':''}><span class=dfn>${l}</span></label>`).join('')}${DV.df=='custom'?`<div class=g2><input type=date id=d1 value="${DV.d1}"><input type=date id=d2 value="${DV.d2}"></div>`:''}<button class=dfr data-a=dreset>${dic('reset',15)} Reset Filter</button></div>`;
  const bar=`<div class=dlh><span>Showing <b>${from}–${to<from?from:to}</b> of <b>${tot}</b> files</span><span class=dlr><label class=dsa><input type=checkbox class=ck data-a=dsall ${allp?'checked':''}> Select page</label><label>Sort by: <select id=dsort>${[['mod','Last Modified'],['name','Name'],['size','Size'],['type','Type']].map(([v,l])=>`<option value=${v} ${DV.sort==v?'selected':''}>${l}</option>`).join('')}</select></label>${viewTg(DV.dm,'dview',1)}</span></div>`;
  const bulk=nsel?`<div class=sa><b>${nsel} selected</b><span class=acts style="margin-left:auto"><button data-a=dbdl>⬇ Download</button><button class="pr dn" data-a=dbdel>🗑 Delete</button><button data-a=dclr>Clear</button></span></div>`:'';
  const body=!A.length?'<div class=empty>No files yet.</div>':!pg.length?`<div class=empty>${DV.tab=='fav'?'No favorites yet — open ⋯ on a file and choose Star.':'No documents match these filters.'}</div>`:DV.dm=='grid'?`<div class=dgg>${pg.map(dgc).join('')}</div>`:pg.map(drow).join('');
  return hero+drop+dStats(A)+tabs+`<div class=dlay>${panel}<div class=dmain>${bar}${bulk}${body}${pgb(LS)}</div></div>`}
+
+/* ===== Khmer text helpers (canonical order, search key, garbled-text detection) ===== */
+function khFix(t){
+ if(!/[\u1780-\u17FF]/.test(t))return t;
+ const isB=c=>c>='\u1780'&&c<='\u17B3',isM=c=>(c>='\u17B6'&&c<='\u17D3')||c=='\u17DD',rk=c=>c=='\u17CC'?1:(c=='\u17C9'||c=='\u17CA')?4:(c>='\u17B6'&&c<='\u17C5')?5:6;
+ let o='',i=0;const n=t.length;
+ while(i<n){const c=t[i++];o+=c;if(!isB(c))continue;
+  const U=[];
+  while(i<n){const d=t[i];
+   if(d=='\u17D2'&&i+1<n&&t[i+1]>='\u1780'&&t[i+1]<='\u17A2'){U.push([t[i+1]=='\u179A'?2:3,d+t[i+1],U.length]);i+=2}
+   else if(isM(d)&&d!='\u17D2'){U.push([rk(d),d,U.length]);i++}
+   else break}
+  if(U.length>1)U.sort((a,b)=>a[0]-b[0]||a[2]-b[2]);
+  for(const u of U)o+=u[1]}
+ return o}
+const khBad=t=>{const m=t.match(/[\u1780-\u17FF]/g);if(!m||m.length<6)return false;const a=t.match(/(?<![\u1780-\u17D3\u17DD])[\u17B6-\u17D3\u17DD]/g),b=t.match(/\u17D2(?![\u1780-\u17A2])/g),n=(a?a.length:0)+(b?b.length:0);return n>=2||n/m.length>.005};
 /* ===== content index (PDF / DOCX / PPTX / XLSX / text) ===== */
-const IDXV=1,IDX={busy:false,done:0,total:0},KZ=/[​-‍⁠﻿]/g,nrm=s=>String(s==null?'':s).normalize('NFC').replace(KZ,''),PP=new WeakMap();
-const prepT=t=>{t=nrm(t);let sq='';const mp=[];for(let i=0;i<t.length;i++){const c=t[i];if(/\s/.test(c))continue;const l=c.toLowerCase();for(let j=0;j<l.length;j++){sq+=l[j];mp.push(i)}}return{t,sq,mp}};
+const IDXV=2,IDX={busy:false,done:0,total:0,oc:null},KZ=/[\u200b-\u200d\u2060\ufeff\u00ad\u17b4\u17b5]/g,nrm=s=>khFix(String(s==null?'':s).normalize('NFC').replace(KZ,'')),PP=new WeakMap();
+const KDG='០១២៣៤៥៦៧៨៩';
+const prepT=t=>{t=nrm(t);let sq='';const mp=[],me=[];for(let i=0;i<t.length;i++){let c=t[i];if(/\s/.test(c))continue;const k=KDG.indexOf(c);if(k>=0)c=String(k);const l=c.toLowerCase();for(let j=0;j<l.length;j++){const ch=l[j],n=sq.length;
+ if(n&&sq[n-1]=='\u17C1'&&(ch=='\u17B8'||ch=='\u17B6')){sq=sq.slice(0,n-1)+(ch=='\u17B8'?'\u17BE':'\u17C4');me[n-1]=i;continue}
+ sq+=ch;mp.push(i);me.push(i)}}return{t,sq,mp,me}};
 const prU=u=>{let p=PP.get(u);if(!p){p=prepT(u.t);PP.set(u,p)}return p};
-const fAll=(p,sq)=>{const r=[];let i=p.sq.indexOf(sq);while(i>=0){r.push([p.mp[i],p.mp[i+sq.length-1]+1]);i=p.sq.indexOf(sq,i+sq.length)}return r};
+const fAll=(p,sq)=>{const r=[];let i=p.sq.indexOf(sq);while(i>=0){r.push([p.mp[i],p.me[i+sq.length-1]+1]);i=p.sq.indexOf(sq,i+sq.length)}return r};
 const mrg=R=>{R=R.slice().sort((a,b)=>a[0]-b[0]);const o=[];for(const r of R){const l=o[o.length-1];if(l&&r[0]<=l[1])l[1]=Math.max(l[1],r[1]);else o.push([r[0],r[1]])}return o};
 const hlt=(t,R,a=0,b=t.length)=>{let o='',p=a;for(const [s,e] of mrg(R.filter(r=>r[1]>a&&r[0]<b))){const s2=Math.max(s,a,p),e2=Math.min(e,b);if(e2<=s2)continue;o+=esc(t.slice(p,s2))+'<mark>'+esc(t.slice(s2,e2))+'</mark>';p=e2}return o+esc(t.slice(p,b))};
 const srTerms=(s,mode)=>{s=nrm(s).trim();if(!s)return[];const ts=mode=='phrase'?[s]:s.split(/\s+/);return[...new Set(ts.map(t=>prepT(t).sq).filter(Boolean))]};
@@ -935,7 +987,41 @@ const pdfInit=()=>{pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudfl
 async function unzip(blob){if(!window.DecompressionStream)throw new Error('no DecompressionStream');const b=new Uint8Array(await blob.arrayBuffer()),dv=new DataView(b.buffer,b.byteOffset,b.byteLength);let e=b.length-22;while(e>=0&&dv.getUint32(e,true)!==0x06054b50)e--;if(e<0)throw new Error('bad zip');const n=dv.getUint16(e+10,true);let p=dv.getUint32(e+16,true);const T=new TextDecoder(),O={};
  for(let k=0;k<n;k++){if(dv.getUint32(p,true)!==0x02014b50)break;const meth=dv.getUint16(p+10,true),cs=dv.getUint32(p+20,true),nl=dv.getUint16(p+28,true),el=dv.getUint16(p+30,true),cl=dv.getUint16(p+32,true),lo=dv.getUint32(p+42,true);O[T.decode(b.subarray(p+46,p+46+nl))]={meth,cs,lo};p+=46+nl+el+cl}
  return{names:Object.keys(O),get:async nm=>{const en=O[nm],lh=en.lo,ds=lh+30+dv.getUint16(lh+26,true)+dv.getUint16(lh+28,true),raw=b.subarray(ds,ds+en.cs);if(en.meth==0)return T.decode(raw);return await new Response(new Blob([raw]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text()}}}
-async function xPdf(b){if(!window.pdfjsLib)throw noLib();pdfInit();const doc=await pdfjsLib.getDocument({data:await b.arrayBuffer()}).promise,u=[];try{for(let n=1;n<=doc.numPages;n++){const pg=await doc.getPage(n),tc=await pg.getTextContent();u.push({l:'Page '+n,t:nrm(tc.items.map(i=>i.str+(i.hasEOL?'\n':' ')).join('')).slice(0,200000)});pg.cleanup&&pg.cleanup()}}finally{doc.destroy&&doc.destroy()}return u}
+function pgParts(items){const P=[];for(const it of items)if(typeof it.str=='string')P.push({it,s:nrm(it.str),sep:''});
+ for(let i=0;i<P.length;i++){const a=P[i].it,b=P[i+1]&&P[i+1].it;let sp='';
+  if(a.hasEOL||!b)sp='\n';
+  else{const h=Math.abs(a.transform[3])||a.height||10;if(Math.abs(b.transform[5]-a.transform[5])>h*.6)sp='\n';else{const g=b.transform[4]-(a.transform[4]+(a.width||0));if((g>h*.15||g<-h*.5)&&!/\s$/.test(P[i].s)&&!/^\s/.test(P[i+1].s))sp=' '}}
+  P[i].sep=sp}
+ return P}
+async function xPdf(b){if(!window.pdfjsLib)throw noLib();pdfInit();const doc=await pdfjsLib.getDocument({data:await b.arrayBuffer()}).promise,u=[];try{for(let n=1;n<=doc.numPages;n++){const pg=await doc.getPage(n),tc=await pg.getTextContent(),t=pgParts(tc.items).map(p=>p.s+p.sep).join('').slice(0,200000),o={l:'Page '+n,t};if(khBad(t))o.bad=1;u.push(o);pg.cleanup&&pg.cleanup()}}finally{doc.destroy&&doc.destroy()}return u}
+/* ----- Khmer OCR fallback (only for PDF pages whose text layer is garbled) ----- */
+const OCRMAX=60,OC={lib:null,w:{},fail:0},ocrRe=/^[A-Za-z0-9][A-Za-z0-9.,:;()\/&+@#%'’\-–_]*$/,ocrT=o=>o.map(w=>w[0]+(w[5]?'\n':' ')).join('');
+const ocrLib=()=>OC.lib||(OC.lib=new Promise((ok,no)=>{if(window.Tesseract)return ok(window.Tesseract);const e=document.createElement('script');e.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';e.onload=()=>window.Tesseract?ok(window.Tesseract):no(new Error('ocr'));e.onerror=()=>no(new Error('ocr'));document.head.append(e)}));
+async function ocrW(l){if(OC.w[l])return OC.w[l];const T=await ocrLib(),mk=o=>T.createWorker(l,1,o);let w;try{w=await mk({langPath:'https://cdn.jsdelivr.net/npm/@tesseract.js-data/'+l+'/4.0.0_best_int'})}catch(e){w=await mk({})}return OC.w[l]=w}
+async function ocrPage(cv){
+ const K=await ocrW('khm'),r=await K.recognize(cv),W=cv.width,H=cv.height,L=[];
+ for(const ln of r.data.lines||[]){const ws=(ln.words||[]).filter(w=>w.text&&w.text.trim()).map(w=>({t:w.text.trim(),c:w.confidence||0,b:[w.bbox.x0,w.bbox.y0,w.bbox.x1,w.bbox.y1]}));if(ws.length)L.push(ws)}
+ try{const E=await ocrW('eng'),re=await E.recognize(cv),EW=(re.data.words||[]).filter(w=>(w.confidence||0)>=88&&w.text&&w.text.trim().length>1&&ocrRe.test(w.text.trim()));
+  if(EW.length)for(const ln of L)for(const w of ln)for(const e of EW){const x=e.bbox,ix=Math.min(w.b[2],x.x1)-Math.max(w.b[0],x.x0),iy=Math.min(w.b[3],x.y1)-Math.max(w.b[1],x.y0);if(ix>0&&iy>0&&ix*iy>=.5*Math.min((w.b[2]-w.b[0])*(w.b[3]-w.b[1]),(x.x1-x.x0)*(x.y1-x.y0))&&e.confidence>w.c+5){w.t=e.text.trim();w.c=e.confidence;break}}
+ }catch(e){}
+ const o=[];for(const ln of L)ln.forEach((w,k)=>{const t=nrm(w.t);if(t)o.push([t,+(w.b[0]/W).toFixed(4),+(w.b[1]/H).toFixed(4),+(w.b[2]/W).toFixed(4),+(w.b[3]/H).toFixed(4),k==ln.length-1?1:0])});
+ return o}
+async function ocrAll(){
+ if(OC.fail||!window.pdfjsLib)return;const todo=live().filter(isDoc).filter(f=>f.idx&&f.idx.u&&f.idx.u.some(u=>u.bad));let tot=0;for(const f of todo)tot+=Math.min(f.idx.u.filter(u=>u.bad).length,OCRMAX);if(!tot)return;
+ IDX.oc={done:0,total:tot};srRend();
+ try{await ocrW('khm')}catch(e){OC.fail=1;return}
+ for(const f of todo){let blob=f.blob;if(!blob){try{if(f.driveId&&gtokOk()&&await gdBlob(f,true))blob=f.blob}catch(e){}}if(!blob)continue;
+  let doc=null,n=0,ch=0;
+  try{pdfInit();doc=await pdfjsLib.getDocument({data:await blob.arrayBuffer()}).promise;
+   for(let k=0;k<f.idx.u.length&&n<OCRMAX;k++){const u=f.idx.u[k];if(!u.bad)continue;n++;
+    try{const pg=await doc.getPage(k+1),v0=pg.getViewport({scale:1}),sc=Math.min(Math.max(1700/v0.width,1.5),3000/Math.max(v0.width,v0.height)),v=pg.getViewport({scale:sc}),cv=document.createElement('canvas');cv.width=Math.floor(v.width);cv.height=Math.floor(v.height);
+     await pg.render({canvasContext:cv.getContext('2d'),viewport:v}).promise;const o=await ocrPage(cv);cv.width=cv.height=0;pg.cleanup&&pg.cleanup();
+     if(o.length){u.o=o;u.t=nrm(ocrT(o)).slice(0,200000);PP.delete(u)}
+     u.bad=0;ch++}catch(e){u.bad=0}
+    IDX.oc.done++;SRC.k='';srRend()}
+  }catch(e){}
+  finally{try{doc&&doc.destroy()}catch(e){}if(ch){try{await saveQ(f)}catch(e){}}SRC.k='';srRend()}}
+}
 async function xDocx(b){const z=await unzip(b),x=await z.get('word/document.xml'),lr=x.includes('lastRenderedPageBreak'),re=new RegExp((lr?'<w:lastRenderedPageBreak\\/>':'<w:br w:type="page"\\/>')+'|<w:t(?:\\s[^>]*)?>([^<]*)<\\/w:t>|<w:tab\\/>|<\\/w:p>','g'),P=[[]];let c=P[0],m;while(m=re.exec(x)){const s=m[0];if(m[1]!==undefined)c.push(xent(m[1]));else if(s=='<w:tab/>')c.push(' ');else if(s=='</w:p>')c.push('\n');else P.push(c=[])}return P.map((a,k)=>({l:'Page '+(k+1),t:nrm(a.join('')).slice(0,200000)}))}
 async function xPptx(b){const z=await unzip(b),N=z.names.filter(n=>/^ppt\/slides\/slide\d+\.xml$/.test(n)).sort((a,b)=>parseInt(a.match(/\d+/)[0])-parseInt(b.match(/\d+/)[0])),u=[];for(const n of N){const x=await z.get(n);u.push({l:'Slide '+n.match(/\d+/)[0],t:nrm(x.replace(/<\/a:p>/g,'\n').replace(/<a:t(?:\s[^>]*)?>([^<]*)<\/a:t>/g,(m,t)=>xent(t)).replace(/<[^>]+>/g,'')).slice(0,200000)})}return u}
 async function xXls(b){if(!window.XLSX)throw noLib();const wb=XLSX.read(await b.arrayBuffer(),{type:'array'});return wb.SheetNames.map(n=>({l:'Sheet '+n,t:nrm(XLSX.utils.sheet_to_csv(wb.Sheets[n],{FS:' ',RS:'\n'})).slice(0,200000)}))}
@@ -944,7 +1030,7 @@ async function idxFile(f){let blob=f.blob;if(!blob){try{if(f.driveId&&gtokOk()&&
  catch(er){if(er&&er.noLib)return;u=[]}
  f.idx={v:IDXV,s:f.size||0,u};await saveQ(f)}
 let srT;const srRend=()=>{clearTimeout(srT);srT=setTimeout(()=>{if(q&&view.k!='shared'&&!$('#m').classList.contains('on')&&!$('#d').classList.contains('on'))render()},400)};
-async function idxAll(){if(IDX.busy)return;const seen=new Set();IDX.busy=true;try{for(;;){const todo=live().filter(isDoc).filter(f=>(!f.idx||f.idx.v!=IDXV)&&!seen.has(f.id));if(!todo.length)break;IDX.total=seen.size+todo.length;IDX.done=seen.size;for(const f of todo){seen.add(f.id);await idxFile(f);IDX.done++;srRend()}}}finally{IDX.busy=false;srRend()}}
+async function idxAll(){if(IDX.busy)return;const seen=new Set();IDX.busy=true;try{for(;;){const todo=live().filter(isDoc).filter(f=>(!f.idx||f.idx.v!=IDXV)&&!seen.has(f.id));if(!todo.length)break;IDX.total=seen.size+todo.length;IDX.done=seen.size;for(const f of todo){seen.add(f.id);await idxFile(f);IDX.done++;srRend()}}await ocrAll()}finally{IDX.busy=false;IDX.oc=null;srRend()}}
 /* ===== search ===== */
 function srFile(f,T){const nm=prepT(f.name||''),nameR=[],mt=new Set(),pages=[];
  if(SR.n)for(const sq of T){const r=fAll(nm,sq);if(r.length){mt.add(sq);nameR.push(...r)}}
@@ -960,15 +1046,15 @@ function srMain(){
  const A=live().filter(isDoc),T=srTerms(q,SR.mode),M=srBase(A,T),t=q.toLowerCase();
  const fl=(r,ign)=>(ign=='ft'||!SR.ft.size||SR.ft.has(ftype(r.f)))&&dfOK(r.f.updated,SR.df,SR.d1,SR.d2)&&(ign=='cat'||!SR.cat||(SR.cat=='_none'?!r.f.parent:anc(r.f).includes(SR.cat)));
  let R=M.filter(r=>fl(r));R=R.slice().sort((a,b)=>SR.sort=='date'?(b.f.updated||0)-(a.f.updated||0):SR.sort=='name'?String(a.f.name).localeCompare(String(b.f.name),'km'):b.score-a.score||(b.f.updated||0)-(a.f.updated||0));
- const O=byU(live().filter(i=>!isDoc(i)&&((i.name||'').toLowerCase().includes(t)||(i.text||'').toLowerCase().includes(t)))),total=R.length+O.length,pgR=pgr(R);
+ const OH=x=>{const p=prepT(x||'');return SR.mode=='all'?T.every(z=>p.sq.includes(z)):T.some(z=>p.sq.includes(z))},O=T.length?byU(live().filter(i=>!isDoc(i)&&(OH(i.name)||OH(i.text)))):[],total=R.length+O.length,pgR=pgr(R);
  let sel=SR.sel===''?null:(R.find(r=>r.f.id==SR.sel)||R[0]||null);if(sel&&SR.sel!==sel.f.id){SR.sel=sel.f.id;SR.pg=null}
  if(sel&&(SR.pg==null||SR.pg<0)){const b=bestP(sel);SR.pg=b?b.k:0}
  const idxd=A.filter(f=>f.idx).length,cnt=x=>M.filter(r=>fl(r,'ft')&&ftype(r.f)==x).length,cats=catOf(M.filter(r=>fl(r,'cat')).map(r=>r.f)).slice(0,10);
- const hero=`<div class=dhero><div class=dhi>${dic('srch',40)}</div><div class=dht><h1>Search Results</h1><p>Found ${total} result${total==1?'':'s'} for “${esc(q)}”</p></div><div class=dha><button data-a=sradv>${dic('filt',16)} Advanced Search ${dic('chev',14)}</button></div></div>`;
- const adv=SR.adv?`<div class=sradv><div class=sra><b>Search in</b><label><input type=checkbox class=ck data-a=srscope data-v=n ${SR.n?'checked':''}> ឈ្មោះឯកសារ (Name)</label><label><input type=checkbox class=ck data-a=srscope data-v=c ${SR.c?'checked':''}> ខ្លឹមសារក្នុងឯកសារ (Content)</label></div><div class=sra><b>Match</b><select id=srmode>${[['any','Any word'],['all','All words'],['phrase','Exact phrase']].map(([v,l])=>`<option value=${v} ${SR.mode==v?'selected':''}>${l}</option>`).join('')}</select></div><div class=sra><b>Content index</b><span>${idxd}/${A.length} files ${IDX.busy?SPN+'indexing…':''}</span><button data-a=srreidx>↻ Rebuild</button></div><small class=srhint>ស្វែងរកក្នុងខ្លឹមសារបាន៖ PDF, Word (.docx), Excel, PowerPoint (.pptx), TXT/CSV។ PDF ស្កេន (ជារូបភាព) មិនមានអក្សរសម្រាប់ស្វែងរកទេ។ ពាក្យខ្មែរត្រូវបានផ្គូផ្គងដោយមិនគិតចន្លោះ។</small></div>`:'';
+ const hero=`<div class=dhero><div class=dhi>${dic('srch',40)}</div><div class=dht><h1>Search Results</h1><p>Found ${total} result${total==1?'':'s'} for “${esc(q)}”</p></div></div>`;
+ const adv='';
  const left=`<div class=srf><div class=dfh>${dic('filt',18)} <b>Filter Results</b> <a class=cl data-a=srclr>Clear all</a></div><div class=dfs>File Type</div>${FTS.map(([x,l])=>`<label class=dfl><input type=checkbox class=ck data-a=srft data-v=${x} ${SR.ft.has(x)?'checked':''}><span class="fti sm ${x}">${BT[x]}</span><span class=dfn>${l}</span><em>${cnt(x)}</em></label>`).join('')}<div class=dfs>By Date</div>${DFL.map(([v,l])=>`<label class=dfl><input type=radio name=srdf class=ck data-a=srdf data-v=${v} ${SR.df==v?'checked':''}><span class=dfn>${l}</span></label>`).join('')}${SR.df=='custom'?`<div class=g2><input type=date id=sd1 value="${SR.d1}"><input type=date id=sd2 value="${SR.d2}"></div>`:''}<div class=dfs>By Category</div>${cats.map(c=>`<div class="srcl ${SR.cat==c[0]?'on':''}" data-a=srcat data-v="${esc(c[0])}">${dic('folder',16)}<span>${esc(c[1])}</span><em>${c[2]}</em></div>`).join('')||'<small style="color:var(--m)">—</small>'}</div>`;
  const rrow=r=>{const f=r.f,b=bestP(r),u=b&&f.idx.u[b.k],extra=Math.max(0,r.pages.length-4);return `<div class="srr ${sel&&sel.f.id==f.id?'on':''}" data-id=${f.id} data-a=srsel>${fbadge(f)}<div class=srb><div class=srt>${hlt(r.nm.t,r.nameR)}</div><small>${fmeta(f)}</small>${u?`<div class=srs>${snip(u,b.R)}</div>`:''}${r.pages.length?`<div class=srpc2>${r.pages.slice(0,4).map(p=>`<span class=srp data-a=srpg data-p=${p.k}>${dic('list',12)} ${esc(p.l)}</span>`).join('')}${extra?`<span class=srp>+${extra}</span>`:''}</div>`:''}</div><div class=srx><button data-a=sropen data-p=${b?b.k:0}>Open ${dic('ext',13)}</button>${fmenuF(f)}</div></div>`};
- const idxLine=IDX.busy?`<small style="color:var(--m)">${SPN}កំពុងរៀបចំលិបិក្រមខ្លឹមសារ ${IDX.done}/${IDX.total}…</small>`:'';
+ const idxLine=IDX.busy?`<small style="color:var(--m)">${SPN}${IDX.oc?'កំពុងអានអក្សរខ្មែរ (OCR) '+IDX.oc.done+'/'+IDX.oc.total:'កំពុងរៀបចំលិបិក្រមខ្លឹមសារ '+IDX.done+'/'+IDX.total}…</small>`:'';
  const center=`<div class=srm><div class=srh><b>${R.length} result${R.length==1?'':'s'}</b> ${idxLine}<span class=dlr><label>Sort by: <select id=srsort>${[['rel','Relevance'],['date','Date'],['name','Name']].map(([v,l])=>`<option value=${v} ${SR.sort==v?'selected':''}>${l}</option>`).join('')}</select></label>${viewTg(SR.dm,'srview',1)}</span></div><div class="srl ${SR.dm=='grid'?'grid':''}">${pgR.map(rrow).join('')||`<div class=empty>${T.length?'No files match.':''}${SR.c&&IDX.busy?'<br>កំពុងរៀបចំលិបិក្រម… លទ្ធផលនឹងកើនឡើងបន្តិចម្ដងៗ':''}</div>`}</div>${pgb(R)}${O.length?`<h3>Other items</h3>${list(O)}`:''}</div>`;
  let pv='<div class=srp2 id=srpv style="visibility:hidden"></div>';
  if(sel){const f=sel.f,u=(f.idx&&f.idx.u)||[],N=u.length,k=Math.min(Math.max(SR.pg||0,0),Math.max(N-1,0)),tot2=sel.pages.reduce((a,p)=>a+p.c,0)+sel.nameR.length,isP=ftype(f)=='pdf';SR.pg=k;
@@ -980,15 +1066,21 @@ async function srPrev(){const box=$('#srpc');if(!box||box.style.display=='none')
   const n=Math.min(Math.max(k+1,1),doc.numPages),page=await doc.getPage(n),W=box.clientWidth||320,sc=W/page.getViewport({scale:1}).width,v=page.getViewport({scale:sc}),r=Math.min(devicePixelRatio||1,2),cv=document.createElement('canvas');
   cv.width=Math.floor(v.width*r);cv.height=Math.floor(v.height*r);cv.style.cssText=`width:${v.width}px;height:${v.height}px`;await page.render({canvasContext:cv.getContext('2d'),viewport:v,transform:[r,0,0,r,0,0]}).promise;if(tok!=SRP.tok)return;
   const wrap=document.createElement('div');wrap.style.cssText=`position:relative;width:${v.width}px;height:${v.height}px`;wrap.append(cv);
-  const T=srTerms(q,SR.mode);if(T.length&&SR.c){const tc=await page.getTextContent();let cat='';const offs=[];for(const it of tc.items){if(it.str==null)continue;const s=nrm(it.str);offs.push([cat.length,cat.length+s.length,it]);cat+=s+' '}
+  const T=srTerms(q,SR.mode);if(T.length&&SR.c){const uu=(f.idx&&f.idx.u&&f.idx.u[k])||null;let cat='';const offs=[];
+   if(uu&&uu.o){for(const w of uu.o){offs.push([cat.length,cat.length+w[0].length,null,w]);cat+=w[0]+(w[5]?'\n':' ')}}
+   else{const tc=await page.getTextContent();for(const p of pgParts(tc.items)){offs.push([cat.length,cat.length+p.s.length,p.it,null]);cat+=p.s+p.sep}}
    const P=prepT(cat),R=[];for(const sq of T)R.push(...fAll(P,sq));
-   for(const [s,e] of mrg(R))for(const [o0,o1,it] of offs){const a=Math.max(s,o0),b=Math.min(e,o1);if(b<=a||o1<=o0)continue;const tr=pdfjsLib.Util.transform(v.transform,it.transform),w=(it.width||0)*sc,h=Math.hypot(tr[2],tr[3])||10,x0=(a-o0)/(o1-o0),x1=(b-o0)/(o1-o0),d=document.createElement('div');d.className='srhl';d.style.cssText=`left:${tr[4]+w*x0}px;top:${tr[5]-h*.92}px;width:${Math.max(3,w*(x1-x0))}px;height:${h*1.15}px`;wrap.append(d)}}
+   for(const [s,e] of mrg(R))for(const [o0,o1,it,w] of offs){const a=Math.max(s,o0),b=Math.min(e,o1);if(b<=a||o1<=o0)continue;const x0=(a-o0)/(o1-o0),x1=(b-o0)/(o1-o0),d=document.createElement('div');d.className='srhl';
+    if(w){const X=w[1]*v.width,Y=w[2]*v.height,Wd=(w[3]-w[1])*v.width,Hh=(w[4]-w[2])*v.height;d.style.cssText=`left:${X+Wd*x0}px;top:${Y}px;width:${Math.max(3,Wd*(x1-x0))}px;height:${Hh}px`}
+    else{const tr=pdfjsLib.Util.transform(v.transform,it.transform),wd=(it.width||0)*sc,h=Math.hypot(tr[2],tr[3])||10;d.style.cssText=`left:${tr[4]+wd*x0}px;top:${tr[5]-h*.92}px;width:${Math.max(3,wd*(x1-x0))}px;height:${h*1.15}px`}
+    wrap.append(d)}}
   if(tok!=SRP.tok||!box.isConnected)return;box.innerHTML='';box.append(wrap)}catch(e){}}
 const srAfter=()=>{const x=$('#qx');if(x)x.style.display=q?'':'none';if(q&&view.k!='shared')srPrev()};
 /* ===== actions ===== */
-const DA=new Set(['dtab','dcat','ddf','dft','dreset','dview','dsel','dsall','dbdl','dbdel','dclr','sradv','srscope','srreidx','srft','srdf','srcat','srclr','srview','srsel','srpg','srpn','srx','sropen']);
+const DA=new Set(['dfold','dtab','dcat','ddf','dft','dreset','dview','dsel','dsall','dbdl','dbdel','dclr','sradv','srscope','srreidx','srft','srdf','srcat','srclr','srview','srsel','srpg','srpn','srx','sropen']);
 async function docAct(act,a,id,i){const v=a.dataset.v;
- if(act=='dtab'){DV.tab=v;if(v=='all')DV.cat='';view.p=1}
+ if(act=='dfold'){DV.fo=!DV.fo}
+ else if(act=='dtab'){DV.tab=v;if(v=='all')DV.cat='';view.p=1}
  else if(act=='dcat'){DV.cat=v;DV.tab='all';view.p=1}
  else if(act=='ddf'){DV.df=v;view.p=1}
  else if(act=='dft'){DV.ft.has(v)?DV.ft.delete(v):DV.ft.add(v);view.p=1}
