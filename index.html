@@ -999,7 +999,7 @@ function pgParts(items){const P=[];for(const it of items)if(typeof it.str=='stri
  return P}
 async function xPdf(b){if(!window.pdfjsLib)throw noLib();pdfInit();const doc=await pdfjsLib.getDocument({data:await b.arrayBuffer()}).promise,u=[];try{for(let n=1;n<=doc.numPages;n++){const pg=await doc.getPage(n),tc=await pg.getTextContent(),t=pgParts(tc.items).map(p=>p.s+p.sep).join('').slice(0,200000),o={l:'Page '+n,t};if(khBad(t)||noTxt(t)||lgBad(t))o.bad=1;u.push(o);pg.cleanup&&pg.cleanup()}}finally{doc.destroy&&doc.destroy()}return u}
 /* ----- Khmer OCR fallback (only for PDF pages whose text layer is garbled) ----- */
-const OCRMAX=60,OC={lib:null,w:{},fail:0},ocrRe=/^[A-Za-z0-9][A-Za-z0-9.,:;()\/&+@#%'’\-–_]*$/,ocrT=o=>o.map(w=>w[0]+(w[5]?'\n':' ')).join('');
+const OCRMAX=500,OC={lib:null,w:{},fail:0},ocrRe=/^[A-Za-z0-9][A-Za-z0-9.,:;()\/&+@#%'’\-–_]*$/,ocrT=o=>o.map(w=>w[0]+(w[5]?'\n':' ')).join('');
 const ocrLib=()=>OC.lib||(OC.lib=new Promise((ok,no)=>{if(window.Tesseract)return ok(window.Tesseract);const e=document.createElement('script');e.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';e.onload=()=>window.Tesseract?ok(window.Tesseract):no(new Error('ocr'));e.onerror=()=>no(new Error('ocr'));document.head.append(e)}));
 function ocrW(l,i=0){const key=l+i;return OC.w[key]||(OC.w[key]=(async()=>{const T=await ocrLib(),mk=o=>T.createWorker(l,1,o);for(const d of ['4.0.0_fast','4.0.0_best_int']){try{return await mk({langPath:'https://cdn.jsdelivr.net/npm/@tesseract.js-data/'+l+'/'+d})}catch(e){}}return mk({})})().catch(e=>{delete OC.w[key];throw e}))}
 async function ocrPage(cv,wi=0){
@@ -1021,7 +1021,7 @@ async function ocrAll(){
      try{const pg=await doc.getPage(k+1),v0=pg.getViewport({scale:1}),sc=Math.min(Math.max(1400/v0.width,1.25),2600/Math.max(v0.width,v0.height)),v=pg.getViewport({scale:sc}),cv=document.createElement('canvas');cv.width=Math.floor(v.width);cv.height=Math.floor(v.height);
       await pg.render({canvasContext:cv.getContext('2d'),viewport:v}).promise;const o=await ocrPage(cv,wi);cv.width=cv.height=0;pg.cleanup&&pg.cleanup();
       if(o.length){u.o=o;u.t=nrm(ocrT(o)).slice(0,200000);PP.delete(u)}
-      u.bad=0;ch++}catch(e){u.bad=0}
+      u.bad=0;ch++}catch(e){u.er=(u.er||0)+1;if(u.er>=3)u.bad=0}
      IDX.oc.done++;SRC.k='';srRend()}
    }catch(e){}
    finally{try{doc&&doc.destroy()}catch(e){}if(ch){try{await saveQ(f)}catch(e){}}SRC.k='';srRend()}}
@@ -1036,7 +1036,7 @@ async function idxFile(f){let blob=f.blob;if(!blob){try{if(f.driveId&&gtokOk()&&
  catch(er){if(er&&er.noLib)return;u=[]}
  f.idx={v:IDXV,s:f.size||0,u};await saveQ(f)}
 let srT;const srRend=()=>{clearTimeout(srT);srT=setTimeout(()=>{if(q&&view.k!='shared'&&!$('#m').classList.contains('on')&&!$('#d').classList.contains('on'))render()},400)};
-async function idxAll(){if(IDX.busy)return;const seen=new Set();IDX.busy=true;try{for(;;){const todo=live().filter(isSr).filter(f=>(!f.idx||f.idx.v!=IDXV)&&!seen.has(f.id));if(!todo.length)break;IDX.total=seen.size+todo.length;IDX.done=seen.size;for(const f of todo){seen.add(f.id);await idxFile(f);IDX.done++;srRend()}}await ocrAll()}finally{IDX.busy=false;IDX.oc=null;srRend()}}
+async function idxAll(){if(IDX.busy)return;IDX.busy=true;try{do{const seen=new Set();for(;;){const todo=live().filter(isSr).filter(f=>(!f.idx||f.idx.v!=IDXV)&&!seen.has(f.id));if(!todo.length)break;IDX.total=seen.size+todo.length;IDX.done=seen.size;for(const f of todo){seen.add(f.id);await idxFile(f);IDX.done++;srRend()}}await ocrAll()}while(IDX.again&&!(IDX.again=false))}finally{IDX.busy=false;IDX.oc=null;srRend()}}
 /* ===== search ===== */
 function srFile(f,T){const nm=prepT(f.name||''),nameR=[],mt=new Set(),pages=[];
  if(SR.n)for(const sq of T){const r=fAll(nm,sq);if(r.length){mt.add(sq);nameR.push(...r)}}
@@ -1117,7 +1117,7 @@ async function docAct(act,a,id,i){const v=a.dataset.v;
 }
 document.addEventListener('change',e=>{const t=e.target,d=t.id;if(d=='dsort'){DV.sort=t.value;view.p=1;render()}else if(d=='d1'||d=='d2'){DV[d]=t.value;view.p=1;render()}else if(d=='srmode'){SR.mode=t.value;view.p=1;render()}else if(d=='srsort'){SR.sort=t.value;view.p=1;render()}else if(d=='sd1'||d=='sd2'){SR[d=='sd1'?'d1':'d2']=t.value;view.p=1;render()}});
 $('#qx').onclick=()=>{q='';$('#q').value='';view.p=1;render()};
-$('#qs').onclick=()=>{q=$('#q').value.trim();view.p=1;render();if(q)idxAll()};
+$('#qs').onclick=()=>{q=$('#q').value.trim();view.p=1;render();if(q){OC.fail=0;if(IDX.busy)IDX.again=true;idxAll()}};
 $('#q').addEventListener('keydown',e=>{if(e.key=='Enter')$('#qs').click()});
 
 /* ===== Back button / swipe-back: close one layer at a time, never leave the page ===== */
