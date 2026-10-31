@@ -916,7 +916,7 @@ let rzt;const rz=()=>{clearTimeout(rzt);rzt=setTimeout(()=>{const m=$('#pvm');if
 
 /* ===== Documents tab (mock UI) + Advanced content search ===== */
 const isDoc=x=>x.type=='file'&&!x.trashed&&!x.media&&!/^image\//.test(x.mime||'');
-const isImgF=x=>/^image\//.test(x.mime||'')||/^(png|jpe?g|webp|bmp|gif)$/.test(ext(x.name||'')),isSr=x=>x.type=='file'&&!x.trashed&&(isDoc(x)||isImgF(x));
+const isImgF=x=>/^image\//.test(x.mime||'')||/^(png|jpe?g|webp|bmp|gif)$/.test(ext(x.name||'')),isSr=x=>isDoc(x);
 const DV={tab:'all',ft:new Set(),df:'any',d1:'',d2:'',cat:'',sort:'mod',dm:'list',sel:new Set()};
 const SR={adv:false,n:1,c:1,mode:'any',ft:new Set(),df:'any',d1:'',d2:'',cat:'',sort:'rel',dm:'list',sel:null,pg:null,mo:0};
 const FTS=[['pdf','PDF'],['word','Word'],['excel','Excel'],['ppt','PowerPoint'],['other','Others']],BT={pdf:'PDF',word:'W',excel:'X',ppt:'P',other:'•••'};
@@ -1001,33 +1001,32 @@ async function xPdf(b){if(!window.pdfjsLib)throw noLib();pdfInit();const doc=awa
 /* ----- Khmer OCR fallback (only for PDF pages whose text layer is garbled) ----- */
 const OCRMAX=60,OC={lib:null,w:{},fail:0},ocrRe=/^[A-Za-z0-9][A-Za-z0-9.,:;()\/&+@#%'’\-–_]*$/,ocrT=o=>o.map(w=>w[0]+(w[5]?'\n':' ')).join('');
 const ocrLib=()=>OC.lib||(OC.lib=new Promise((ok,no)=>{if(window.Tesseract)return ok(window.Tesseract);const e=document.createElement('script');e.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';e.onload=()=>window.Tesseract?ok(window.Tesseract):no(new Error('ocr'));e.onerror=()=>no(new Error('ocr'));document.head.append(e)}));
-async function ocrW(l){if(OC.w[l])return OC.w[l];const T=await ocrLib(),mk=o=>T.createWorker(l,1,o);let w;try{w=await mk({langPath:'https://cdn.jsdelivr.net/npm/@tesseract.js-data/'+l+'/4.0.0_best_int'})}catch(e){w=await mk({})}return OC.w[l]=w}
-async function ocrPage(cv){
- const K=await ocrW('khm'),r=await K.recognize(cv),W=cv.width,H=cv.height,L=[];
+function ocrW(l,i=0){const key=l+i;return OC.w[key]||(OC.w[key]=(async()=>{const T=await ocrLib(),mk=o=>T.createWorker(l,1,o);for(const d of ['4.0.0_fast','4.0.0_best_int']){try{return await mk({langPath:'https://cdn.jsdelivr.net/npm/@tesseract.js-data/'+l+'/'+d})}catch(e){}}return mk({})})().catch(e=>{delete OC.w[key];throw e}))}
+async function ocrPage(cv,wi=0){
+ const K=await ocrW('khm',wi),r=await K.recognize(cv),W=cv.width,H=cv.height,L=[];
  for(const ln of r.data.lines||[]){const ws=(ln.words||[]).filter(w=>w.text&&w.text.trim()).map(w=>({t:w.text.trim(),c:w.confidence||0,b:[w.bbox.x0,w.bbox.y0,w.bbox.x1,w.bbox.y1]}));if(ws.length)L.push(ws)}
- try{const E=await ocrW('eng'),re=await E.recognize(cv),EW=(re.data.words||[]).filter(w=>(w.confidence||0)>=88&&w.text&&w.text.trim().length>1&&ocrRe.test(w.text.trim()));
-  if(EW.length)for(const ln of L)for(const w of ln)for(const e of EW){const x=e.bbox,ix=Math.min(w.b[2],x.x1)-Math.max(w.b[0],x.x0),iy=Math.min(w.b[3],x.y1)-Math.max(w.b[1],x.y0);if(ix>0&&iy>0&&ix*iy>=.5*Math.min((w.b[2]-w.b[0])*(w.b[3]-w.b[1]),(x.x1-x.x0)*(x.y1-x.y0))&&e.confidence>w.c+5){w.t=e.text.trim();w.c=e.confidence;break}}
- }catch(e){}
  const o=[];for(const ln of L)ln.forEach((w,k)=>{const t=nrm(w.t);if(t)o.push([t,+(w.b[0]/W).toFixed(4),+(w.b[1]/H).toFixed(4),+(w.b[2]/W).toFixed(4),+(w.b[3]/H).toFixed(4),k==ln.length-1?1:0])});
  return o}
-async function imgCv(b){const u=URL.createObjectURL(b);try{const im=await new Promise((ok,no)=>{const e=new Image();e.onload=()=>ok(e);e.onerror=()=>no(new Error('img'));e.src=u});const w0=im.naturalWidth,h0=im.naturalHeight;if(!w0||!h0)return null;const sc=Math.min(Math.max(1700/w0,1),3000/Math.max(w0,h0)),cv=document.createElement('canvas');cv.width=Math.max(1,Math.floor(w0*sc));cv.height=Math.max(1,Math.floor(h0*sc));const x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,cv.width,cv.height);x.drawImage(im,0,0,cv.width,cv.height);return cv}finally{URL.revokeObjectURL(u)}}
 async function ocrAll(){
- if(OC.fail)return;const todo=live().filter(isSr).filter(f=>f.idx&&f.idx.u&&f.idx.u.some(u=>u.bad)&&(isImgF(f)||window.pdfjsLib));let tot=0;for(const f of todo)tot+=Math.min(f.idx.u.filter(u=>u.bad).length,OCRMAX);if(!tot)return;
+ if(OC.fail||!window.pdfjsLib)return;const todo=live().filter(isSr).filter(f=>f.idx&&f.idx.u&&f.idx.u.some(u=>u.bad));let tot=0;for(const f of todo)tot+=Math.min(f.idx.u.filter(u=>u.bad).length,OCRMAX);if(!tot)return;
  IDX.oc={done:0,total:tot};srRend();
- try{await ocrW('khm')}catch(e){OC.fail=1;return}
- for(const f of todo){let blob=f.blob;if(!blob){try{if(f.driveId&&gtokOk()&&await gdBlob(f,true))blob=f.blob}catch(e){}}if(!blob)continue;
-  let doc=null,n=0,ch=0;
-  try{
-   if(isImgF(f)){const u=f.idx.u[0];if(u&&u.bad){n++;try{const cv=await imgCv(blob);if(cv){const o=await ocrPage(cv);cv.width=cv.height=0;if(o.length){u.o=o;u.t=nrm(ocrT(o)).slice(0,200000);PP.delete(u)}}u.bad=0;ch++}catch(e){u.bad=0}IDX.oc.done++;SRC.k='';srRend()}}
-   else{pdfInit();doc=await pdfjsLib.getDocument({data:await blob.arrayBuffer()}).promise;
-   for(let k=0;k<f.idx.u.length&&n<OCRMAX;k++){const u=f.idx.u[k];if(!u.bad)continue;n++;
-    try{const pg=await doc.getPage(k+1),v0=pg.getViewport({scale:1}),sc=Math.min(Math.max(1700/v0.width,1.5),3000/Math.max(v0.width,v0.height)),v=pg.getViewport({scale:sc}),cv=document.createElement('canvas');cv.width=Math.floor(v.width);cv.height=Math.floor(v.height);
-     await pg.render({canvasContext:cv.getContext('2d'),viewport:v}).promise;const o=await ocrPage(cv);cv.width=cv.height=0;pg.cleanup&&pg.cleanup();
-     if(o.length){u.o=o;u.t=nrm(ocrT(o)).slice(0,200000);PP.delete(u)}
-     u.bad=0;ch++}catch(e){u.bad=0}
-    IDX.oc.done++;SRC.k='';srRend()}}
-  }catch(e){}
-  finally{try{doc&&doc.destroy()}catch(e){}if(ch){try{await saveQ(f)}catch(e){}}SRC.k='';srRend()}}
+ const LN=Math.max(1,Math.min(3,(navigator.hardwareConcurrency||4)-1));let nx=0;
+ try{await ocrW('khm',0)}catch(e){OC.fail=1;return}
+ const lane=async wi=>{
+  try{await ocrW('khm',wi)}catch(e){if(!wi)OC.fail=1;return}
+  while(nx<todo.length){const f=todo[nx++];let blob=f.blob;if(!blob){try{if(f.driveId&&gtokOk()&&await gdBlob(f,true))blob=f.blob}catch(e){}}if(!blob)continue;
+   let doc=null,n=0,ch=0;
+   try{pdfInit();doc=await pdfjsLib.getDocument({data:await blob.arrayBuffer()}).promise;
+    for(let k=0;k<f.idx.u.length&&n<OCRMAX;k++){const u=f.idx.u[k];if(!u.bad)continue;n++;
+     try{const pg=await doc.getPage(k+1),v0=pg.getViewport({scale:1}),sc=Math.min(Math.max(1400/v0.width,1.25),2600/Math.max(v0.width,v0.height)),v=pg.getViewport({scale:sc}),cv=document.createElement('canvas');cv.width=Math.floor(v.width);cv.height=Math.floor(v.height);
+      await pg.render({canvasContext:cv.getContext('2d'),viewport:v}).promise;const o=await ocrPage(cv,wi);cv.width=cv.height=0;pg.cleanup&&pg.cleanup();
+      if(o.length){u.o=o;u.t=nrm(ocrT(o)).slice(0,200000);PP.delete(u)}
+      u.bad=0;ch++}catch(e){u.bad=0}
+     IDX.oc.done++;SRC.k='';srRend()}
+   }catch(e){}
+   finally{try{doc&&doc.destroy()}catch(e){}if(ch){try{await saveQ(f)}catch(e){}}SRC.k='';srRend()}}
+ };
+ await Promise.all([...Array(LN)].map((_,i)=>lane(i)));
 }
 async function xDocx(b){const z=await unzip(b),x=await z.get('word/document.xml'),lr=x.includes('lastRenderedPageBreak'),re=new RegExp((lr?'<w:lastRenderedPageBreak\\/>':'<w:br w:type="page"\\/>')+'|<w:t(?:\\s[^>]*)?>([^<]*)<\\/w:t>|<w:tab\\/>|<\\/w:p>','g'),P=[[]];let c=P[0],m;while(m=re.exec(x)){const s=m[0];if(m[1]!==undefined)c.push(xent(m[1]));else if(s=='<w:tab/>')c.push(' ');else if(s=='</w:p>')c.push('\n');else P.push(c=[])}return P.map((a,k)=>({l:'Page '+(k+1),t:nrm(a.join('')).slice(0,200000)}))}
 async function xPptx(b){const z=await unzip(b),N=z.names.filter(n=>/^ppt\/slides\/slide\d+\.xml$/.test(n)).sort((a,b)=>parseInt(a.match(/\d+/)[0])-parseInt(b.match(/\d+/)[0])),u=[];for(const n of N){const x=await z.get(n);u.push({l:'Slide '+n.match(/\d+/)[0],t:nrm(x.replace(/<\/a:p>/g,'\n').replace(/<a:t(?:\s[^>]*)?>([^<]*)<\/a:t>/g,(m,t)=>xent(t)).replace(/<[^>]+>/g,'')).slice(0,200000)})}return u}
