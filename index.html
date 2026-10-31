@@ -1008,7 +1008,7 @@ async function ocrPage(cv,wi=0){
  const o=[];for(const ln of L)ln.forEach((w,k)=>{const t=nrm(w.t);if(t)o.push([t,+(w.b[0]/W).toFixed(4),+(w.b[1]/H).toFixed(4),+(w.b[2]/W).toFixed(4),+(w.b[3]/H).toFixed(4),k==ln.length-1?1:0])});
  return o}
 async function ocrAll(){
- if(OC.fail||!window.pdfjsLib)return;const todo=live().filter(isSr).filter(f=>f.idx&&f.idx.u&&f.idx.u.some(u=>u.bad));let tot=0;for(const f of todo)tot+=Math.min(f.idx.u.filter(u=>u.bad).length,OCRMAX);if(!tot)return;
+ if(OC.fail||!window.pdfjsLib)return;const todo=live().filter(isSr).filter(f=>(!IDX.only||IDX.only.has(f.id))&&f.idx&&f.idx.u&&f.idx.u.some(u=>u.bad));let tot=0;for(const f of todo)tot+=Math.min(f.idx.u.filter(u=>u.bad).length,OCRMAX);if(!tot)return;
  IDX.oc={done:0,total:tot};srRend();
  const LN=Math.max(1,Math.min(3,(navigator.hardwareConcurrency||4)-1));let nx=0;
  try{await ocrW('khm',0)}catch(e){OC.fail=1;return}
@@ -1036,15 +1036,30 @@ async function idxFile(f){let blob=f.blob;if(!blob){try{if(f.driveId&&gtokOk()&&
  catch(er){if(er&&er.noLib)return;u=[]}
  f.idx={v:IDXV,s:f.size||0,u};await saveQ(f)}
 let srT;const srRend=()=>{clearTimeout(srT);srT=setTimeout(()=>{if(q&&view.k!='shared'&&!$('#m').classList.contains('on')&&!$('#d').classList.contains('on'))render()},400)};
-async function idxAll(){if(IDX.busy)return;IDX.busy=true;try{do{const seen=new Set();for(;;){const todo=live().filter(isSr).filter(f=>(!f.idx||f.idx.v!=IDXV)&&!seen.has(f.id));if(!todo.length)break;IDX.total=seen.size+todo.length;IDX.done=seen.size;for(const f of todo){seen.add(f.id);await idxFile(f);IDX.done++;srRend()}}await ocrAll()}while(IDX.again&&!(IDX.again=false))}finally{IDX.busy=false;IDX.oc=null;srRend()}}
+async function idxAll(){if(IDX.busy)return;IDX.busy=true;try{do{const seen=new Set();for(;;){const todo=live().filter(isSr).filter(f=>(!IDX.only||IDX.only.has(f.id))&&(!f.idx||f.idx.v!=IDXV)&&!seen.has(f.id));if(!todo.length)break;IDX.total=seen.size+todo.length;IDX.done=seen.size;for(const f of todo){seen.add(f.id);await idxFile(f);IDX.done++;srRend()}}await ocrAll()}while(IDX.again&&!(IDX.again=false))}finally{IDX.busy=false;IDX.oc=null;srRend()}}
 /* ===== search ===== */
 function srFile(f,T){const nm=prepT(f.name||''),nameR=[],mt=new Set(),pages=[];
  if(SR.n)for(const sq of T){const r=fAll(nm,sq);if(r.length){mt.add(sq);nameR.push(...r)}}
  if(SR.c&&f.idx&&f.idx.u)f.idx.u.forEach((u,k)=>{if(!u.t)return;const p=prU(u),R=[],ts=new Set();for(const sq of T){const r=fAll(p,sq);if(r.length){ts.add(sq);R.push(...r)}}if(ts.size){ts.forEach(x=>mt.add(x));pages.push({k,l:u.l,R,n:ts.size,c:R.length})}});
+ const dh=!!(SR.c&&DFS.ids&&f.driveId&&DFS.ids.has(f.driveId));if(dh)T.forEach(x=>mt.add(x));
  if(SR.mode=='all'?!T.every(x=>mt.has(x)):!mt.size)return null;
- return{f,nm,nameR,pages,score:(nameR.length?50:0)+mt.size*20+Math.min(pages.reduce((a,p)=>a+p.c,0),30)}}
+ return{f,nm,nameR,pages,dh,score:(nameR.length?50:0)+mt.size*20+(dh?30:0)+Math.min(pages.reduce((a,p)=>a+p.c,0),30)}}
+const DFC=new Map(),DFS={k:'',ids:null,busy:false};
+async function drvSearch(qq){
+ DFS.ids=null;DFS.k='';
+ if(!gdCfg()||!SR.c)return false;
+ const raw=nrm(qq).trim().toLowerCase();if(raw.length<2)return false;
+ const terms=[...new Set(raw.split(/\s+/))].slice(0,5),key=SR.mode+'|'+terms.join(' '),c=DFC.get(key);
+ if(c&&Date.now()-c.t<3e5){DFS.ids=c.ids;DFS.k=key;SRC.k='';return true}
+ DFS.busy=true;srRend();
+ try{
+  const esc=t=>t.replace(/\\/g,'\\\\').replace(/'/g,"\\'"),dq=terms.map(t=>"fullText contains '"+esc(t)+"'").join(SR.mode=='all'?' and ':' or ')+' and trashed=false',ids=new Set();let pt='',pg=0;
+  do{const r=await J(gapi('https://www.googleapis.com/drive/v3/files?pageSize=1000&fields=nextPageToken,files(id)&supportsAllDrives=true&includeItemsFromAllDrives=true&q='+qs(dq)+(pt?'&pageToken='+encodeURIComponent(pt):'')));(r.files||[]).forEach(f=>ids.add(f.id));pt=r.nextPageToken;pg++}while(pt&&pg<5);
+  DFC.set(key,{t:Date.now(),ids});DFS.ids=ids;DFS.k=key;return true
+ }catch(e){return false}finally{DFS.busy=false;SRC.k='';srRend()}
+}
 let SRC={k:'',v:[]};
-function srBase(A,T){const k=[q,SR.n,SR.c,SR.mode,A.length,IDX.done,A.filter(x=>x.idx).length,A.reduce((m,x)=>Math.max(m,x.updated||0),0)].join('|');if(SRC.k==k)return SRC.v;const v=[];if(T.length)for(const f of A){const r=srFile(f,T);if(r)v.push(r)}SRC={k,v};return v}
+function srBase(A,T){const k=[q,SR.n,SR.c,SR.mode,A.length,IDX.done,A.filter(x=>x.idx).length,DFS.k+(DFS.ids?DFS.ids.size:0),A.reduce((m,x)=>Math.max(m,x.updated||0),0)].join('|');if(SRC.k==k)return SRC.v;const v=[];if(T.length)for(const f of A){const r=srFile(f,T);if(r)v.push(r)}SRC={k,v};return v}
 const bestP=r=>r.pages.slice().sort((a,b)=>b.n-a.n||a.k-b.k)[0];
 const snip=(u,R)=>{const p=prU(u),s0=Math.min(...R.map(r=>r[0])),e0=R.filter(r=>r[0]==s0)[0][1],ws=Math.max(0,s0-60),we=Math.min(p.t.length,e0+120);return(ws>0?'… ':'')+hlt(p.t,R,ws,we)+(we<p.t.length?' …':'')};
 function pvText(f,k,T){const u=f.idx&&f.idx.u&&f.idx.u[k];if(!u)return'';const p=prU(u),R=[];for(const sq of T)R.push(...fAll(p,sq));const m=mrg(R),s0=m.length?Math.max(0,m[0][0]-200):0,e0=Math.min(p.t.length,s0+1200);return(s0>0?'… ':'')+hlt(p.t,R,s0,e0)+(e0<p.t.length?' …':'')}
@@ -1059,12 +1074,12 @@ function srMain(){
  const hero=`<div class=dhero><div class=dhi>${dic('srch',40)}</div><div class=dht><h1>Search Results</h1><p>Found ${total} result${total==1?'':'s'} for “${esc(q)}”</p></div></div>`;
  const adv='';
  const left=`<div class=srf><div class=dfh>${dic('filt',18)} <b>Filter Results</b> <a class=cl data-a=srclr>Clear all</a></div><div class=dfs>File Type</div>${FTS.map(([x,l])=>`<label class=dfl><input type=checkbox class=ck data-a=srft data-v=${x} ${SR.ft.has(x)?'checked':''}><span class="fti sm ${x}">${BT[x]}</span><span class=dfn>${l}</span><em>${cnt(x)}</em></label>`).join('')}<div class=dfs>By Date</div>${DFL.map(([v,l])=>`<label class=dfl><input type=radio name=srdf class=ck data-a=srdf data-v=${v} ${SR.df==v?'checked':''}><span class=dfn>${l}</span></label>`).join('')}${SR.df=='custom'?`<div class=g2><input type=date id=sd1 value="${SR.d1}"><input type=date id=sd2 value="${SR.d2}"></div>`:''}<div class=dfs>By Category</div>${cats.map(c=>`<div class="srcl ${SR.cat==c[0]?'on':''}" data-a=srcat data-v="${esc(c[0])}">${dic('folder',16)}<span>${esc(c[1])}</span><em>${c[2]}</em></div>`).join('')||'<small style="color:var(--m)">—</small>'}</div>`;
- const rrow=r=>{const f=r.f,b=bestP(r),u=b&&f.idx.u[b.k],extra=Math.max(0,r.pages.length-4);return `<div class="srr ${sel&&sel.f.id==f.id?'on':''}" data-id=${f.id} data-a=srsel>${fbadge(f)}<div class=srb><div class=srt>${hlt(r.nm.t,r.nameR)}</div><small>${fmeta(f)}</small>${u?`<div class=srs>${snip(u,b.R)}</div>`:''}${r.pages.length?`<div class=srpc2>${r.pages.slice(0,4).map(p=>`<span class=srp data-a=srpg data-p=${p.k}>${dic('list',12)} ${esc(p.l)}</span>`).join('')}${extra?`<span class=srp>+${extra}</span>`:''}</div>`:''}</div><div class=srx><button data-a=sropen data-p=${b?b.k:0}>Open ${dic('ext',13)}</button>${fmenuF(f)}</div></div>`};
- const stLine=IDX.busy?`<div class=srst>${SPN}<span>${IDX.oc?'កំពុងស្កេនអក្សរខ្មែរ (OCR) ក្នុង PDF / រូបភាព… '+IDX.oc.done+'/'+IDX.oc.total:'កំពុងស្វែងរកខ្លឹមសារក្នុង PDF… '+IDX.done+'/'+IDX.total}</span></div>`:'';
+ const rrow=r=>{const f=r.f,b=bestP(r),u=b&&f.idx.u[b.k],extra=Math.max(0,r.pages.length-4);return `<div class="srr ${sel&&sel.f.id==f.id?'on':''}" data-id=${f.id} data-a=srsel>${fbadge(f)}<div class=srb><div class=srt>${hlt(r.nm.t,r.nameR)}</div><small>${fmeta(f)}</small>${u?`<div class=srs>${snip(u,b.R)}</div>`:r.dh?'<div class=srs style="color:var(--m)">🔎 រកឃើញក្នុងខ្លឹមសារ PDF</div>':''}${r.pages.length?`<div class=srpc2>${r.pages.slice(0,4).map(p=>`<span class=srp data-a=srpg data-p=${p.k}>${dic('list',12)} ${esc(p.l)}</span>`).join('')}${extra?`<span class=srp>+${extra}</span>`:''}</div>`:''}</div><div class=srx><button data-a=sropen data-p=${b?b.k:0}>Open ${dic('ext',13)}</button>${fmenuF(f)}</div></div>`};
+ const stLine=(DFS.busy||IDX.busy)?`<div class=srst>${SPN}<span>${DFS.busy?'កំពុងស្វែងរកក្នុងខ្លឹមសារ PDF…':IDX.oc?'កំពុងស្កេនអក្សរខ្មែរ (OCR) ក្នុង PDF / រូបភាព… '+IDX.oc.done+'/'+IDX.oc.total:'កំពុងស្វែងរកខ្លឹមសារក្នុង PDF… '+IDX.done+'/'+IDX.total}</span></div>`:'';
  const center=`<div class=srm><div class=srh><b>${R.length} result${R.length==1?'':'s'}</b><span class=dlr><label>Sort by: <select id=srsort>${[['rel','Relevance'],['date','Date'],['name','Name']].map(([v,l])=>`<option value=${v} ${SR.sort==v?'selected':''}>${l}</option>`).join('')}</select></label>${viewTg(SR.dm,'srview',1)}</span></div><div class="srl ${SR.dm=='grid'?'grid':''}">${pgR.map(rrow).join('')||`<div class=empty>${T.length?'No files match.':''}${SR.c&&IDX.busy?'<br>កំពុងរៀបចំលិបិក្រម… លទ្ធផលនឹងកើនឡើងបន្តិចម្ដងៗ':''}</div>`}</div>${pgb(R)}${O.length?`<h3>Other items</h3>${list(O)}`:''}</div>`;
  let pv='<div class=srp2 id=srpv style="visibility:hidden"></div>';
  if(sel){const f=sel.f,u=(f.idx&&f.idx.u)||[],N=u.length,k=Math.min(Math.max(SR.pg||0,0),Math.max(N-1,0)),tot2=sel.pages.reduce((a,p)=>a+p.c,0)+sel.nameR.length,isP=ftype(f)=='pdf',isV=isP||isImgF(f);SR.pg=k;
-  pv=`<div class="srp2 ${SR.mo?'mo':''}" id=srpv data-id=${f.id}><div class=srph>${fbadge(f,'sm')}<b title="${esc(f.name)}">${esc(f.name)}</b><button data-a=sropen data-p=${k} title=Open>${dic('ext',15)}</button><button data-a=srx title=Close>${dic('x',15)}</button></div>${N>1||isP?`<div class=srpn><button data-a=srpn data-v=-1 ${k<=0?'disabled':''}>${dic('left',16)}</button><span>${N?k+1+' / '+N:'—'}</span><button data-a=srpn data-v=1 ${k>=N-1?'disabled':''}>${dic('right',16)}</button><button data-a=sropen data-p=${k} title=Expand>${dic('exp',16)}</button></div>`:''}<div class=srpc id=srpc data-id=${f.id} data-k=${k} ${isV?'':'style="display:none"'}></div><div class=srpt ${isV?'style="display:none"':''}>${pvText(f,k,T)||(N?'<i style="color:var(--m)">— (no text on this page)</i>':'<i style="color:var(--m)">'+(IDX.busy?'កំពុងរៀបចំលិបិក្រម…':'មិនមានខ្លឹមសារអក្សរដែលអាចស្វែងរកបាន')+'</i>')}</div><div class=srpf>💡 ${tot2?`Found ${tot2} match${tot2==1?'':'es'} in this document${sel.pages.length?':':''}`:'No matches in this document'} ${sel.pages.map(p=>`<span class="srp ${p.k==k?'on':''}" data-a=srpg data-p=${p.k}>${esc(p.l)}</span>`).join('')}</div></div>`}
+  pv=`<div class="srp2 ${SR.mo?'mo':''}" id=srpv data-id=${f.id}><div class=srph>${fbadge(f,'sm')}<b title="${esc(f.name)}">${esc(f.name)}</b><button data-a=sropen data-p=${k} title=Open>${dic('ext',15)}</button><button data-a=srx title=Close>${dic('x',15)}</button></div>${N>1||isP?`<div class=srpn><button data-a=srpn data-v=-1 ${k<=0?'disabled':''}>${dic('left',16)}</button><span>${N?k+1+' / '+N:'—'}</span><button data-a=srpn data-v=1 ${k>=N-1?'disabled':''}>${dic('right',16)}</button><button data-a=sropen data-p=${k} title=Expand>${dic('exp',16)}</button></div>`:''}<div class=srpc id=srpc data-id=${f.id} data-k=${k} ${isV?'':'style="display:none"'}></div><div class=srpt ${isV?'style="display:none"':''}>${pvText(f,k,T)||(N?'<i style="color:var(--m)">— (no text on this page)</i>':'<i style="color:var(--m)">'+(IDX.busy?'កំពុងរៀបចំលិបិក្រម…':'មិនមានខ្លឹមសារអក្សរដែលអាចស្វែងរកបាន')+'</i>')}</div><div class=srpf>💡 ${tot2?`Found ${tot2} match${tot2==1?'':'es'} in this document${sel.pages.length?':':''}`:(sel.dh?'រកឃើញក្នុងខ្លឹមសារ PDF':'No matches in this document')} ${sel.pages.map(p=>`<span class="srp ${p.k==k?'on':''}" data-a=srpg data-p=${p.k}>${esc(p.l)}</span>`).join('')}</div></div>`}
  return stLine+hero+adv+`<div class=srg>${left}${center}${pv}</div>`}
 const SRP={tok:0,id:null,doc:null};
 async function srPrev(){const box=$('#srpc');if(!box||box.style.display=='none')return;const id=box.dataset.id,k=+box.dataset.k,f=get(id);if(!f)return;const img=isImgF(f);if(!img&&!window.pdfjsLib)return;const tok=++SRP.tok;
@@ -1117,7 +1132,7 @@ async function docAct(act,a,id,i){const v=a.dataset.v;
 }
 document.addEventListener('change',e=>{const t=e.target,d=t.id;if(d=='dsort'){DV.sort=t.value;view.p=1;render()}else if(d=='d1'||d=='d2'){DV[d]=t.value;view.p=1;render()}else if(d=='srmode'){SR.mode=t.value;view.p=1;render()}else if(d=='srsort'){SR.sort=t.value;view.p=1;render()}else if(d=='sd1'||d=='sd2'){SR[d=='sd1'?'d1':'d2']=t.value;view.p=1;render()}});
 $('#qx').onclick=()=>{q='';$('#q').value='';view.p=1;render()};
-$('#qs').onclick=()=>{q=$('#q').value.trim();view.p=1;render();if(q){OC.fail=0;if(IDX.busy)IDX.again=true;idxAll()}};
+$('#qs').onclick=async()=>{q=$('#q').value.trim();view.p=1;render();if(q){OC.fail=0;const ok=await drvSearch(q);IDX.only=ok?new Set(live().filter(isSr).filter(f=>!f.driveId||DFS.ids.has(f.driveId)).map(f=>f.id)):null;if(IDX.busy)IDX.again=true;idxAll()}};
 $('#q').addEventListener('keydown',e=>{if(e.key=='Enter')$('#qs').click()});
 
 /* ===== Back button / swipe-back: close one layer at a time, never leave the page ===== */
