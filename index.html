@@ -589,32 +589,33 @@ mark{background:#fde047;color:inherit;border-radius:3px;padding:0 1px}
 .hmg2{display:grid;grid-template-columns:130px 1fr;gap:12px}.hmhero{background:linear-gradient(120deg,#2563eb,#60a5fa);color:#fff;border-radius:12px;padding:12px;font-weight:700;font-size:13px}
 @media(max-width:820px){.htb{grid-template-columns:1fr}.hmg2{grid-template-columns:1fr}.hmsd{flex-direction:row;flex-wrap:wrap}}
 
-/* === Public Library polish === */
-.hd .acts button[data-a=libcp]{border-radius:999px;background:linear-gradient(120deg,#2563eb,#3b82f6);color:#fff;border:0;padding:10px 18px;font-weight:600;box-shadow:0 6px 16px #2563eb40;transition:.15s}.hd .acts button[data-a=libcp]:hover{transform:translateY(-1px);box-shadow:0 10px 22px #2563eb55}
-.lbsw{padding:4px;gap:4px;border-radius:14px;background:#eaf0fd}.lbsw button{border-radius:10px;font-weight:600;color:var(--m);transition:.15s}.lbsw button.on{color:#fff;box-shadow:0 4px 12px #2563eb44}
-.lbt0{box-shadow:0 2px 10px #2563eb0d}.lbt0 input[type=search],.lbt0 select{border:1px solid var(--b);border-radius:12px;padding:9px 12px;background:var(--bg)}
-button[data-a=libpv]{border-radius:999px;border:1px solid #bfd3fb;background:#eff5ff;color:#1d4ed8;font-weight:600;padding:7px 14px;transition:.15s}button[data-a=libpv]:hover{background:#dbe8ff}
-.lbb .vbt,.vfr .vbt{border-radius:999px;padding:7px 14px;background:linear-gradient(120deg,#2563eb,#3b82f6);font-weight:600;box-shadow:0 4px 12px #2563eb33;text-decoration:none}
-button[data-a=libup]{border-radius:999px;border:1px solid #fecaca;background:#fff1f2;color:#be123c;font-weight:600;padding:7px 14px}button[data-a=libup]:hover{background:#ffe0e4}
-button[data-a=libcr]{border-radius:999px;padding:7px 14px;font-weight:600;border:1px solid var(--b);background:var(--c);box-shadow:0 2px 8px #2563eb14}
-.lbc{transition:.15s}.lbc:hover{transform:translateY(-2px);box-shadow:0 10px 24px #2563eb22}
-.lbf:hover{transform:translateY(-2px);box-shadow:0 10px 24px #2563eb22}.lbf .lbu{border-radius:999px}
-/* === Sync from device === */
-.dvm{display:flex;flex-direction:column;gap:14px;max-width:640px}
-.dvh{display:flex;gap:14px;align-items:center}.dvh>i{font-style:normal;font-size:30px;width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#2563eb,#60a5fa);display:grid;place-items:center;flex:none}.dvh h2{margin:0}.dvh p{margin:3px 0 0;color:var(--m);font-size:13px}
-.dvo{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.dvc{display:flex;flex-direction:column;gap:6px;align-items:flex-start;text-align:left;padding:16px;border-radius:16px;background:var(--c);border:1.5px solid var(--b);cursor:pointer;text-transform:none;transition:.15s}.dvc:hover{border-color:var(--p);box-shadow:0 8px 22px #2563eb22;transform:translateY(-2px)}
-.dvc .dvi{font-size:28px}.dvc b{font-size:15px}.dvc small{color:var(--m);line-height:1.5;font-size:12px}.dvc .dvb{margin-top:6px;background:var(--p);color:#fff;border-radius:999px;padding:6px 14px;font-size:12px;font-weight:600}
-.dvf{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;background:var(--bg);border:1px dashed var(--b);border-radius:14px;padding:12px;font-size:12px}.dvf div{background:var(--c);border:1px solid var(--b);border-radius:10px;padding:8px 10px;text-align:center;line-height:1.4}.dvf span{color:var(--p);font-weight:700}
-.dvn{border-radius:12px;padding:11px 13px;font-size:12.5px;line-height:1.65}.dvn.ok{background:#ecfdf5;color:#047857;border:1px solid #a7f3d0}.dvn.warn{background:#fffbeb;color:#b45309;border:1px solid #fde68a}
-.dvl{margin:0;padding-left:18px;color:var(--m);font-size:12.5px;line-height:1.7}
-#dvs .dvr{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}#dvs .dvr div{background:var(--bg);border:1px solid var(--b);border-radius:10px;padding:8px;text-align:center;font-size:11px;color:var(--m)}#dvs .dvr b{display:block;font-size:18px;color:var(--t)}
-@media(max-width:560px){.dvo{grid-template-columns:1fr}#dvs .dvr{grid-template-columns:repeat(2,1fr)}}
+/* === Sync from device (Documents) === */
+.syw{width:min(640px,100%)}
+.syh{display:flex;gap:14px;align-items:center}.syh h2{margin:0;font-size:21px}.syh p{margin:3px 0 0;color:var(--m);font-size:13.5px}
+.syi{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#2563eb,#60a5fa);display:grid;place-items:center;font-size:28px;flex:none;box-shadow:0 8px 18px #2563eb44}
+.sst{display:flex;align-items:center;gap:8px;margin:4px 0 2px;font-size:12.5px;color:var(--m)}.sst span{display:flex;align-items:center;gap:6px;white-space:nowrap}.sst i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--pl);color:var(--p);font-style:normal;font-weight:700;font-size:12px}.sst .on{color:var(--t);font-weight:600}.sst .on i{background:var(--p);color:#fff}.sst .dn i{background:#059669;color:#fff}.sst b{flex:1;height:2px;background:var(--b);min-width:10px}
+.syn{display:flex;gap:12px;border-radius:14px;padding:12px 14px;border:1px solid}.syn.ok{background:#ecfdf5;border-color:#a7f3d0}.syn.wn{background:#fffbeb;border-color:#fde68a}.syn b{color:#1b2a41}.syn p{margin:3px 0 0;font-size:13px;line-height:1.55;color:#475569}.syn .pr.sm{margin-top:8px;padding:6px 14px}.sni{font-size:24px;flex:none}
+.sylb{font-weight:600;margin-top:2px}
+.syg{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.syc{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;padding:16px;border-radius:16px;border:1.5px solid var(--b);background:var(--c);transition:.15s}.syc:hover{border-color:var(--p);box-shadow:0 8px 20px #2563eb22;transform:translateY(-2px)}.syc b{font-size:15px}.syc small{color:var(--m);font-size:12px;line-height:1.4}
+.syq{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:24px;margin-bottom:4px;background:#dbeafe;flex:none}.syq.b{background:#ede9fe}.syq.c{background:#d1fae5}
+.syt{font-size:12px;color:var(--m);line-height:1.5}
+.syl{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:13px}.syl li:before{content:'✔';color:#059669;font-weight:700;margin-right:8px}
+.srv{border:1px solid var(--b);border-radius:14px;padding:14px;display:grid;gap:10px}
+.srh{display:flex;gap:12px;align-items:center}.srh .syq{margin:0}.srh b{display:block;overflow-wrap:anywhere}.srh small{color:var(--m)}
+.srn{font-size:15px}.srn b{font-size:26px;color:var(--p);margin-right:4px}
+.sch-row{display:flex;gap:8px;flex-wrap:wrap}.sch{display:inline-flex;align-items:center;gap:6px;background:var(--pl);border-radius:20px;padding:4px 10px;font-size:12.5px}
+.spl{max-height:150px;overflow:auto;border-top:1px dashed var(--b);padding-top:8px;display:grid;gap:4px;font-size:12.5px;color:#475569}.spr{overflow-wrap:anywhere}
+.sdest{background:var(--pl);border-radius:12px;padding:10px 12px;font-size:13px;overflow-wrap:anywhere}
+.sbar{height:10px;border-radius:8px;background:var(--pl);overflow:hidden}.sbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#2563eb,#60a5fa);transition:width .2s}
+.sres{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.sres div{background:var(--pl);border-radius:12px;padding:10px;text-align:center}.sres b{display:block;font-size:22px}.sres small{color:var(--m)}
+.syf{display:flex;gap:10px;flex-wrap:wrap}
+@media(max-width:560px){.sst span{font-size:11.5px}.sst i{width:20px;height:20px}.syh h2{font-size:18px}.syi{width:48px;height:48px;font-size:24px}}
 </style></head><body><noscript><p style="padding:16px;text-align:center"><a href="/">Home</a> · <a href="/about.html">About Us</a> · <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Service</a> · <a href="/contact.html">Contact</a><br>© 2026 Komnotra. All rights reserved.</p></noscript>
 <aside id=sb><div class=logo style="display:flex;justify-content:space-between;align-items:center"><div>◆ Komnotra<small style="display:block;font-weight:400;font-size:11px;color:var(--m);margin-top:2px;line-height:1.3">Your Smart Digital Workspace</small></div><button data-a=burger title="Hide sidebar" style="padding:3px 11px;font-size:18px;line-height:1.2">☰</button></div><div id=nav></div>
 <div class=box><b>Sync</b><br><span class=dot id=sdot></span><span id=sst></span><button id=gdb data-a=gdset style="margin-top:8px;width:100%;padding:6px">☁ Sync with Google Drive</button><button id=gdm data-a=gdm style="margin-top:6px;width:100%;padding:4px;font-size:12px;display:none">⚙ Account</button><button id=adb data-a=adlogin style="margin-top:6px;width:100%;padding:6px;font-size:12.5px;display:none">🔐 Admin login</button></div></aside>
 <section><div class=top><button id=burger data-a=burger>☰</button><input id=q placeholder="Search files, notes, tasks, projects…"><button id=qx title=Clear>✕</button><button class=pr id=qs>Search</button><button id=uchip data-a=gdm><i class=uav><svg width=18 height=18 viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round stroke-linejoin=round><circle cx=12 cy=8 r=4></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg></i><span id=unm></span></button></div><main id=main></main></section>
-<div id=pv2></div><div id=bd data-a=burger></div><div id=m></div><div id=d></div><input type=file id=fi multiple hidden><input type=file id=fi2 accept="image/*" multiple hidden>
+<div id=pv2></div><div id=bd data-a=burger></div><div id=m></div><div id=d></div><input type=file id=fi multiple hidden><input type=file id=fiPh multiple hidden accept=".pdf,.doc,.docx,.dot,.dotx,.rtf,.odt,.ods,.odp,.xls,.xlsx,.xlsm,.csv,.tsv,.ppt,.pptx,.potx,.txt,.md,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,text/plain,text/csv"><input type=file id=fiDir multiple hidden webkitdirectory><input type=file id=fi2 accept="image/*" multiple hidden>
 <script>
 const DB=new Promise((res,rej)=>{const r=indexedDB.open('imvannda',1);r.onupgradeneeded=()=>r.result.createObjectStore('items',{keyPath:'id'});r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});
 const tx=async(m,f)=>{const d=await DB;return new Promise((res,rej)=>{const t=d.transaction('items',m);const o=f(t.objectStore('items'));t.oncomplete=()=>res(o&&o.result);t.onerror=()=>rej(t.error)})};
@@ -690,7 +691,7 @@ function ovView(){if(!ME.admin||!gdCfg())return hd('📊 Overview')+'<div class=
 async function ntSend(){const t=($('#ntT').value||'').trim(),m=($('#ntM').value||'').trim();if(!t||!m){toast('សូមបញ្ចូលចំណងជើង និងខ្លឹមសារ');return}if(!await dlg({title:'Send notification?',msg:'សេចក្តីជូនដំណឹងនេះនឹងបង្ហាញលើ Dashboard របស់អ្នកប្រើប្រាស់ទាំងអស់។',icon:'📢',ok:'Send'}))return;try{await api('send',{title:t,message:m,level:$('#ntL').value,days:+$('#ntN').value},await adTok());OV.d={t:'',m:'',l:'info',n:'7'};$('#ntT').value='';$('#ntM').value='';toast('✔ បានផ្ញើសេចក្តីជូនដំណឹង');ntLoad();await ovLoad()}catch(e){toast('⚠ '+e.message)}}
 async function ntDel(id){if(!await dlg({title:'Delete notification?',msg:'សេចក្តីជូនដំណឹងនេះនឹងលែងបង្ហាញដល់អ្នកប្រើប្រាស់។',icon:'🗑',ok:'Delete',danger:1}))return;try{await api('delnotice',{id},await adTok());toast('✔ បានលុប');ntLoad();await ovLoad()}catch(e){toast('⚠ '+e.message)}}
 document.addEventListener('input',e=>{const i=e.target&&e.target.id;if(i=='ntT')OV.d.t=e.target.value;else if(i=='ntM')OV.d.m=e.target.value;else if(i=='ntL')OV.d.l=e.target.value;else if(i=='ntN')OV.d.n=e.target.value});
-const NAV=[['home','🏠 Home'],['projects','📘 Projects &amp; Files'],['meetings','👥 Meeting'],['weekly','🗓 Weekly Plan'],['library','🌐 Public Library'],['shared','🤝 Share with me'],['notes','📝 Notes'],['tasks','☑ Tasks'],['documents','📄 Documents'],['recent','🕘 Recent'],['starred','★ Starred'],['trash','🗑 Trash'],['howto','📖 How to use this platform'],['about','ℹ About Us']];
+const NAV=[['home','🏠 Home'],['projects','📘 Projects &amp; Files'],['meetings','👥 Meeting'],['weekly','🗓 Weekly Plan'],['shared','🤝 Share with me'],['notes','📝 Notes'],['tasks','☑ Tasks'],['documents','📄 Documents'],['recent','🕘 Recent'],['starred','★ Starred'],['trash','🗑 Trash'],['howto','📖 How to use this platform'],['about','ℹ About Us']];
 const ext=n=>{const p=String(n||'').split('.'),e=p.length>1?p.pop().toLowerCase():'';return /^[a-z0-9]{1,5}$/.test(e)?e:''};
 const fi=i=>{const e=ext(i.name);return e=='pdf'?'📕':/xlsx?|csv/.test(e)?'📗':/docx?/.test(e)?'📘':/pptx?/.test(e)?'📙':/^image/.test(i.mime)?'🖼':'📄'};
 const ico=i=>i.type=='project'?(i.icon||'📘'):i.type=='folder'?'📁':i.type=='meeting'?'👥':i.type=='plan'?(i.done?'☑':'☐'):i.type=='note'?'📝':i.type=='task'?(i.done?'☑':'☐'):i.type=='goal'?'🎯':i.type=='link'?'🔗':i.type=='video'?'🎬':fi(i);
@@ -702,7 +703,7 @@ const FC=[['#2f6fe4','#5b9cff'],['#9b51e0','#b983f0'],['#12a97a','#3fd3a1'],['#f
 const fcol=i=>{let h=0;for(const c of String(i.id))h=(h*31+c.charCodeAt(0))>>>0;return FC[h%FC.length]};
 const ago=t=>{const m=(Date.now()-t)/6e4|0,h=m/60|0,d=h/24|0;return d>=14?(d/7|0)+' weeks ago':d>=7?'1 week ago':d>=2?d+' days ago':d==1?'1 day ago':h>=1?h+' hr ago':m>=1?m+' min ago':'just now'};
 const fsvg=c=>`<svg viewBox="0 0 64 52" width=58 height=48><path d="M4 10a6 6 0 0 1 6-6h14l6 6h24a6 6 0 0 1 6 6v6H4z" fill="${c[0]}"/><rect x=4 y=14 width=56 height=34 rx=7 fill="${c[1]}"/></svg>`;
-const fcard=i=>{const o=OPEN.has(i.id);return `<div class="fc ${o?'op':''}" data-id=${i.id}><div class=fch><button class="fx ${o?'o':''}" data-a=exp title="Expand">›</button><div class=fcb data-a=open>${fsvg(fcol(i))}<div class=fn><b title="${esc(i.name||'Untitled')}">${esc(i.name||'Untitled')}</b><small>${desc(i.id).filter(x=>!x.trashed&&!isM(x)).length} items · Updated ${ago(i.updated)}</small><small>${pubPill(i)}</small>${i.by?`<small style="color:#0e7490;font-weight:600">👤 ${esc(i.by.n)}</small>`:''}</div></div></div><button class=fb data-a=fmenu title="More">⋯</button><div class=fm><button data-a=open>📂 Open</button><button data-a=star>${i.starred?'★ Unstar':'☆ Star'}</button><button data-a=qn>＋📝 Add note</button><button data-a=edesc>✎ Description</button><button data-a=ren>✏ Rename</button><button data-a=mv>➜ Move</button>${pubBtn(i)}<button data-a=dlz>⬇ Download (ZIP)</button><button data-a=up>▲ Move up</button><button data-a=dn>▼ Move down</button>${RMF?'<button data-a=rcrm>✕ Remove from Recent</button>':''}<button data-a=del class=fd>🗑 Delete</button></div>${o?fsub(i):''}</div>`};
+const fcard=i=>{const o=OPEN.has(i.id);return `<div class="fc ${o?'op':''}" data-id=${i.id}><div class=fch><button class="fx ${o?'o':''}" data-a=exp title="Expand">›</button><div class=fcb data-a=open>${fsvg(fcol(i))}<div class=fn><b title="${esc(i.name||'Untitled')}">${esc(i.name||'Untitled')}</b><small>${desc(i.id).filter(x=>!x.trashed&&!isM(x)).length} items · Updated ${ago(i.updated)}</small><small>${pubPill(i)}</small>${i.by?`<small style="color:#0e7490;font-weight:600">👤 ${esc(i.by.n)}</small>`:''}</div></div></div><button class=fb data-a=fmenu title="More">⋯</button><div class=fm><button data-a=open>📂 Open</button><button data-a=star>${i.starred?'★ Unstar':'☆ Star'}</button><button data-a=qn>＋📝 Add note</button><button data-a=edesc>✎ Description</button><button data-a=ren>✏ Rename</button><button data-a=mv>➜ Move</button><button data-a=fdz>⬇ Download</button>${pubBtn(i)}<button data-a=up>▲ Move up</button><button data-a=dn>▼ Move down</button>${RMF?'<button data-a=rcrm>✕ Remove from Recent</button>':''}<button data-a=del class=fd>🗑 Delete</button></div>${o?fsub(i):''}</div>`};
 function fsub(i){return `<div class=fsub>${kids(i.id).filter(x=>!isM(x)).sort((a,b)=>isC(b)-isC(a)||ord(a,b)).map(x=>{const c=isC(x),o=c&&OPEN.has(x.id);return `<div data-id=${x.id}><div class=fsr data-a=open>${c?`<button class="fx ${o?'o':''}" data-a=exp title="Expand">›</button>`:''}<span>${ico(x)}</span><span class=fsn>${esc(x.name||'Untitled')}</span><small>${c?desc(x.id).filter(y=>!y.trashed&&!isM(y)).length+' items':x.type=='file'?sz(x.size):x.type}</small></div>${o?fsub(x):''}</div>`}).join('')||'<div class=fse>Empty</div>'}</div>`}
 let RH=new Set();try{RH=new Set(JSON.parse(localStorage.getItem('imv_rh')||'[]'))}catch(e){}
 let RMF=0;const RMENU='<span class=mw><button class=mb data-a=fmenu title="More">⋯</button><div class=fm><button data-a=rcrm>✕ Remove from Recent</button></div></span>';
@@ -807,7 +808,7 @@ async function gdPut(i,pid){const f0=await J(gapi('https://www.googleapis.com/dr
  if(i.size<=8*1024*1024){const bd='imvb'+Math.random().toString(36).slice(2),body=new Blob(['--'+bd+'\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n'+JSON.stringify(meta)+'\r\n--'+bd+'\r\nContent-Type: '+mime+'\r\n\r\n',i.blob,'\r\n--'+bd+'--']);return J(gapi('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,webViewLink',{method:'POST',headers:{'Content-Type':'multipart/related; boundary='+bd},body}))}
  const r=await gapi('https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable&fields=id,webViewLink',{method:'POST',headers:{'Content-Type':'application/json; charset=UTF-8','X-Upload-Content-Type':mime},body:JSON.stringify(meta)}),loc=r.headers.get('Location');if(!loc)throw new Error('Upload session failed');const up=await fetch(loc,{method:'PUT',headers:{'Content-Type':mime},body:i.blob});if(!up.ok)throw new Error('Upload HTTP '+up.status);return up.json()}
 async function gdUp(i,ia){const c=gdCfg();if(!c)return;if(!navigator.onLine){i.sync='pending';return saveQ(i)}
- try{await gdTok(ia,'none');const parts=['Imvannda Workspace',...(i.parent?path(i.parent).map(p=>p.name):['Documents'])];let j;try{j=await gdPut(i,await gdFolder(parts))}catch(e){if(/not found/i.test(e.message)){gfold={};gfs();j=await gdPut(i,await gdFolder(parts))}else throw e}i.sync='done';i.driveId=j.id;i.driveUrl=j.webViewLink||('https://drive.google.com/file/d/'+j.id+'/view');i.syncErr='';await saveQ(i)}
+ try{await gdTok(ia,'none');const parts=['Imvannda Workspace',...(i.dpath?i.dpath:i.parent?path(i.parent).map(p=>p.name):['Documents'])];let j;try{j=await gdPut(i,await gdFolder(parts))}catch(e){if(/not found/i.test(e.message)){gfold={};gfs();j=await gdPut(i,await gdFolder(parts))}else throw e}i.sync='done';i.driveId=j.id;i.driveUrl=j.webViewLink||('https://drive.google.com/file/d/'+j.id+'/view');i.syncErr='';await saveQ(i)}
  catch(e){const exp=!gtokOk()&&!ia;i.sync=exp?'pending':'error';i.syncErr=String(e.message||e);await saveQ(i);if(!exp)sToast('Drive sync failed: '+i.name)}}
 const gdQ=(i,ia)=>{if(GB.has(i.id))return;GB.add(i.id);gq=gq.then(()=>gdUp(i,ia)).catch(()=>{}).then(()=>{GB.delete(i.id);render();gdSched()});render()};
 const gdAll=ia=>items.filter(i=>i.type=='file'&&!i.trashed&&i.sync!='done').forEach(x=>gdQ(x,ia));
@@ -943,10 +944,10 @@ async function pubPublish(p,btn){if(!gdCfg()){toast('Connect Google Drive first 
  try{if(!gtokOk())await gdTok(true,'none');const sel=new Set(p.sel);await ensureUp(treeOf(sel,{}).F);const R=treeOf(sel,{}),fids=[...new Set(R.F.map(x=>x.driveId))],old=p.fids||[];
   await par(fids,anyone);if(!p.tok)p.tok=await mkTok();
   p.link=location.href.split('#')[0]+'#/p/'+await encM({t:p.name,dl:p.dl?1:0,k:p.tok,r:R.T});p.fids=fids;p.on=true;p.at=Date.now();await save(p);
-  const ot=othersF(p.id),gone=old.filter(f=>!fids.includes(f)&&!ot.has(f));await par(gone,unanyone);await applyDl([...fids,...gone]);libSync();toast('✔ Public link is ready');return true}
+  const ot=othersF(p.id),gone=old.filter(f=>!fids.includes(f)&&!ot.has(f));await par(gone,unanyone);await applyDl([...fids,...gone]);toast('✔ Public link is ready');return true}
  catch(e){toast('Publish failed: '+(e.message||e));return false}
  finally{if(btn){btn.disabled=false;btn.innerHTML=t0}}}
-async function pubUnpublish(p){try{const ot=othersF(p.id),F=p.fids||[];await par(F.filter(f=>!ot.has(f)),unanyone);if(p.tok)await gapi(DRV+p.tok,{method:'DELETE'}).catch(()=>{});p.tok='';p.on=false;p.link='';p.fids=[];await save(p);libSync();await applyDl(F)}catch(e){toast('Unpublish failed: '+(e.message||e))}}
+async function pubUnpublish(p){try{const ot=othersF(p.id),F=p.fids||[];await par(F.filter(f=>!ot.has(f)),unanyone);if(p.tok)await gapi(DRV+p.tok,{method:'DELETE'}).catch(()=>{});p.tok='';p.on=false;p.link='';p.fids=[];await save(p);await applyDl(F)}catch(e){toast('Unpublish failed: '+(e.message||e))}}
 const pubRow=p=>{const n=treeOf(new Set(p.sel),{}).F.length;return `<div class="row k-pub" data-id=${p.id}><span class=ic style="background:#2563eb22;width:42px;height:42px;border-radius:12px;display:grid;place-items:center">🌐</span><div class=nm data-a=pubedit>${esc(p.name||'Untitled')}<small><span class=mt>${p.on?'🟢 Published':'🔒 Private'}</span><span class=mt>${p.dl?'⬇ View & Download':'👁 View only'}</span><span class=mt>${n} item(s)</span>${p.at&&p.on?`<span class=mt>📅 ${fdate(iso(new Date(p.at)))}</span>`:''}</small>${p.on?`<div class=lk><input readonly value="${esc(p.link)}" onclick="this.select()"><button data-a=pubcopy>📋 Copy</button></div>`:''}</div><span class=acts><button data-a=pubview>👁 Preview</button><button data-a=pubedit>✏ Edit</button>${p.on?'<button data-a=pubunp>🔒 Unpublish</button>':'<button class=pr data-a=pubgo2>Publish</button>'}<button data-a=pubdel>🗑</button></span></div>`};
 /* picker */
 const pkTree=(sel,o)=>{const ok=x=>!x.trashed&&!x.ref&&(isC(x)||x.type=='file'||x.type=='video'||(o.meet&&['meeting','task','plan','goal','note'].includes(x.type))),row=x=>{const c=isC(x),K=c?kids(x.id).filter(ok):[];return `<div class=pkb><div class=pkr><label><input type=checkbox class=ck data-pk=${x.id} ${sel.has(x.id)?'checked':''}> <span>${ico(x)}</span> <b>${esc(x.title||x.name||'Untitled')}</b>${!c&&x.size?`<small>${sz(x.size)}</small>`:''}${!c&&x.type!='file'&&(x.due||x.date||x.week)?`<small>${dmy(x.due||x.date||x.week)}</small>`:''}</label></div>${K.length?`<div class=pkc>${K.map(row).join('')}</div>`:''}</div>`};return items.filter(x=>!x.parent&&ok(x)).sort(ord).map(row).join('')||'<div class=empty>Nothing to share yet.</div>'};
@@ -986,8 +987,8 @@ const LSV_T='<svg viewBox="0 0 24 24" width=17 height=17 fill=none stroke=curren
 LSV_G='<svg viewBox="0 0 24 24" width=17 height=17 fill=none stroke=currentColor stroke-width=1.8 stroke-linecap=round stroke-linejoin=round><rect x=3 y=3 width=7 height=7 rx=1 /><rect x=14 y=3 width=7 height=7 rx=1 /><rect x=14 y=14 width=7 height=7 rx=1 /><rect x=3 y=14 width=7 height=7 rx=1 /></svg>';
 const libF=n=>n.k=='f'||n.k=='i'||(n.k=='v'&&n.id);
 const libPrune=(N,fs,sel)=>N.map(n=>{if(n.k=='d'){const c=libPrune(n.c||[],fs,sel);return c.length||sel.has(n.i)?{...n,c}:null}return libF(n)&&n.id&&fs.has(n.id)?n:null}).filter(Boolean);
-const libGs=()=>items.filter(x=>x.type=='pub'&&x.on&&!x.trashed).map(p=>{const sel=new Set(p.sel||[]);return{own:1,dl:p.dl?1:0,at:p.at||0,r:libPrune(treeOf(sel,{local:1}).T,new Set(p.fids||[]),sel)}});
-const libMerge=gs=>{const add=(dst,src,g)=>{for(const n of src){if(n.k=='d'){let d=dst.find(x=>x.k=='d'&&x.i==n.i);if(!d){d={...n,c:[]};dst.push(d)}if(g.own)d.o=1;add(d.c,n.c||[],g)}else{const key=n.id||n.lid||n.n+n.s,f=dst.find(x=>x.k!='d'&&(x.id||x.lid||x.n+x.s)==key);if(!f)dst.push({...n,dl:g.dl,pd:g.at});else{f.dl=f.dl||g.dl;if(g.at&&(!f.pd||g.at<f.pd))f.pd=g.at}}}},R=[];gs.forEach(g=>add(R,g.r,g));return R};
+const libGs=()=>items.filter(x=>x.type=='pub'&&x.on&&!x.trashed).map(p=>{const sel=new Set(p.sel||[]);return{dl:p.dl?1:0,at:p.at||0,r:libPrune(treeOf(sel,{local:1}).T,new Set(p.fids||[]),sel)}});
+const libMerge=gs=>{const add=(dst,src,g)=>{for(const n of src){if(n.k=='d'){let d=dst.find(x=>x.k=='d'&&x.i==n.i);if(!d){d={...n,c:[]};dst.push(d)}add(d.c,n.c||[],g)}else{const key=n.id||n.lid||n.n+n.s,f=dst.find(x=>x.k!='d'&&(x.id||x.lid||x.n+x.s)==key);if(!f)dst.push({...n,dl:g.dl,pd:g.at});else{f.dl=f.dl||g.dl;if(g.at&&(!f.pd||g.at<f.pd))f.pd=g.at}}}},R=[];gs.forEach(g=>add(R,g.r,g));return R};
 const libCnt=n=>(n.c||[]).reduce((t,x)=>t+(x.k=='d'?libCnt(x):1),0),libAll=T=>T.reduce((t,x)=>t+(x.k=='d'?libCnt(x):1),0);
 const libFlat=(N,path=[],out=[])=>{for(const n of N){if(n.k=='d')libFlat(n.c||[],[...path,{i:n.i,n:n.n}],out);else out.push({n,path})}return out};
 const libTy=n=>(ext(n.n)||(n.k=='i'?'img':n.k=='v'?'video':'file')).toUpperCase();
@@ -1002,23 +1003,24 @@ const libRow=(x,showPath)=>{const n=x.n,k=LN.push(n)-1;return `<div class=vfr><s
 function libList(){LN.length=0;const D=LIB.D,flt=!!(LIB.q.trim()||LIB.cat);
  if(!libAll(D.T))return `<div class=empty>${D.own?'Nothing is public yet. In Projects &amp; Files, open the (…) menu of a folder or file and choose “Public”.':'No documents are published here yet.'}</div>`;
  if(LIB.v=='doc'){const L=libSort(libFilter(libFlat(D.T)));return L.length?`<div class=lbg>${L.map(libCard).join('')}</div>`:'<div class=empty>No documents match your search.</div>'}
- const {cur,cr}=libAt(),path=cr.map(f=>({i:f.i,n:f.n})),crumb=(cr.length?`<button data-a=libcr data-k=${cr.length-2} style="margin-bottom:8px">← Back</button>`:'')+`<p class=crumb><a data-a=libcr data-k=-1>Public Library</a>${cr.map((f,k)=>' / '+(k==cr.length-1?esc(f.n):`<a data-a=libcr data-k=${k}>${esc(f.n)}</a>`)).join('')}</p>`;
+ const {cur,cr}=libAt(),path=cr.map(f=>({i:f.i,n:f.n})),crumb=`<p class=crumb><a data-a=libcr data-k=-1>Public Library</a>${cr.map((f,k)=>' / '+(k==cr.length-1?esc(f.n):`<a data-a=libcr data-k=${k}>${esc(f.n)}</a>`)).join('')}</p>`;
  if(flt){const L=libSort(libFilter(libFlat(cur,path)));return crumb+`<div class=lbh3>${L.length} result(s)${cr.length?' in “'+esc(cr[cr.length-1].n)+'”':''}</div>`+(L.length?L.map(x=>libRow(x,1)).join(''):'<div class=empty>No documents match your search.</div>')}
  const nm=(a,b)=>LIB.sort=='namez'?String(b.n).localeCompare(a.n):String(a.n).localeCompare(b.n),Fo=cur.filter(x=>x.k=='d').sort(nm),Fi=libSort(cur.filter(x=>x.k!='d').map(n=>({n,path})));
- return crumb+(Fo.length?`<div class=fg>${Fo.map(f=>`<div class="fc lbf" data-a=libgo data-i="${esc(f.i)}"><div class=fch><div class=fcb>${fsvg(fcol({id:f.i}))}<div class=fn><b title="${esc(f.n)}">${esc(f.n)}</b><small>${libCnt(f)} public file(s)</small></div></div></div>${f.o?`<button class=lbu data-a=libup data-f="${esc(f.i)}">🔒 Unpublish folder</button>`:''}</div>`).join('')}</div>`:'')+(Fi.length?Fi.map(x=>libRow(x)).join(''):(Fo.length?'':'<div class=empty>This folder has no public files.</div>'))}
+ return crumb+(Fo.length?`<div class=fg>${Fo.map(f=>`<div class="fc lbf" data-a=libgo data-i="${esc(f.i)}"><div class=fch><div class=fcb>${fsvg(fcol({id:f.i}))}<div class=fn><b title="${esc(f.n)}">${esc(f.n)}</b><small>${libCnt(f)} public file(s)</small></div></div></div>${D.own?`<button class=lbu data-a=libup data-f="${esc(f.i)}">🔒 Unpublish folder</button>`:''}</div>`).join('')}</div>`:'')+(Fi.length?Fi.map(x=>libRow(x)).join(''):(Fo.length?'':'<div class=empty>This folder has no public files.</div>'))}
 function libBar(){const cs=libCats(LIB.D.T);if(LIB.cat&&!cs.some(c=>c[0]==LIB.cat))LIB.cat='';return `<div class=lbt0><div class=lbsw><button class="${LIB.v=='folder'?'on':''}" data-a=libv data-v=folder title="Folder View">${LSV_T} Folder View</button><button class="${LIB.v=='doc'?'on':''}" data-a=libv data-v=doc title="Document View">${LSV_G} Document View</button></div><input type=search id=libq placeholder="🔍 Search documents…" value="${esc(LIB.q)}"><select id=libc><option value="">All categories</option>${cs.map(c=>`<option value="${esc(c[0])}" ${LIB.cat==c[0]?'selected':''}>${esc(c[1])} (${c[2]})</option>`).join('')}</select><select id=libs>${[['new','Newest first'],['old','Oldest first'],['name','Name A–Z'],['namez','Name Z–A'],['type','File type']].map(([v,l])=>`<option value=${v} ${LIB.sort==v?'selected':''}>${l}</option>`).join('')}</select></div>`}
 const libInner=()=>libBar()+`<div id=libl>${libList()}</div>`;
 function libDraw(full){const b=$('#libbox');if(!b)return;if(full)b.innerHTML=libInner();else{const l=$('#libl');if(l)l.innerHTML=libList()}}
-LIB.ok=new Map();LIB.R=null;LIB.t=0;let libBusy=0;
-const libAllG=()=>[...libGs(),...(LIB.R||[])];
-async function libFetch(skipMine){const j=await api('libget'),me=((gdCfg()||{}).email||'').toLowerCase(),C=[];for(const L of j.libs||[]){if(skipMine&&L.e&&String(L.e).toLowerCase()==me)continue;for(const g of L.g||[])if(g.k)C.push(g)}await Promise.all(C.map(async g=>{if(!LIB.ok.has(g.k))LIB.ok.set(g.k,await imgOk(g.k)?1:0)}));return C.filter(g=>LIB.ok.get(g.k)).map(g=>({r:g.r||[],dl:g.dl?1:0,at:g.at||0,own:0}))}
-async function libLoad(force){if(libBusy||!apiOn()||(!force&&LIB.R&&Date.now()-LIB.t<30000))return;libBusy=1;try{LIB.R=await libFetch(1);LIB.t=Date.now();if($('#libbox')&&view.k=='library'){LIB.D={T:libMerge(libAllG()),own:1};libDraw(1)}}catch(e){}finally{libBusy=0}}
-function libMain(){LIB.D={T:libMerge(libAllG()),own:1};libLoad();return hd('🌐 Public Library','<button data-a=libcp>🔗 Copy Library link</button>')+'<div id=liblk style="margin-bottom:10px"></div><div id=libbox>'+libInner()+'</div>'}
-const libGroups=()=>items.filter(x=>x.type=='pub'&&x.on&&x.tok&&!x.trashed).map(p=>{const sel=new Set(p.sel||[]);return{k:p.tok,dl:p.dl?1:0,at:p.at||0,r:libPrune(treeOf(sel,{}).T,new Set(p.fids||[]),sel)}}).filter(g=>g.r.length);
-async function libSync(){if(!apiOn()||!gdCfg())return;try{const tk=gtokOk()?gtok:await adTok();await api('libput',{e:(gdCfg()||{}).email||'',g:libGroups()},tk);LIB.t=0}catch(e){}}
-async function libLink(){return location.href.split('#')[0]+'#/lib/all'}
+function libMain(){LIB.D={T:libMerge(libGs()),own:1};return hd('🌐 Public Library','<button data-a=libcp>🔗 Copy Library link</button>')+'<div id=liblk style="margin-bottom:10px"></div><div id=libbox>'+libInner()+'</div>'}
+const pubSet=()=>{const S=new Set();for(const p of items)if(p.type=='pub'&&p.on&&!p.trashed)for(const id of p.sel||[])S.add(id);return S};
+const pubIds=i=>isC(i)?[i.id,...desc(i.id).filter(x=>!x.trashed&&!x.ref&&(isC(x)||x.type=='file'||x.type=='video')).map(x=>x.id)]:[i.id];
+const pubOn=(i,S)=>S.has(i.id)||(isC(i)&&desc(i.id).some(x=>S.has(x.id)));
+const pubPill=i=>{if(i.trashed||!(i.type=='file'||isC(i)))return'';const S=pubSet(),p=S.has(i.id),pt=!p&&isC(i)&&desc(i.id).some(x=>S.has(x.id));return `<span class="pill ${p?'ok':''} cl" data-a=pubtog title="${p||pt?'Click to make Private':'Click to make Public'}">${p?'🌐 Public':pt?'🌐 Partial':'🔒 Private'}</span>`};
+const pubBtn=i=>`<button data-a=pubtog>${pubOn(i,pubSet())?'🔒 Make Private':'🌐 Public'}</button>`;
+async function libPubl(ids){if(!gdCfg()){toast('Connect Google Drive first (☁ Sync with Google Drive in the sidebar)');return}let p=items.find(x=>x.type=='pub'&&x.lib&&!x.trashed);if(!p){p={id:crypto.randomUUID(),type:'pub',name:'Public Library',parent:null,created:Date.now(),sel:[],dl:1,on:false,lib:1};await commit(p)}const old=p.sel||[];p.sel=[...new Set([...old,...ids])];await commit(p);toast('Publishing…');if(!await pubPublish(p)){p.sel=old;await commit(p)}}
+async function libUnpub(ids,fold){if(!await dlg({title:fold?'Make this folder Private?':'Make this file Private?',msg:'It will be removed from the Public Library and its public access closed. The original stays in Projects & Files.',icon:'🔒',ok:'Make Private',danger:1}))return;for(const p of items.filter(x=>x.type=='pub'&&x.on&&(x.sel||[]).some(s=>ids.has(s)))){p.sel=p.sel.filter(s=>!ids.has(s));if(treeOf(new Set(p.sel),{}).F.length)await pubPublish(p);else await pubUnpublish(p)}}
+async function libLink(){const G=items.filter(x=>x.type=='pub'&&x.on&&x.tok&&!x.trashed).map(p=>{const sel=new Set(p.sel||[]);return{k:p.tok,dl:p.dl?1:0,at:p.at||0,r:libPrune(treeOf(sel,{}).T,new Set(p.fids||[]),sel)}}).filter(g=>g.r.length);if(!G.length)return'';return location.href.split('#')[0]+'#/lib/'+await encM({t:'Public Library',g:G})}
 async function libBoot(t){document.body.classList.add('pubmode');const box=$('#pv2');box.innerHTML=`<div class=vw><div class=empty>${SPN} Loading…</div></div>`;
- try{const d=t=='all'?{t:'Public Library'}:await decM(t),gs=t=='all'?await libFetch(0):(await Promise.all((d.g||[]).map(async g=>g.k&&await imgOk(g.k)?{r:g.r||[],dl:g.dl?1:0,at:g.at||0}:null))).filter(Boolean);
+ try{const d=await decM(t),G=d.g||[],ok=await Promise.all(G.map(g=>g.k?imgOk(g.k):0)),gs=G.filter((g,i)=>ok[i]).map(g=>({r:g.r||[],dl:g.dl?1:0,at:g.at||0}));
  if(!gs.length){box.innerHTML='<div class=vw><div class=empty style="margin-top:60px"><div style="font-size:42px">🔒</div><h2>This library is no longer available</h2><p>The owner has closed this public library.</p></div></div>';return}
  document.title=(d.t||'Public Library')+' · Imvannda';LIB.D={T:libMerge(gs),own:0};box.innerHTML=`<div class=vw><div class=vwh><h1>${esc(d.t||'Public Library')}</h1><p>Public library — view without signing in</p></div><div id=libbox>${libInner()}</div></div>`}
  catch(e){box.innerHTML='<div class=vw><div class=empty style="margin-top:60px"><h2>Invalid link</h2></div></div>'}}
@@ -1030,7 +1032,7 @@ hmr=(ic,t,p,pc,n)=>`<div class=hmr><span class=hmi>${ic}</span><div class=hmx1><
 const HT=[
 {k:'start',ic:'🚀',t:'Getting Started',d:'Komnotra គឺជាកន្លែងធ្វើការតែមួយ សម្រាប់គ្រប់គ្រង Project, ឯកសារ, កិច្ចប្រជុំ, ផែនការប្រចាំសប្តាហ៍, Note និង Task។',
  st:['ម៉ឺនុយនៅខាងឆ្វេង (ឬប៊ូតុង ☰ លើទូរស័ព្ទ) គឺជាទ្វារចូលទៅគ្រប់ Tab។','Home បង្ហាញចំនួន Project, Note, Task, Files និង Meeting ព្រមទាំងការជូនដំណឹង Meeting ថ្ងៃនេះ (🔴) ឬស្អែក (🟠)។','ប្រើប្រអប់ស្វែងរកខាងលើ ដើម្បីរក Project, ឯកសារ ឬ Note។','ទិន្នន័យរក្សាទុកក្នុង Browser នេះ។ ភ្ជាប់ Google Drive (ផ្នែក Sync Account) ដើម្បីបម្រុងទុក និងប្រើលើឧបករណ៍ផ្សេង។'],
- m:()=>hmw('Komnotra',`<div class=hmg2><div class=hmsd>${['🏠 Home','📘 Projects & Files','👥 Meeting','🗓 Weekly Plan','🌐 Public Library','🤝 Share with me','📝 Notes','☑ Tasks','📄 Documents'].map((x,k)=>`<div class="hmsi ${k?'':'on'}">${x}</div>`).join('')}</div><div style="display:flex;flex-direction:column;gap:8px"><div class=hmhero>Welcome back 👋 ${hn(2)}</div><div class=hmg>${['📘 Projects<br>4','📝 Notes<br>12','☑ Open tasks<br>7','📄 Files<br>38'].map(c=>`<div class=hmc>${c}</div>`).join('')}</div>${hmr('👥','Team meeting','🔴 Today','r',3)}</div></div>`)},
+ m:()=>hmw('Komnotra',`<div class=hmg2><div class=hmsd>${['🏠 Home','📘 Projects & Files','👥 Meeting','🗓 Weekly Plan','🤝 Share with me','📝 Notes','☑ Tasks','📄 Documents'].map((x,k)=>`<div class="hmsi ${k?'':'on'}">${x}</div>`).join('')}</div><div style="display:flex;flex-direction:column;gap:8px"><div class=hmhero>Welcome back 👋 ${hn(2)}</div><div class=hmg>${['📘 Projects<br>4','📝 Notes<br>12','☑ Open tasks<br>7','📄 Files<br>38'].map(c=>`<div class=hmc>${c}</div>`).join('')}</div>${hmr('👥','Team meeting','🔴 Today','r',3)}</div></div>`)},
 {k:'projects',ic:'📘',t:'Projects & Files',d:'ទីតាំងសម្រាប់រៀបចំឯកសារជា Project និង Folder (មាន Sub Folder ច្រើនជាន់)។ ទីនេះជាកន្លែងដែលអ្នក Public ឬ Private ឯកសារ។',
  st:['ចុច Projects & Files រួចចុច + New Project។ ចុចបើក Project ដើម្បីចូលខាងក្នុង។','ក្នុង Project ប្រើ + Folder, + Note, + Task, 🔗 Add Link, 🎬 Add Video, 🖼 Add Image ឬ Upload (អាចអូសឯកសារមកដាក់ផ្ទាល់)។','ស្លាក 🌐 Public ឬ 🔒 Private បង្ហាញស្ថានភាពនៃ Folder/File នីមួយៗ។ ចុចលើស្លាកដើម្បីប្តូរ។','ចុច (…) ដើម្បីបើកម៉ឺនុយ៖ 📂 Open File Location, ➕ Add to Folder (ចម្លង មិនមែន Move), ☑ Select (ជ្រើសច្រើន), 🌐 Public / 🔒 Make Private។','ពេលស្វែងរក ឯកសារដែលរកឃើញនឹងបង្ហាញ “in Folder ឈ្មោះ Folder”។'],
  m:()=>hmw('Projects & Files',`<div class=hmsp><span class=hmbn>+ Folder</span><span class="hmbn l">+ Note</span><span class="hmbn l">Upload</span></div><div class=hmg>${[['Proj A','🌐 Public','g'],['Finance','🔒 Private','']].map(([n,p,c])=>`<div class=hmf><b>📁 ${n}</b><small>6 items</small><div style="margin-top:6px"><span class="hmp ${c}">${p}</span>${n=='Proj A'?hn(3):''}</div></div>`).join('')}</div>${hmr('📕','Report.pdf','🔒 Private','','')}<div class=hmm><div>📂 Open File Location ${hn(4)}</div><div>➕ Add to Folder</div><div>☑ Select</div><div class=on>🌐 Public</div></div>`)},
@@ -1040,9 +1042,6 @@ const HT=[
 {k:'weekly',ic:'🗓',t:'Weekly Plan',d:'មើលកិច្ចការទាំងអស់ក្នុងមួយសប្តាហ៍ (Meeting, Task, Plan) នៅលើទំព័រតែមួយ។',
  st:['ចុច Weekly Plan។ ប្រើ ‹ និង › ដើម្បីប្តូរសប្តាហ៍។','ប្រើ All / My own weekly plan / Share with me ដើម្បីបំបែកផែនការរបស់ខ្លួន និងអ្វីដែលគេចែករំលែក។','បន្ថែម Plan item (What will you do?, Date, Time, Notes) និង Weekly goal 🎯។','មើល My Tasks និង Weekly Progress ដើម្បីដឹងភាគរយដែលបានបញ្ចប់។'],
  m:()=>hmw('Weekly Plan',`<div class=hmsp><span class="hmbn l">‹</span><b>03 – 09 Nov</b><span class="hmbn l">›</span>${hn(1)}</div><div class=hmsp>${['All','My own weekly plan','Share with me'].map((x,k)=>`<span class="hmbn ${k?'l':''}">${x}</span>`).join('')}${hn(2)}</div><div class=hmwk>${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d,k)=>`<div class="${k==3?'t':''}">${d}${k==1?'<em>Meeting</em>':k==3?'<em class=k>Task ✓</em><em>Plan</em>':k==4?'<em>Task</em>':''}</div>`).join('')}</div><div class=hmf><b>Weekly Progress ${hn(4)}</b><div class=bar><i style="width:64%"></i></div><small>64% completed</small></div>`)},
-{k:'library',ic:'🌐',t:'Public Library',d:'បណ្ណាល័យសាធារណៈ បង្ហាញតែ Folder និង File ដែលអ្នកបានចុច Public ក្នុង Projects & Files។ អ្នកទស្សនាមិនចាំបាច់មានគណនីទេ។',
- st:['ក្នុង Projects & Files ចុច (…) រួចជ្រើស 🌐 Public លើ Folder ឬ File ដែលចង់បង្ហាញ។','បើក Public Library ហើយប្តូររវាង Folder View (ឋានានុក្រម Folder) និង Document View (Card ឯកសារ)។','ប្រើស្វែងរក, តម្រង Category និងតម្រៀប។ ចុច Preview ដើម្បីមើល ឬ Download ដើម្បីទាញយក។','ចុច 🔗 Copy Library link ហើយផ្ញើឱ្យអ្នកណាក៏បាន។ ពេលបន្ថែមឯកសារថ្មី សូម Copy តំណថ្មី។','ដើម្បីដកចេញ ចុច 🔒 Make Private ក្នុង Projects & Files ឬ 🔒 Unpublish ក្នុង Library។'],
- m:()=>hmw('Public Library',`<div class=hmsp><span class=hmbn>🗂 Folder View</span><span class="hmbn l">▦ Document View</span>${hn(2)}</div><div class=hmin>🔍 Search documents…  ${hn(3)}</div><div class=hmg><div class=hmf><b>📁 Proj A</b><small>3 public file(s)</small></div><div class=hmf><b>📁 Reports</b><small>2 public file(s)</small></div></div><div class=hmf><b>📕 Report.pdf</b><small>PDF · Proj A · 08-11-2026</small><div style="margin-top:7px" class=hmsp><span class="hmbn l">👁 Preview</span><span class=hmbn>⬇ Download</span></div></div><div class=hmsp><span class="hmbn l">🔗 Copy Library link</span>${hn(4)}</div>`)},
 {k:'shared',ic:'🤝',t:'Share with me',d:'ចែករំលែក Project, Folder, Meeting, Task និង Weekly Plan ទៅអ្នកដទៃតាម Gmail ហើយមើលអ្វីដែលគេចែករំលែកមកអ្នក។',
  st:['ភ្ជាប់ Google Drive ជាមុន (ផ្នែក Sync Account)។','បើកផ្ទាំង Google Drive Sync រួចរកផ្នែក Add User · Share with me។ បញ្ចូល Gmail ហើយជ្រើស Viewer (មើលតែប៉ុណ្ណោះ) ឬ Editor (អាចបន្ថែមរបស់ខ្លួន)។','ចុច ✎ Access ដើម្បីជ្រើសមាតិកាដែលចែក ហើយចុច Save & share។','អ្នកដែលទទួលចូល Share with me ជ្រើស Projects, Meeting, Tasks ឬ Weekly Plan ហើយចុច ↻ Refresh ដើម្បីទាញទិន្នន័យថ្មី។'],
  m:()=>hmw('Add User · Share with me',`<div class=hmsp><div class=hmin style="flex:1">name@gmail.com</div><div class=hmin>Viewer ▾</div><span class=hmbn>Add user</span>${hn(2)}</div>${hmr('👤','teacher@gmail.com','👁 Viewer','',3)}${hmr('👤','team@gmail.com','✏️ Editor','o','')}<div class=hmsp><span class="hmbn l">✎ Access</span><span class=hmbn>Save & share</span><span class="hmbn l">↻ Refresh</span>${hn(4)}</div>`)},
@@ -1060,38 +1059,6 @@ const HT=[
  m:()=>hmw('Sync',`<div class=hmf><b>Sync</b><small>● Online · all synced</small></div><span class=hmbn style="align-self:flex-start">☁ Sync with Google Drive</span><div class=hmsp><span class=hmbn>🔗 Sign in with Google</span>${hn(2)}</div><div class=hmsp><span class=hmbn>🔄 Sync now</span>${hn(3)}<span class="hmbn l">⚙ Account</span>${hn(4)}</div>`)}
 ];
 function htMain(){const k=view.ht||'start',h=HT.find(x=>x.k==k)||HT[0];return hd('📖 How to use this platform')+`<div class=htc>${HT.map(x=>`<button class="htt ${x.k==h.k?'on':''}" data-a=htab data-v=${x.k}><i>${x.ic}</i>${x.t}</button>`).join('')}</div><div class=htb id=htb><div><h2>${h.ic} ${h.t}</h2><p class=htd>${h.d}</p><ol class=hts>${h.st.map(x=>`<li><span>${esc(x)}</span></li>`).join('')}</ol></div><div>${h.m()}</div></div>`}
-/* ===== Download folder as ZIP ===== */
-const CRCT=(()=>{const T=[];for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;T[n]=c>>>0}return T})();
-async function zipBin(F){const E=new TextEncoder(),P=[],C=[];let o=0;const u16=v=>[v&255,v>>8&255],u32=v=>[v&255,v>>8&255,v>>16&255,v>>24&255];
- for(const f of F){const d=new Uint8Array(await f.b.arrayBuffer());let c=0xFFFFFFFF;for(let k=0;k<d.length;k++)c=CRCT[(c^d[k])&255]^(c>>>8);const cr=(c^0xFFFFFFFF)>>>0,nm=E.encode(f.n),n=d.length;
- const h=new Uint8Array([...u32(0x04034b50),...u16(20),...u16(0x0800),...u16(0),...u16(0),...u16(0x21),...u32(cr),...u32(n),...u32(n),...u16(nm.length),...u16(0),...nm]);P.push(h,f.b);
- C.push(new Uint8Array([...u32(0x02014b50),...u16(20),...u16(20),...u16(0x0800),...u16(0),...u16(0),...u16(0x21),...u32(cr),...u32(n),...u32(n),...u16(nm.length),...u16(0),...u16(0),...u16(0),...u16(0),...u32(0),...u32(o),...nm]));o+=h.length+n}
- const cs=C.reduce((a,b)=>a+b.length,0),end=new Uint8Array([...u32(0x06054b50),...u16(0),...u16(0),...u16(F.length),...u16(F.length),...u32(cs),...u32(o),...u16(0)]);return new Blob([...P,...C,end],{type:'application/zip'})}
-async function dlzFolder(f){const fs=desc(f.id).filter(x=>x.type=='file'&&!x.trashed&&!x.ref);if(!fs.length){toast('This folder has no files to download');return}toast('Preparing ZIP… ('+fs.length+' files)');
- const F=[],used=new Set();let miss=0;const cl=t=>String(t||'').replace(/[\\:*?"<>|]/g,'_');
- for(const x of fs){if(!x.blob){try{await gdBlob(x,true)}catch(e){}}if(!x.blob){miss++;continue}const P=path(x.id),k=P.findIndex(p=>p.id==f.id);let n=P.slice(Math.max(k,0)).map(p=>cl(p.name)).join('/'),c=1,b=n;while(used.has(n)){c++;n=b.replace(/(\.[^./]+)?$/,' ('+c+')$1')}used.add(n);F.push({n,b:x.blob})}
- if(!F.length){toast('Files are not available on this device yet');return}
- const z=await zipBin(F),a=document.createElement('a');a.href=URL.createObjectURL(z);a.download=(cl(f.name)||'folder')+'.zip';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4e3);toast('✔ ZIP ready: '+F.length+' file(s)'+(miss?' · '+miss+' skipped (not available)':''))}
-/* ===== Sync from device (PC folders / phone files) ===== */
-const DEVX=/^(pdf|docx?|xlsx?|xlsm|pptx?|txt|csv|md|rtf|odt|ods|odp)$/,DEVN='Document from your device',DEV={f:[],busy:0};
-function devM(){const c=gdCfg();modal(`<div class=dvm><div class=dvh><i>📲</i><div><h2>Sync from your device</h2><p>Bring documents from your computer or phone into Komnotra.</p></div></div>
-<div class=dvo><button class=dvc data-a=devpc><span class=dvi>💻</span><b>Computer (PC / Laptop)</b><small>Pick any folder on Local Disk (C:) or (D:). Documents in its sub-folders are included.</small><span class=dvb>Choose folder…</span></button><button class=dvc data-a=devfiles><span class=dvi>📱</span><b>Phone / Tablet</b><small>Pick documents from your phone storage, Downloads or cloud apps.</small><span class=dvb>Choose files…</span></button></div>
-<div class=dvf><div>💻 📱<br><small>Your device</small></div><span>➜</span><div>📄 Documents<br><small>searchable, incl. Khmer text</small></div><span>➜</span><div>☁ Google Drive<br><small>“${DEVN}”</small></div></div>
-<div class="dvn ${c?'ok':'warn'}">${c?'✔ Signed in with Google'+(c.email?' as <b>'+esc(c.email)+'</b>':'')+'. Every file you sync from your device is uploaded to <b>your Google Drive</b>, inside the folder <b>“'+DEVN+'”</b>.':'ℹ You are not signed in with Google. Files you sync will be kept <b>offline in this browser only</b> and can be viewed here. Sign in with Google to also upload them to your Google Drive.'}</div>
-<ul class=dvl><li>Supported: PDF, Word, Excel, PowerPoint, text and CSV files.</li><li>Your original files on the device are never changed or deleted.</li><li>After syncing, you can search words inside the content, including Khmer.</li><li>Files already synced are skipped next time, so there are no duplicates.</li></ul><div id=dvs></div><div class=acts style="justify-content:flex-end"><button data-a=close>Close</button></div></div>`);DEV.f=[]}
-async function devWalk(h,rel,out){for await(const [n,x] of h.entries()){if(out.length>=5000)break;if(x.kind=='directory'){if(/^[.$]|^(node_modules|System Volume Information|Windows|Program Files.*|AppData)$/i.test(n))continue;await devWalk(x,rel+n+'/',out)}else if(DEVX.test(ext(n))){try{out.push({f:await x.getFile(),rel:rel+n})}catch(e){}}}return out}
-function devSum(){const t=DEV.f,el=$('#dvs');if(!el)return;if(!t.length){el.innerHTML='<div class=dvn warn>No supported documents were found in your selection.</div>';return}
- const g=(r)=>t.filter(x=>r.test(ext(x.f.name))).length;el.innerHTML=`<div class=dvn ok><b>${t.length}</b> document(s) ready to sync</div><div class=dvr><div><b>${g(/^pdf$/)}</b>PDF</div><div><b>${g(/^docx?$|^rtf$|^odt$/)}</b>Word</div><div><b>${g(/^xlsx?$|^xlsm$|^csv$|^ods$/)}</b>Excel</div><div><b>${g(/^pptx?$|^odp$/)}</b>PowerPoint</div></div><div class=acts style="justify-content:flex-end;margin-top:10px"><button class=pr data-a=devgo>⬆ Start sync</button></div>`}
-async function devPc(){try{if(window.showDirectoryPicker){const h=await showDirectoryPicker({id:'komnotra-dev',mode:'read'});$('#dvs').innerHTML='<div class=dvn ok>'+SPN+' Scanning folder…</div>';DEV.f=await devWalk(h,'',[]);devSum();return}}catch(e){if(e&&e.name=='AbortError')return;toast('Cannot read this folder: '+(e.message||e));return}
- const inp=document.createElement('input');inp.type='file';inp.webkitdirectory=true;inp.multiple=true;inp.onchange=()=>{DEV.f=[...inp.files].filter(f=>DEVX.test(ext(f.name))).map(f=>({f,rel:f.webkitRelativePath||f.name}));devSum()};inp.click()}
-function devFiles(){const inp=document.createElement('input');inp.type='file';inp.multiple=true;inp.accept='.pdf,.doc,.docx,.xls,.xlsx,.xlsm,.ppt,.pptx,.txt,.csv,.md,.rtf,.odt,.ods,.odp';inp.onchange=()=>{DEV.f=[...inp.files].filter(f=>DEVX.test(ext(f.name))).map(f=>({f,rel:f.name}));devSum()};inp.click()}
-async function devGo(){const t=DEV.f;if(!t.length||DEV.busy)return;DEV.busy=1;const el=$('#dvs'),R={found:t.length,ok:0,skip:0,fail:0},N=[],made=new Map();
- try{let rt=items.find(x=>x.type=='folder'&&!x.parent&&!x.trashed&&x.name==DEVN);if(!rt)rt=await add('folder',DEVN,{parent:null});
- const dir=async segs=>{let p=rt,key='';for(const sg of segs){key+='/'+sg;let c=made.get(key);if(!c){c=items.find(x=>x.type=='folder'&&x.parent==p.id&&!x.trashed&&x.name==sg)||await add('folder',sg,{parent:p.id});made.set(key,c)}p=c}return p};
- for(let k=0;k<t.length;k++){const{f,rel}=t[k];try{const sg=rel.split('/');sg.pop();const par=await dir(sg),dk=rel+'|'+f.size+'|'+f.lastModified;if(items.some(x=>x.devKey==dk&&x.parent==par.id&&!x.trashed))R.skip++;else{N.push(await add('file',f.name,{parent:par.id,blob:f,size:f.size,mime:f.type||'',devKey:dk}));R.ok++}}catch(e){R.fail++}
- if(k%5==0||k==t.length-1)el.innerHTML=`<div class=dvn ok>${SPN} Syncing… ${k+1} / ${t.length}</div><div class=bar><i style="width:${(k+1)/t.length*100}%"></i></div>`}
- if(gdCfg()&&GD.get().auto!==false)N.forEach(x=>gdQ(x));idxAll()}catch(e){toast('Sync failed: '+(e.message||e))}
- DEV.busy=0;DEV.f=[];el.innerHTML=`<div class=dvn ok><b>Sync complete.</b> ${gdCfg()?'Files are being uploaded to your Google Drive in “'+DEVN+'”.':'Files are saved offline in this browser.'}</div><div class=dvr><div><b>${R.found}</b>Found</div><div><b>${R.ok}</b>Imported</div><div><b>${R.skip}</b>Skipped</div><div><b>${R.fail}</b>Failed</div></div>`;render()}
 async function pubBoot(){const ml=location.hash.match(/^#\/lib\/(.+)$/);if(ml)return libBoot(ml[1]);const m=location.hash.match(/^#\/p\/(.+)$/);if(!m)return;document.body.classList.add('pubmode');const box=$('#pv2');box.innerHTML=`<div class=vw><div class=empty>${SPN} Loading…</div></div>`;
  try{const d=await decM(m[1]);if(!d.k||!(await imgOk(d.k))){box.innerHTML='<div class=vw><div class=empty style="margin-top:60px"><div style="font-size:42px">🔒</div><h2>This link is no longer available</h2><p>The owner has closed this public link.</p></div></div>';return}document.title=(d.t||'Shared')+' · Imvannda';box.innerHTML=vwPage(d.r||[],{title:d.t,dl:d.dl,sub:'Public link — view without signing in'})}
  catch(e){box.innerHTML='<div class=vw><div class=empty style="margin-top:60px"><h2>Invalid link</h2></div></div>'}}
@@ -1491,11 +1458,6 @@ document.addEventListener('click',async e=>{
  else if(act=='libup'){const fid=a.dataset.f;await libUnpub(new Set(fid?[fid,...desc(fid).map(x=>x.id)]:[a.dataset.l]),!!fid)}
  else if(act=='pubtog'){if(!i)return;const S=pubSet();if(pubOn(i,S))await libUnpub(new Set(isC(i)?[i.id,...desc(i.id).map(x=>x.id)]:[i.id]),isC(i));else{if(isC(i)&&!await dlg({title:'Make this folder Public?',msg:'All subfolders and files inside it will be shown in the Public Library.',icon:'🌐',ok:'Public'}))return;await libPubl(pubIds(i))}}
  else if(act=='htab'){view.ht=a.dataset.v}
- else if(act=='dlz'){if(i)await dlzFolder(i);return}
- else if(act=='devsync'){devM();return}
- else if(act=='devpc'){devPc();return}
- else if(act=='devfiles'){devFiles();return}
- else if(act=='devgo'){await devGo();return}
  else if(act=='tf'||act=='pf'){view.f=a.dataset.v;view.p=1}
  else if(act=='pfs'){const m=$('#m .md');document.fullscreenElement?document.exitFullscreen():m&&m.requestFullscreen&&m.requestFullscreen();return}
  else if(act=='msc'||act=='wsc'){view[act]=a.dataset.v;view.p=1}
@@ -1533,6 +1495,11 @@ document.addEventListener('click',async e=>{
  else if(act=='qn'){OPEN.add(i.id);noteM(draft('note','Untitled note',{html:'',text:'',parent:i.id}));return}
  else if(act=='edesc'){const n=await dlg({title:'Description',msg:i.name,label:'Description',input:i.desc||'',area:1,empty:1,icon:'📝',ok:'Save'});if(n!==null){i.desc=n;await save(i)}}
  else if(act=='savem'){const g=s=>$('#'+s)?.value||'',d0=g('fd')||TD(),d1=g('fde');if(g('fdm')=='2'&&d1&&d1<d0){toast('ថ្ងៃបញ្ចប់ត្រូវនៅក្រោយថ្ងៃចាប់ផ្តើម');return}Object.assign(ed,{name:g('fn').trim()||'Untitled',date:d0,dateEnd:(g('fdm')=='2'&&d1>d0)?d1:'',time:g('ft'),place:g('fp'),link:g('fl').trim(),people:g('fg'),agenda:g('fa'),notes:g('fo')});if($('#tl'))ed.parent=$('#tl').value||null;await commit(ed);await attCommit();close();return}
+ else if(act=='fdz'){await folderZip(i);return}
+ else if(act=='dsync'){synOpen();return}
+ else if(act=='dsrc'){synPick(a.dataset.v);return}
+ else if(act=='dsgo'){synRun();return}
+ else if(act=='dsagain'){SYN.step='src';synRender();return}
  else if(act=='pick'){$('#fi').click();return}
  else if(act=='tgl'){i.done=!i.done;i.status=i.done?'done':'todo';await save(i)}
  else if(act=='star'){i.starred=!i.starred;await save(i)}
@@ -1551,6 +1518,8 @@ document.addEventListener('input',e=>{if(e.target.id=='pn'||e.target.id=='pd'){p
 document.addEventListener('change',e=>{if(e.target.id=='np'&&ed){ed.parent=e.target.value||null;save(ed)}});
 document.addEventListener('paste',e=>{if(e.target.id=='ne'){e.preventDefault();document.execCommand('insertText',false,e.clipboardData.getData('text/plain'))}});
 $('#fi').onchange=e=>{upload(e.target.files);e.target.value=''};
+$('#fiPh').onchange=e=>{const fs=[...e.target.files];e.target.value='';synFromFiles(fs,false)};
+$('#fiDir').onchange=e=>{const fs=[...e.target.files];e.target.value='';synFromFiles(fs,true)};
 $('#fi2').onchange=e=>{const fs=[...e.target.files];e.target.value='';if(fs.length)imgM(fs)};
 let qT;$('#q').oninput=e=>{q=e.target.value.trim();view.p=1;$('#qx').style.display=q?'':'none';clearTimeout(qT);qT=setTimeout(()=>{render();if(q&&view.k=='documents')idxAll()},200)};
 document.addEventListener('change',e=>{if(e.target.id=='pg'&&pv_.doc)pvGo(Math.min(pv_.doc.numPages,Math.max(1,+e.target.value||1)))});
@@ -1592,13 +1561,130 @@ function docsMain(){
  const A=live().filter(isDoc),base=dFil(A,'ft'),LS=dSort(dFil(A),DV.sort),tot=LS.length,pg=pgr(LS),p=view.p||1,from=tot?(p-1)*PS+1:0,to=from+pg.length-1,cats=catOf(A);
  for(const x of [...DV.sel])if(!A.some(a=>a.id==x))DV.sel.delete(x);
  const nsel=DV.sel.size,allp=pg.length>0&&pg.every(f=>DV.sel.has(f.id)),cnt=t=>base.filter(f=>ftype(f)==t).length;
- const hero=`<div class=dhero><div class=dhi>${dic('folder',40)}</div><div class=dht><h1>Documents</h1><p>Manage and access all your files in one place</p></div><div class=dha><button data-a=devsync>📲 Sync from Device</button>${gdCfg()?`<button data-a=gdall ${gBusy()?'disabled':''}>${gBusy()?SPN+'Syncing…':'☁ Sync now ('+gdPending()+')'}</button>`:''}<button data-a=pick>${dic('up',16)} Upload File</button></div></div>`;
+ const hero=`<div class=dhero><div class=dhi>${dic('folder',40)}</div><div class=dht><h1>Documents</h1><p>Manage and access all your files in one place</p></div><div class=dha>${gdCfg()?`<button data-a=gdall ${gBusy()?'disabled':''}>${gBusy()?SPN+'Syncing…':'☁ Sync now ('+gdPending()+')'}</button>`:''}<button data-a=dsync>💻 Sync from Device</button><button data-a=pick>${dic('up',16)} Upload File</button></div></div>`;
  const tabs=`<div class=dtabs><div class=dtl><button class="dtb ${DV.tab=='all'&&!DV.cat?'on':''}" data-a=dtab data-v=all>${dic('grid',16)} All Documents (${A.length})</button><span class=mw><button class="dtb ${DV.cat?'on':''}" data-a=fmenu>${dic('folder',16)} By Category ${dic('chev',14)}</button><div class=fm><button data-a=dcat data-v="">${DV.cat?'':'✔ '}All categories</button>${cats.map(c=>`<button data-a=dcat data-v="${esc(c[0])}">${DV.cat==c[0]?'✔ ':''}${esc(c[1])} (${c[2]})</button>`).join('')}</div></span><span class=mw><button class="dtb ${DV.df!='any'?'on':''}" data-a=fmenu>${mi('cal',16)} By Date ${dic('chev',14)}</button><div class=fm>${DFL.map(([v,l])=>`<button data-a=ddf data-v=${v}>${DV.df==v?'✔ ':''}${l}</button>`).join('')}</div></span><button class="dtb ${DV.tab=='fav'?'on':''}" data-a=dtab data-v=fav>${dic('star',16)} Favorites</button><button class=dtb data-a=nav data-v=shared>${dic('share',16)} Shared with me</button></div>${viewTg(DV.dm,'dview')}</div>`;
  const panel=`<div class="dfp ${DV.fo?'':'fold'}"><div class=dfh data-a=dfold>${dic('filt',18)} <b>Filter</b><span class=dfc>${dic('chev',16)}</span></div><div class=dfs>File Type</div>${FTS.map(([t,l])=>`<label class=dfl><input type=checkbox class=ck data-a=dft data-v=${t} ${DV.ft.has(t)?'checked':''}><span class="fti sm ${t}">${BT[t]}</span><span class=dfn>${l}</span><em>(${cnt(t)})</em></label>`).join('')}<div class=dfs>Date Modified</div>${DFL.map(([v,l])=>`<label class=dfl><input type=radio name=ddf class=ck data-a=ddf data-v=${v} ${DV.df==v?'checked':''}><span class=dfn>${l}</span></label>`).join('')}${DV.df=='custom'?`<div class=g2><input type=date id=d1 value="${DV.d1}"><input type=date id=d2 value="${DV.d2}"></div>`:''}<button class=dfr data-a=dreset>${dic('reset',15)} Reset Filter</button></div>`;
  const bar=`<div class=dlh><span>Showing <b>${from}–${to<from?from:to}</b> of <b>${tot}</b> files</span><span class=dlr><label class=dsa><input type=checkbox class=ck data-a=dsall ${allp?'checked':''}> Select page</label><label>Sort by: <select id=dsort>${[['mod','Last Modified'],['name','Name'],['size','Size'],['type','Type']].map(([v,l])=>`<option value=${v} ${DV.sort==v?'selected':''}>${l}</option>`).join('')}</select></label>${viewTg(DV.dm,'dview',1)}</span></div>`;
  const bulk=nsel?`<div class=sa><b>${nsel} selected</b><span class=acts style="margin-left:auto"><button data-a=dbdl>⬇ Download</button><button class="pr dn" data-a=dbdel>🗑 Delete</button><button data-a=dclr>Clear</button></span></div>`:'';
  const body=!A.length?'<div class=empty>No files yet.</div>':!pg.length?`<div class=empty>${DV.tab=='fav'?'No favorites yet — open ⋯ on a file and choose Star.':'No documents match these filters.'}</div>`:DV.dm=='grid'?`<div class=dgg>${pg.map(dgc).join('')}</div>`:pg.map(drow).join('');
  return hero+drop+dStats(A)+tabs+`<div class=dlay>${panel}<div class=dmain>${bar}${bulk}${body}${pgb(LS)}</div></div>`}
+
+/* ===== Projects & Files: download a folder (and everything inside) as Zip ===== */
+async function folderZip(f){
+ if(!f||!isC(f))return;
+ const live=desc(f.id).filter(x=>!x.trashed),files=live.filter(x=>x.type=='file'),dirs=live.filter(isC);
+ if(!files.length){toast('This folder has no files to download');return}
+ const pg=document.createElement('div');pg.className='ts';pg.textContent='Preparing ZIP…';document.body.append(pg);
+ try{
+  if(!window.JSZip)await ldScr('https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js');
+  const z=new JSZip(),clean=n=>String(n||'Untitled').replace(/[\\/:*?"<>|\u0000-\u001f]+/g,'_').trim()||'Untitled',used=new Set(),dp=new Map();
+  const uniq=(dir,nm,isDir)=>{let k=nm,n=2;const dot=!isDir&&nm.lastIndexOf('.')>0?nm.lastIndexOf('.'):nm.length;while(used.has((dir+k).toLowerCase())){k=nm.slice(0,dot)+' ('+n++ +')'+nm.slice(dot)}used.add((dir+k).toLowerCase());return k};
+  dp.set(f.id,'');
+  const pathOf=d=>{if(dp.has(d.id))return dp.get(d.id);const par=get(d.parent),pp=par?pathOf(par):'',p=pp+uniq(pp,clean(d.name),true)+'/';dp.set(d.id,p);z.folder(p.slice(0,-1));return p};
+  dirs.forEach(pathOf);
+  let n=0,miss=0;
+  for(const x of files){
+   if(!x.blob&&!(await gdBlob(x,true))){await gdBlob(x)}
+   if(!x.blob){miss++;continue}
+   const dir=dp.get(x.parent)||'';
+   z.file(dir+uniq(dir,clean(x.name)),x.blob);n++;
+   pg.textContent='Preparing ZIP… '+n+' / '+files.length;
+  }
+  if(!n){toast('File data is not available on this device');return}
+  const blob=await z.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}},m=>{pg.textContent='Creating ZIP… '+Math.round(m.percent)+'%'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=clean(f.name)+'.zip';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),6e4);
+  toast('✔ '+clean(f.name)+'.zip'+(miss?' — '+miss+' file(s) skipped (data not available)':''));
+ }catch(e){toast('Cannot create ZIP: '+(e&&e.message||e))}
+ finally{pg.remove()}
+}
+
+/* ===== Documents: Sync from device (PC Local C / Local D, Phone) ===== */
+const SYN={step:'src',src:'',label:'',root:'',files:[],cut:0,done:0,skip:0,fail:0,n:0,busy:false,drive:0};
+const SYX=/^(pdf|docx?|dotx?|rtf|odt|ods|odp|xlsx?|xlsm|csv|tsv|pptx?|potx?|txt|md)$/,SYN_MAX=3000,SYN_BIG=150e6,SYN_ROOT='Document from your device';
+const synOpenQ=()=>{const m=$('#m');return m.classList.contains('on')&&!!m.querySelector('.syw')};
+const synSteps=n=>`<div class=sst>${['Choose source','Review','Sync'].map((x,k)=>`<span class="${k<n?'dn':k==n?'on':''}"><i>${k<n?'✓':k+1}</i>${x}</span>`).join('<b></b>')}</div>`;
+const synHead=(t,p)=>`<div class=syh><div class=syi>💻</div><div><h2>${t}</h2><p>${p}</p></div></div>`;
+function synHtml(){
+ const S=SYN,c=gdCfg(),em=c&&c.email?esc(c.email):'',dest=c?'Google Drive › Imvannda Workspace › '+SYN_ROOT+' › '+esc(S.root):'This device only (offline)';
+ if(S.step=='src')return synHead('Sync documents from your device','Bring files from your computer or phone into Documents.')+synSteps(0)+
+  `<div class="syn ${c?'ok':'wn'}"><div class=sni>${c?'☁':'📴'}</div><div><b>${c?'Google Drive is connected'+(em?' · '+em:''):'You are not signed in to Google'}</b><p>Every file you sync from your device is sent to your Google Drive, into a new folder named <b>${SYN_ROOT}</b>.${c?'':' Without a Google account, synced files stay on this device and can only be viewed offline.'}</p>${c?'':'<button class="pr sm" data-a=gdall>Sign in with Google</button>'}</div></div>`+
+  `<div class=sylb>Choose where to sync from</div><div class=syg>`+
+  `<button class=syc data-a=dsrc data-v=c><span class=syq>🖥</span><b>Local Disk (C:)</b><small>This PC · choose a folder</small></button>`+
+  `<button class=syc data-a=dsrc data-v=d><span class="syq b">💽</span><b>Local Disk (D:)</b><small>This PC · choose a folder</small></button>`+
+  `<button class=syc data-a=dsrc data-v=phone><span class="syq c">📱</span><b>Phone</b><small>Choose documents on your phone</small></button></div>`+
+  `<div class=syt>Tip: choose a folder inside the drive (for example <i>Documents</i> or <i>Work</i>). Browsers do not allow selecting an entire drive root.</div>`+
+  `<ul class=syl><li>PDF, Word, Excel, PowerPoint and text files · subfolders keep their structure</li><li>Search every word inside synced files, including Khmer text</li><li>Files already synced are skipped, so nothing is duplicated</li></ul>`;
+ if(S.step=='scan')return synHead('Scanning folder…','Looking for documents in “'+esc(S.root)+'”.')+synSteps(0)+`<div class=empty style="padding:30px 0">${SPN} Please wait…</div>`;
+ if(S.step=='review'){
+  const by={};S.files.forEach(e=>{const k=ftype({name:e.n});by[k]=(by[k]||0)+1});
+  const chips=FTS.filter(([k])=>by[k]).map(([k,l])=>`<span class=sch><span class="fti sm ${k}">${BT[k]}</span>${l} <b>${by[k]}</b></span>`).join('');
+  const pv=S.files.slice(0,6).map(e=>`<div class=spr>📄 ${esc([...e.dir,e.n].join(' / '))}</div>`).join('')+(S.files.length>6?`<div class=spr style="color:var(--m)">+ ${S.files.length-6} more</div>`:'');
+  return synHead('Ready to sync','Review what will be added to Documents.')+synSteps(1)+
+   `<div class=srv><div class=srh><span class=syq>📁</span><div><b>${esc(S.root)}</b><small>${esc(S.label)}</small></div></div><div class=srn><b>${S.files.length}</b> documents found${S.cut?' (limited to the first '+SYN_MAX+')':''}</div><div class=sch-row>${chips}</div><div class=spl>${pv}</div></div>`+
+   `<div class=sdest><b>Destination:</b> ${dest}</div>`+
+   `<div class=syf><button class=pr data-a=dsgo>⬆ Start sync (${S.files.length})</button><button data-a=dsagain>Choose another source</button><button data-a=close>Cancel</button></div>`;
+ }
+ if(S.step=='run')return synHead('Syncing…','Please keep this page open until it finishes.')+synSteps(2)+`<div class=sbar><i id=synb></i></div><div class=syt id=synt></div>`;
+ return synHead('Sync complete','Your documents are now in the Documents tab.')+synSteps(3)+
+  `<div class=sres><div><b>${S.done}</b><small>Synced</small></div><div><b>${S.skip}</b><small>Already synced</small></div><div><b>${S.fail}</b><small>Failed / too large</small></div></div>`+
+  `<div class="syn ${c?'ok':'wn'}"><div class=sni>${c?'☁':'📴'}</div><div><b>${c?'Uploading to Google Drive':'Saved on this device (offline)'}</b><p>${c?'Files are being sent in the background to <b>'+SYN_ROOT+'</b> in your Google Drive.':'Sign in with Google to send these files to your Google Drive.'}</p>${c?'':'<button class="pr sm" data-a=gdall>Sign in with Google</button>'}</div></div>`+
+  `<div class=syf><button class=pr data-a=close>Done</button><button data-a=dsagain>Sync more</button></div>`;
+}
+function synProg(){const S=SYN,d=S.done+S.skip+S.fail,b=$('#synb'),x=$('#synt');if(b)b.style.width=(S.n?Math.round(d/S.n*100):0)+'%';if(x)x.textContent=d+' / '+S.n+' files'}
+function synRender(){if(!synOpenQ())return;modal(synHtml(),'syw');synProg()}
+function synOpen(){if(!SYN.busy)Object.assign(SYN,{step:'src',src:'',label:'',root:'',files:[],cut:0,done:0,skip:0,fail:0,n:0});modal(synHtml(),'syw');synProg()}
+async function synScan(dh,base,out){
+ for await(const [n,h] of dh.entries()){
+  if(out.length>=SYN_MAX){SYN.cut=1;return}
+  if(h.kind=='directory'){if(/^[.$]|^(node_modules|System Volume Information)$/i.test(n))continue;await synScan(h,[...base,n],out)}
+  else if(SYX.test(ext(n))&&!n.startsWith('~$'))out.push({n,dir:base,get:()=>h.getFile()})
+ }
+}
+function synFiles(out){const S=SYN;if(!out.length){S.step='src';synRender();toast('No supported documents found here');return}S.files=out;S.step='review';synRender()}
+async function synPick(v){
+ const S=SYN;S.src=v;S.label=v=='c'?'Local Disk (C:)':v=='d'?'Local Disk (D:)':'Phone';S.cut=0;
+ if(v=='phone'){$('#fiPh').click();return}
+ if(!window.showDirectoryPicker){$('#fiDir').click();return}
+ let dh;try{dh=await showDirectoryPicker({id:'imv'+v,mode:'read',startIn:'documents'})}catch(e){if(!e||e.name!='AbortError')toast('This folder cannot be opened by the browser. Please choose a subfolder.');return}
+ S.root=dh.name||S.label;S.step='scan';synRender();
+ const out=[];try{await synScan(dh,[],out)}catch(e){}
+ synFiles(out)
+}
+function synFromFiles(fs,dir){
+ const S=SYN;if(!fs.length)return;const out=[];S.cut=0;
+ S.root=dir?((fs[0].webkitRelativePath||'').split('/')[0]||'Folder'):'Phone';
+ if(!S.label)S.label=dir?'This PC':'Phone';
+ for(const f of fs){
+  const p=dir?(f.webkitRelativePath||f.name).split('/'):[f.name];
+  if(dir&&(!SYX.test(ext(f.name))||f.name.startsWith('~$')||p.slice(1,-1).some(x=>x[0]=='.'||x[0]=='$')))continue;
+  if(out.length>=SYN_MAX){S.cut=1;break}
+  out.push({n:f.name,dir:dir?p.slice(1,-1):[],get:async()=>f})
+ }
+ if(!synOpenQ())synOpen();
+ synFiles(out)
+}
+async function synRun(){
+ const S=SYN;if(S.busy)return;S.busy=true;S.step='run';S.done=S.skip=S.fail=0;S.n=S.files.length;synRender();
+ const have=new Set(items.filter(x=>x.dkey&&!x.trashed).map(x=>x.dkey)),N=[];
+ for(const e of S.files){
+  try{
+   const f=await e.get();
+   if(f.size>SYN_BIG){S.fail++}
+   else{
+    const key=[S.src,S.root,...e.dir,e.n,f.size,f.lastModified].join('/');
+    if(have.has(key))S.skip++;
+    else{N.push(await add('file',e.n,{parent:null,blob:f,size:f.size,mime:f.type,dpath:[SYN_ROOT,S.root,...e.dir],dkey:key,from:S.label}));have.add(key);S.done++}
+   }
+  }catch(er){S.fail++}
+  synProg();
+  if((S.done+S.skip+S.fail)%5==0)await new Promise(r=>setTimeout(r))
+ }
+ S.busy=false;S.step='done';
+ render();
+ if(gdCfg()&&GD.get().auto!==false)N.forEach(x=>gdQ(x));
+ if(N.length)idxAll();
+ if(synOpenQ())synRender();else toast('✔ Sync complete: '+S.done+' file(s)')
+}
 
 /* ===== Khmer text helpers (canonical order, search key, garbled-text detection) ===== */
 function khFix(t){
