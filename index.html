@@ -611,6 +611,10 @@ mark{background:#fde047;color:inherit;border-radius:3px;padding:0 1px}
 .sres{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.sres div{background:var(--pl);border-radius:12px;padding:10px;text-align:center}.sres b{display:block;font-size:22px}.sres small{color:var(--m)}
 .syf{display:flex;gap:10px;flex-wrap:wrap}
 @media(max-width:560px){.sst span{font-size:11.5px}.sst i{width:20px;height:20px}.syh h2{font-size:18px}.syi{width:48px;height:48px;font-size:24px}}
+
+/* === per page selector === */
+.pps{float:right;font-size:12.5px;font-weight:400;color:var(--m);display:inline-flex;align-items:center;gap:6px}.pps select{padding:4px 8px;border-radius:8px;border:1px solid var(--b);background:var(--c);color:var(--t)}
+.pph{display:flex;justify-content:flex-end;margin-bottom:8px}.pph .pps{float:none}
 </style></head><body><noscript><p style="padding:16px;text-align:center"><a href="/">Home</a> · <a href="/about.html">About Us</a> · <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Service</a> · <a href="/contact.html">Contact</a><br>© 2026 Komnotra. All rights reserved.</p></noscript>
 <aside id=sb><div class=logo style="display:flex;justify-content:space-between;align-items:center"><div>◆ Komnotra<small style="display:block;font-weight:400;font-size:11px;color:var(--m);margin-top:2px;line-height:1.3">Your Smart Digital Workspace</small></div><button data-a=burger title="Hide sidebar" style="padding:3px 11px;font-size:18px;line-height:1.2">☰</button></div><div id=nav></div>
 <div class=box><b>Sync</b><br><span class=dot id=sdot></span><span id=sst></span><button id=gdb data-a=gdset style="margin-top:8px;width:100%;padding:6px">☁ Sync with Google Drive</button><button id=gdm data-a=gdm style="margin-top:6px;width:100%;padding:4px;font-size:12px;display:none">⚙ Account</button><button id=adb data-a=adlogin style="margin-top:6px;width:100%;padding:6px;font-size:12.5px;display:none">🔐 Admin login</button></div></aside>
@@ -720,7 +724,7 @@ function main(){
  if(q&&!['shared','overview','about','public'].includes(view.k))return view.k=='documents'?srMain():scMain();
  const L=live(),k=view.k;
  if(k=='home'){const T=L.filter(i=>i.type=='task'&&!i.done);const t0=TD(),MU=L.filter(i=>i.type=='meeting'&&!i.done&&murg(i)>0).sort((a,b)=>(a.date+(a.time||''))>(b.date+(b.time||''))?1:-1),tk=MU.map(m=>`<span class=tki>${murg(m)==2?'🔴 ថ្ងៃនេះ':'🟠 ស្អែក'} · 👥 ${esc(m.name||'Untitled')}${m.time?' ⏰ '+m.time:''}${m.place?' 📍 '+esc(m.place):''}</span>`).join('');return '<div class=hero><h1>Welcome back 👋</h1><p style="margin:6px 0 0;opacity:.9">Your projects, notes, tasks and files in one place.</p></div>'+ntf()+`<div class=grid>${[['Projects',L.filter(i=>i.type=='project').length,'projects','📘'],['Notes',L.filter(i=>i.type=='note').length,'notes','📝'],['Open tasks',T.length,'tasks','☑'],['Files',L.filter(i=>i.type=='file').length,'documents','📄'],['Meetings',L.filter(i=>i.type=='meeting'&&!i.done&&(i.dateEnd||i.date)>=TD()).length,'meetings','👥',MU.length?`<small class=cu>🔴 ប្រញាប់ ${MU.length}</small>`:'',MU.length?'urgent':'']].map(x=>`<div class="card go ${x[5]||''}" data-a=nav data-v=${x[2]}>${x[3]} ${x[0]}<b>${x[1]}</b>${x[4]||''}</div>`).join('')}</div><h3>Recent</h3>${recMix(byU(L).filter(x=>!RH.has(x.id)).slice(0,6),'Create a project to get started.')}<h3>Open tasks</h3>${list(T.slice(0,5),'No open tasks.')}${siteFoot()}`}
- if(k=='projects'){const f=view.f||'all',P=L.filter(i=>i.type=='project'&&(f=='all'||(i.pstatus||'ongoing')==f)).sort(ord);return hd('Projects &amp; Files','<button class=pr data-a=newp>+ New Project</button>')+`<div class=tabs>${['all','ongoing','completed','archived'].map(x=>`<button class="${x==f?'on':''}" data-a=pf data-v=${x}>${x}</button>`).join('')}</div>`+(P.length?`<div class=fg>${pgr(P).map(fcard).join('')}</div>${pgb(P)}`:'<div class=empty>No projects yet. Click “New Project” to create one.</div>')}
+ if(k=='projects'){const f=view.f||'all',P=L.filter(i=>i.type=='project'&&(f=='all'||(i.pstatus||'ongoing')==f)).sort(ord);return hd('Projects &amp; Files','<button class=pr data-a=newp>+ New Project</button>')+`<div class=tabs>${['all','ongoing','completed','archived'].map(x=>`<button class="${x==f?'on':''}" data-a=pf data-v=${x}>${x}</button>`).join('')}</div>`+(P.length?(()=>{const s=secPg(P,'P');return `<div class=pph>${ppSel()}</div><div class=fg>${s.rows.map(fcard).join('')}</div>${s.bar}`})():'<div class=empty>No projects yet. Click “New Project” to create one.</div>')}
  if(k=='notes')return hd('Notes','<button class=pr data-a=newn>+ New Note</button>')+lp(nSort(L.filter(i=>i.type=='note')),'No notes yet.');
  if(k=='tasks'){const f=view.f||'all',T=L.filter(i=>i.type=='task'),fl=(v,i)=>v=='done'?i.done:v=='all'?!i.done:!i.done&&i.due&&(urg(i)==3||inRange(i.due,v)),S=T.filter(i=>fl(f,i)).sort((a,b)=>((a.due||'9')+(a.time||''))>((b.due||'9')+(b.time||''))?1:-1);return hd('Tasks','<button data-a=xl data-v=tasks>⬇ Excel</button><button class=pr data-a=newt>+ New Task</button>')+alr('task')+`<div class=tabs>${[['today','Today'],['week','This Week'],['month','Month'],['all','All open'],['done','Done']].map(([v,l])=>`<button class="${v==f?'on':''}" data-a=tf data-v=${v}>${l} <span class=cnt>${T.filter(i=>fl(v,i)).length}</span></button>`).join('')}</div>`+lp(S,'No tasks here 🎉')}
  if(k=='weekly')return weeklyView(L);
@@ -747,7 +751,7 @@ function main(){
   <div class=abp><div class=abpt><i>${sv('<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/>',22)}</i><h3>❤️ Support This Project</h3></div><div class=abpb><div><p>This platform is free to use and independently developed. Your voluntary donation helps support maintenance, hosting, and future improvements.</p><p><b>Every contribution is appreciated. Thank you for your support! ❤️</b></p></div><div class=qr><img src="qrcode.jpg" alt="Donation QR code" onerror="this.parentNode.classList.add('nq')"><span class=qrf>QR Code<small>qrcode.jpg</small></span></div></div></div></div></div>`}
  const c=get(view.id);if(!c||c.trashed){view={k:'projects'};return main()}
  const K=kids(c.id),cr=path(c.id).map(p=>`<a data-a=nav data-v=folder data-id=${p.id}>${esc(p.name)}</a>`).join(' / ');
- return hd(esc(c.name),'<button data-a=back>← Back</button>'+fselBtn()+'<button data-a=newf>+ Folder</button><button data-a=newn>+ Note</button><button data-a=newt>+ Task</button><button data-a=addl>🔗 Add Link</button><button data-a=addv>🎬 Add Video</button><button data-a=addi>🖼 Add Image</button><button class=pr data-a=pick>Upload</button><button data-a=pickd>📁 Upload Folder</button>')+`<p class=crumb><a data-a=nav data-v=projects>Projects &amp; Files</a> / ${cr}</p>`+dsc(c)+fselBar()+mediaSec(c)+drop+[['Folders',x=>isC(x)],['Notes',x=>x.type=='note'],['Tasks',x=>x.type=='task'],['Meetings',x=>x.type=='meeting'],['Links',x=>x.type=='link'],['Files',x=>x.type=='file'&&!x.media]].map(([n,f])=>K.filter(f).length?`<h3>${n}</h3>`+(n=='Folders'?`<div class=fg>${pgr(K.filter(f)).map(fcard).join('')}</div>${pgb(K.filter(f))}`:list(K.filter(f))):'').join('')+(K.length?'':'<div class=empty>This folder is empty.</div>');
+ return hd(esc(c.name),'<button data-a=back>← Back</button>'+fselBtn()+'<button data-a=newf>+ Folder</button><button data-a=newn>+ Note</button><button data-a=newt>+ Task</button><button data-a=addl>🔗 Add Link</button><button data-a=addv>🎬 Add Video</button><button data-a=addi>🖼 Add Image</button><button class=pr data-a=pick>Upload</button><button data-a=pickd>📁 Upload Folder</button>')+`<p class=crumb><a data-a=nav data-v=projects>Projects &amp; Files</a> / ${cr}</p>`+dsc(c)+fselBar()+mediaSec(c)+drop+[['Folders',x=>isC(x)],['Notes',x=>x.type=='note'],['Tasks',x=>x.type=='task'],['Meetings',x=>x.type=='meeting'],['Links',x=>x.type=='link'],['Files',x=>x.type=='file'&&!x.media]].map(([n,f])=>{const A=K.filter(f);if(!A.length)return'';if(n=='Folders'||n=='Files'){const s=secPg(A,n);return `<h3>${n} <span style="font-weight:400;color:var(--m);font-size:13px">(${A.length})</span>${ppSel()}</h3>`+(n=='Folders'?`<div class=fg>${s.rows.map(fcard).join('')}</div>`:list(s.rows))+s.bar}return `<h3>${n}</h3>`+list(A)}).join('')+(K.length?'':'<div class=empty>This folder is empty.</div>');
 }
 function wRange(){const t=TD(),m=view.wr||'week';if(m=='month'){const b=view.wm||t.slice(0,7),[y,mo]=b.split('-').map(Number);return[b+'-01',b+'-'+String(new Date(y,mo,0).getDate()).padStart(2,'0')]}if(m=='custom'){const f=view.wf||t,e=view.wt||addD(f,6);return f<=e?[f,e]:[e,f]}const w=view.w||mon(t);return[w,addD(w,6)]}
 function weeklyView(L){const t=TD(),[f,e]=wRange(),m=view.wr||'week',H=view.wh||[],vv=view.wv=='agenda'?'agenda':'week',days=[];for(let d=f;d<=e&&days.length<400;d=addD(d,1))days.push(d);
@@ -790,7 +794,9 @@ function viewSave(){try{if(document.body.classList.contains('pubmode'))return;co
 function render(){viewSave();if(view.k!='folder'||FSEL.fid!==view.id){FSEL.on=false;FSEL.s.clear();FSEL.fid=view.k=='folder'?view.id:null}const ab=$('#adb');if(ab)ab.style.display=apiOn()&&!ME.admin?'':'none';$('#nav').innerHTML=NVs().map(([v,l])=>`<div class="nav ${!q&&view.k==v?'on':''}" data-a=nav data-v=${v}>${l}${nb(v)}</div>`).join('');$('#main').innerHTML=main();const dz=$('#dz');if(dz){['dragover','dragleave','drop'].forEach(e=>dz.addEventListener(e,ev=>{ev.preventDefault();dz.classList.toggle('over',e=='dragover');if(e=='drop')upload(ev.dataTransfer.files)}))}stor();mediaHyd();srAfter();if(view.k=='overview'&&ME.admin&&!q)ovAfter()}
 const stBox=()=>'<div class=box style="margin:0 0 14px;max-width:420px"><b>Storage (this browser)</b><div class=bar><i id=sbar style="width:0"></i></div><span id=stxt>…</span><button data-a=clrst style="margin-top:8px;width:100%;padding:6px;font-size:12.5px">🧹 Clear Storage</button></div>';
 async function stor(){const o=navigator.onLine;$('#sdot').style.background=o?'#f59e0b':'#9ca3af';syncSt(o);if(navigator.storage?.estimate&&$('#sbar')){const e=await navigator.storage.estimate();$('#sbar').style.width=Math.max(1,e.usage/e.quota*100)+'%';$('#stxt').textContent=sz(e.usage)+' of '+sz(e.quota)+' available'}}
-async function upload(fs){const N=[];for(const f of fs){try{N.push(await add('file',f.name,{blob:f,size:f.size,mime:f.type}))}catch(e){toast(f.name+': '+e)}}render();if(gdCfg()&&GD.get().auto!==false)N.forEach(x=>gdQ(x));idxAll()}
+async function upload(fs){fs=[...fs];const par=cur()||null,ex=new Set(items.filter(x=>x.type=='file'&&!x.trashed&&(x.parent||null)===par).map(x=>String(x.name).toLowerCase())),dp=fs.filter(x=>ex.has(x.name.toLowerCase()));
+ if(dp.length){const nm=dp.map(x=>x.name),go=await dlg({title:'Duplicate file name',msg:(nm.length==1?'“'+nm[0]+'” already exists':nm.length+' files already exist')+' in this location: '+nm.slice(0,5).join(', ')+(nm.length>5?' and '+(nm.length-5)+' more':'')+'. Continue to upload anyway, or skip the duplicates?',icon:'⚠️',ok:'Continue to Upload',no:'Skip'});if(!go)fs=fs.filter(x=>!ex.has(x.name.toLowerCase()));if(!fs.length){toast('Skipped');return}}
+ const N=[];for(const f of fs){try{N.push(await add('file',f.name,{blob:f,size:f.size,mime:f.type}))}catch(e){toast(f.name+': '+e)}}render();if(gdCfg()&&GD.get().auto!==false)N.forEach(x=>gdQ(x));idxAll()}
 const opts=(sel,ex=[])=>'<option value="">Unfiled (top level)</option>'+items.filter(i=>isC(i)&&!i.trashed&&!ex.includes(i.id)).map(c=>`<option value=${c.id} ${sel===c.id?'selected':''}>${esc(path(c.id).map(p=>p.name).join(' / '))}</option>`).join('');
 const GD_CLIENT_ID='486232450441-ubevdajiee00vt495t0tm9t8qi9l8in8.apps.googleusercontent.com';/* ← ដាក់ Google OAuth Client ID នៅទីនេះម្តង (ឧ. '1234-abc.apps.googleusercontent.com') ដើម្បីឱ្យអ្នកប្រើគ្រប់គ្នាគ្រាន់តែចុច Sign in */
 const GD={get(){try{return JSON.parse(localStorage.getItem('imv_gd')||'null')}catch(e){return null}},set(v){try{v?localStorage.setItem('imv_gd',JSON.stringify(v)):localStorage.removeItem('imv_gd')}catch(e){toast('Cannot save settings in this browser')}}};
@@ -814,9 +820,9 @@ const gdQ=(i,ia)=>{if(GB.has(i.id))return;GB.add(i.id);gq=gq.then(()=>gdUp(i,ia)
 const gdAll=ia=>items.filter(i=>i.type=='file'&&!i.trashed&&i.sync!='done').forEach(x=>gdQ(x,ia));
 
 /* ===== Drive data sync: Meeting / Task / Plan / Project / Note / Folder / Goal ===== */
-let gdel=(()=>{try{return JSON.parse(localStorage.getItem('imv_gdd')||'{}')}catch(e){return{}}})(),gSyncing=false,gConn=0,gMsg='';const gds=()=>{try{localStorage.setItem('imv_gdd',JSON.stringify(gdel))}catch(e){}},gdTomb=x=>{if(x){gdel[x.id]=Date.now();gds();gdSched()}};
+let gdel=(()=>{try{return JSON.parse(localStorage.getItem('imv_gdd')||'{}')}catch(e){return{}}})(),gSyncing=false,gConn=0,gMsg='';const gds=()=>{try{localStorage.setItem('imv_gdd',JSON.stringify(gdel))}catch(e){}},gdTomb=x=>{if(x){if(x.type=='file'&&x.driveId&&!x.imp)gdkAdd(x.driveId);gdel[x.id]=Date.now();gds();gdSched()}};
 const GD_DATA='imvannda-data.json';
-async function wipeLocal(){try{for(const o of MU.values())URL.revokeObjectURL(o.u)}catch(e){}MU.clear();MH.clear();items=[];await tx('readwrite',s=>s.clear()).catch(()=>{});try{localStorage.removeItem('imv_shd')}catch(e){}gfold={};gfs();gdel={};gds();gtok=null;gexp=0;gtok2=null;gexp2=0;SHD=null;SHE='';try{localStorage.removeItem('imv_gt2')}catch(e){}OPEN.clear();view={k:'home'};q='';$('#q').value='';ed=null}
+async function wipeLocal(){try{for(const o of MU.values())URL.revokeObjectURL(o.u)}catch(e){}MU.clear();MH.clear();items=[];await tx('readwrite',s=>s.clear()).catch(()=>{});try{localStorage.removeItem('imv_shd')}catch(e){}gdkSet([]);gfold={};gfs();gdel={};gds();gtok=null;gexp=0;gtok2=null;gexp2=0;SHD=null;SHE='';try{localStorage.removeItem('imv_gt2')}catch(e){}OPEN.clear();view={k:'home'};q='';$('#q').value='';ed=null}
 async function gdSync(quiet){if(gSyncing)return;if(!navigator.onLine){if(!quiet)sToast('Offline — cannot sync');return}gSyncing=true;gMsg='';syncSt(true);
  try{const f=await J(gapi('https://www.googleapis.com/drive/v3/files?pageSize=1&orderBy=modifiedTime%20desc&fields=files(id)&q='+qs("appProperties has { key='imvdata' and value='1' } and trashed=false")));let fid=f.files&&f.files[0]&&f.files[0].id,R={items:[],del:{}};
   if(fid){R=await J(gapi('https://www.googleapis.com/drive/v3/files/'+fid+'?alt=media'));R.items=R.items||[];R.del=R.del||{}}
@@ -836,8 +842,8 @@ async function gdSync(quiet){if(gSyncing)return;if(!navigator.onLine){if(!quiet)
 
 let gAT=null,gsl=0,gTokB=false;const gdSched=()=>{clearTimeout(gAT);gAT=setTimeout(()=>gdAuto(),3000)};
 async function gdAuto(force){const c=gdCfg();if(!c||c.auto===false||!navigator.onLine)return;if(gSyncing){gdSched();return}
- if(!gtokOk()){if(gTokB||!gdPending()||(!force&&Date.now()-gsl<3e5))return;gTokB=true;try{await gdTok(true,'none')}catch(e){gsl=Date.now();return}finally{gTokB=false}}
- gdRetry();await gdSync(true)}
+ if(!gtokOk()){if(gTokB||!(gdPending()||gdTrashPend())||(!force&&Date.now()-gsl<3e5))return;gTokB=true;try{await gdTok(true,'none')}catch(e){gsl=Date.now();return}finally{gTokB=false}}
+ gdRetry();await gdTrashSync();await gdSync(true)}
 async function gdBlob(i,qt){if(i&&i.blob)return true;if(!i||!i.driveId){if(!qt)toast('File data is not available on this device');return false}
  try{if(!qt)toast('⬇ Downloading '+i.name+'…');if(i.imp&&qt&&!(gtok2&&Date.now()<gexp2-60000))return false;const r=await (i.imp?gapiR:gapi)('https://www.googleapis.com/drive/v3/files/'+i.driveId+'?alt=media');let b=await r.blob();if(i.mime&&b.type!=i.mime)b=new Blob([b],{type:i.mime});i.blob=b;await saveQ(i);return true}catch(e){if(!qt)toast('Cannot download: '+(e.message||e));return false}}
 async function gdConnect(a,sw){if(!gdId()){gdM();return}const prev=GD.get()||{},t0=a?a.textContent:'';GD.set({...prev,auto:prev.auto!==false});gtok=null;gConn=1;gMsg='';syncSt(true);if(a){a.disabled=true;if(a.id!='gdb')a.textContent='Connecting…'}try{await gdTok(true,sw?'select_account':'');let em='';try{em=((await J(gapi('https://www.googleapis.com/drive/v3/about?fields=user(emailAddress)'))).user||{}).emailAddress||''}catch(e){}if(prev.email&&em&&prev.email.toLowerCase()!==em.toLowerCase())await wipeLocal();GD.set({...GD.get(),on:true,email:em,...(prev.email&&em&&prev.email.toLowerCase()!==em.toLowerCase()?{name:''}:{})});adminCheck(false);ctSync();ctLoad(true);gfold={};gfs();$('#m').classList.remove('on');$('#m').innerHTML='';render();await gdSync();if(gdPending()){gdAll(true);await gq;await gdSync()}}catch(er){sToast('Sign-in failed: '+er.message)}finally{gConn=0;if(a){a.disabled=false;if(a.id!='gdb')a.textContent=t0}syncSt(navigator.onLine)}}
@@ -845,7 +851,7 @@ if(gdId())gisReady().catch(()=>{});
 const gdRetry=()=>{const c=gdCfg();if(!c)return;gisReady().catch(()=>{});if(c.auto!==false&&navigator.onLine&&gtokOk())items.filter(i=>i.type=='file'&&!i.trashed&&(i.sync=='error'||i.sync=='pending')).forEach(x=>gdQ(x,false))};
 const gdPill=i=>{if(i.type!='file'||i.trashed)return'';const c=gdCfg(),s=i.sync;if(GB.has(i.id))return'<span class="pill wt">⏳ Uploading…</span>';if(s=='done')return'<span class="pill ok cl" data-a=gdopen title="Open in Google Drive">☁ Drive</span>';if(s=='error')return`<span class="pill er cl" data-a=gdretry title="${esc(i.syncErr||'')} — click to retry">⚠ Retry</span>`;if(s=='pending')return'<span class="pill wt cl" data-a=gdretry title="Tap to upload">⏳ Waiting</span>';return c?'<span class="pill cl" data-a=gdretry title="Upload to Google Drive">☁ Upload</span>':''};
 const SPN='<span class=spn></span>',gBusy=()=>gSyncing||GB.size>0||gConn>0,sToast=m=>{gMsg=m||'';syncSt(navigator.onLine)};
-async function gdRun(imp){gConn=1;gMsg='';syncSt(true);try{if(imp){try{await gdTok2()}catch(e){imp=0;toast('មិនបានអនុញ្ញាតអាន Google Drive — រំលងការ Import')}}if(!gtokOk()){try{await gdTok(true,'none')}catch(e){await gdTok(true,'')}}await gdSync();if(gdPending()){gdAll(true);await gq;await gdSync()}if(imp)await gdImportM()}catch(er){sToast('Sign-in failed: '+er.message)}finally{gConn=0;syncSt(navigator.onLine);render()}}
+async function gdRun(imp){gConn=1;gMsg='';syncSt(true);try{if(imp){try{await gdTok2()}catch(e){imp=0;toast('មិនបានអនុញ្ញាតអាន Google Drive — រំលងការ Import')}}if(!gtokOk()){try{await gdTok(true,'none')}catch(e){await gdTok(true,'')}}await gdSync();await gdTrashSync();if(gdPending()){gdAll(true);await gq;await gdSync()}if(imp)await gdImportM()}catch(er){sToast('Sign-in failed: '+er.message)}finally{gConn=0;syncSt(navigator.onLine);render()}}
 async function gapiR(url){const tk=await gdTok2(),r=await fetch(url,{headers:{Authorization:'Bearer '+tk}});if(r.status==401)gtok2=null;if(!r.ok){let m='';try{m=(await r.json()).error.message}catch(e){}throw new Error(m||'Drive HTTP '+r.status)}return r}
 let IMP=null;
 const impVis=()=>IMP.list.filter(f=>IMP.ft.has(ftype({name:f.name,mime:f.mime}))&&(!IMP.qs||(f.name+' '+f.path).toLowerCase().includes(IMP.qs)));
@@ -1496,6 +1502,8 @@ document.addEventListener('click',async e=>{
  else if(act=='edesc'){const n=await dlg({title:'Description',msg:i.name,label:'Description',input:i.desc||'',area:1,empty:1,icon:'📝',ok:'Save'});if(n!==null){i.desc=n;await save(i)}}
  else if(act=='savem'){const g=s=>$('#'+s)?.value||'',d0=g('fd')||TD(),d1=g('fde');if(g('fdm')=='2'&&d1&&d1<d0){toast('ថ្ងៃបញ្ចប់ត្រូវនៅក្រោយថ្ងៃចាប់ផ្តើម');return}Object.assign(ed,{name:g('fn').trim()||'Untitled',date:d0,dateEnd:(g('fdm')=='2'&&d1>d0)?d1:'',time:g('ft'),place:g('fp'),link:g('fl').trim(),people:g('fg'),agenda:g('fa'),notes:g('fo')});if($('#tl'))ed.parent=$('#tl').value||null;await commit(ed);await attCommit();close();return}
  else if(act=='fdz'){await folderZip(i);return}
+ else if(act=='spgo'){const sp=view.sp||(view.sp={});sp[a.dataset.k]=+a.dataset.v;setTimeout(()=>{$('#main').scrollTop=0})}
+ else if(act=='fdel'){const ids=[...FSEL.s];if(!ids.length)return;if(!await dlg({title:'Delete selected files?',msg:ids.length+' file(s) will be moved to Trash'+(gdCfg()?' and removed from your Google Drive.':'.'),icon:'🗑',danger:1,ok:'Delete'}))return;for(const id of ids){const x=get(id);if(x){x.trashed=true;await save(x)}}FSEL.s.clear();FSEL.on=false;toast('Deleted '+ids.length+' file(s)')}
  else if(act=='pickd'){ufPick();return}
  else if(act=='dsync'){synOpen();return}
  else if(act=='dsrc'){synPick(a.dataset.v);return}
@@ -1571,6 +1579,36 @@ function docsMain(){
  const body=!A.length?'<div class=empty>No files yet.</div>':!pg.length?`<div class=empty>${DV.tab=='fav'?'No favorites yet — open ⋯ on a file and choose Star.':'No documents match these filters.'}</div>`:DV.dm=='grid'?`<div class=dgg>${pg.map(dgc).join('')}</div>`:pg.map(drow).join('');
  return hero+drop+dStats(A)+tabs+`<div class=dlay>${panel}<div class=dmain>${bar}${bulk}${body}${pgb(LS)}</div></div>`}
 
+/* ===== Folders / Files per page (10, 15, 20, All) ===== */
+const ppV=()=>{const s=localStorage.getItem('imv_pps');return s=='all'?0:[10,15,20].includes(+s)?+s:(innerWidth<=800?10:15)};
+const ppSel=()=>{const s=localStorage.getItem('imv_pps')||'',c=s=='all'?'all':String(ppV());return `<label class=pps>Per page <select data-pps>${[10,15,20,'all'].map(v=>`<option value=${v} ${String(v)==c?'selected':''}>${v=='all'?'All':v}</option>`).join('')}</select></label>`};
+function secPg(a,key){
+ const n=ppV(),sp=view.sp||(view.sp={}),tot=n?Math.max(1,Math.ceil(a.length/n)):1,p=Math.min(Math.max(sp[key]||1,1),tot);sp[key]=p;
+ const rows=n?a.slice((p-1)*n,p*n):a;let bar='';
+ if(n&&a.length>n){const S=[...new Set([1,p-1,p,p+1,tot].filter(x=>x>=1&&x<=tot))].sort((x,y)=>x-y);let h='',l=0;for(const x of S){if(x-l>1)h+='<span style="color:var(--m)">…</span>';h+=`<button class="${x==p?'on':''}" data-a=spgo data-k="${key}" data-v=${x}>${x}</button>`;l=x}
+  bar=`<div class=pgn><button data-a=spgo data-k="${key}" data-v=${p-1} ${p<=1?'disabled':''}>‹ Previous</button>${h}<button data-a=spgo data-k="${key}" data-v=${p+1} ${p>=tot?'disabled':''}>Next ›</button></div>`}
+ return{rows,bar}
+}
+document.addEventListener('change',e=>{const s=e.target;if(s&&s.dataset&&s.dataset.pps!==undefined){try{localStorage.setItem('imv_pps',s.value)}catch(x){}view.sp={};render()}});
+
+/* ===== Google Drive: keep Drive in step with deletes (trash / restore / delete forever) ===== */
+const gdkGet=()=>{try{return JSON.parse(localStorage.getItem('imv_gdk')||'[]')}catch(e){return[]}},gdkSet=a=>{try{localStorage.setItem('imv_gdk',JSON.stringify(a))}catch(e){}},gdkAdd=id=>{const a=gdkGet();if(!a.includes(id)){a.push(id);gdkSet(a)}};
+const gdTrashList=()=>items.filter(i=>i.type=='file'&&i.driveId&&!i.imp&&!!i.trashed!==!!i.dtr),gdTrashPend=()=>gdTrashList().length+gdkGet().length;
+let GTB=false;
+async function gdTrashSync(){
+ if(GTB||!gdCfg()||!navigator.onLine||!gtokOk())return;GTB=true;
+ try{
+  for(const x of gdTrashList()){
+   try{await gapi(DRV+x.driveId,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({trashed:!!x.trashed})});x.dtr=!!x.trashed;await saveQ(x)}
+   catch(e){if(/not found|404/i.test(e.message)){x.dtr=!!x.trashed;await saveQ(x)}}
+  }
+  for(const id of gdkGet()){
+   try{await gapi(DRV+id,{method:'DELETE'})}catch(e){if(!/not found|404/i.test(e.message))continue}
+   gdkSet(gdkGet().filter(z=>z!==id))
+  }
+ }finally{GTB=false}
+}
+
 /* ===== Projects & Files: download a folder (and everything inside) as Zip ===== */
 async function folderZip(f){
  if(!f||!isC(f))return;
@@ -1622,6 +1660,7 @@ function ufFiles(fs){
 }
 async function ufRun(root,E){
  if(!E.length){toast('This folder has no files to upload');return}
+ const p0=cur()||null;if(items.some(x=>isC(x)&&!x.trashed&&(x.parent||null)===p0&&String(x.name).toLowerCase()==root.toLowerCase())){const go=await dlg({title:'Duplicate folder name',msg:'A folder named “'+root+'” already exists here. Continue to upload anyway (a separate folder with the same name will be created), or skip?',icon:'⚠️',ok:'Continue to Upload',no:'Skip'});if(!go){toast('Skipped');return}}
  const par0=cur(),cache=new Map(),N=[],pg=document.createElement('div');pg.className='ts';document.body.append(pg);let ok=0,bad=0;
  const mkdir=async dirs=>{let par=par0,key='';for(const d of dirs){key+='/'+d;let fo=cache.get(key);if(!fo){fo=await add('folder',d,{parent:par});cache.set(key,fo)}par=fo.id}return par};
  try{
@@ -1836,7 +1875,7 @@ function pvText(f,k,T){const u=f.idx&&f.idx.u&&f.idx.u[k];if(!u)return'';const p
 /* ===== Select / Open File Location / Add to Folder (copy) ===== */
 const FSEL={on:false,s:new Set(),fid:null};let FP=null;
 const fselBtn=()=>FSEL.s.size>=2?'<button class=pr data-a=fadd>➕ Add to other Folder</button>':'';
-const fselBar=()=>FSEL.on?`<div class=sa><b>☑ Select</b> <span class=pill>${FSEL.s.size}</span><span class=acts style="margin-left:auto"><button data-a=fmvm ${FSEL.s.size?'':'disabled'}>➜ Move</button><button class=pr data-a=fadd ${FSEL.s.size?'':'disabled'}>➕ Add to other Folder</button><button data-a=fclr>✕ Cancel</button></span></div>`:'';
+const fselBar=()=>FSEL.on?`<div class=sa><b>☑ Select</b> <span class=pill>${FSEL.s.size}</span><span class=acts style="margin-left:auto"><button data-a=fmvm ${FSEL.s.size?'':'disabled'}>➜ Move</button><button class=pr data-a=fadd ${FSEL.s.size?'':'disabled'}>➕ Add to other Folder</button><button class="pr dn" data-a=fdel ${FSEL.s.size?'':'disabled'}>🗑 Delete</button><button data-a=fclr>✕ Cancel</button></span></div>`:'';
 const selPre=i=>FSEL.on&&i.type=='file'&&view.k=='folder'&&!i.trashed?`<input type=checkbox class=ck data-a=fsel ${FSEL.s.has(i.id)?'checked':''}>`:'';
 const fmX=i=>{const f=view.k=='folder',d=view.k=='documents';return((d||(q&&f))?'<button data-a=ofl>📂 Open File Location</button>':'')+(f?'<button data-a=fadd1>➕ Add to Folder</button><button data-a=fselon>☑ Select</button>':'')};
 const fpPath=x=>path(x.id).map(p=>p.name).join(' / ');
