@@ -615,7 +615,7 @@ mark{background:#fde047;color:inherit;border-radius:3px;padding:0 1px}
 <aside id=sb><div class=logo style="display:flex;justify-content:space-between;align-items:center"><div>◆ Komnotra<small style="display:block;font-weight:400;font-size:11px;color:var(--m);margin-top:2px;line-height:1.3">Your Smart Digital Workspace</small></div><button data-a=burger title="Hide sidebar" style="padding:3px 11px;font-size:18px;line-height:1.2">☰</button></div><div id=nav></div>
 <div class=box><b>Sync</b><br><span class=dot id=sdot></span><span id=sst></span><button id=gdb data-a=gdset style="margin-top:8px;width:100%;padding:6px">☁ Sync with Google Drive</button><button id=gdm data-a=gdm style="margin-top:6px;width:100%;padding:4px;font-size:12px;display:none">⚙ Account</button><button id=adb data-a=adlogin style="margin-top:6px;width:100%;padding:6px;font-size:12.5px;display:none">🔐 Admin login</button></div></aside>
 <section><div class=top><button id=burger data-a=burger>☰</button><input id=q placeholder="Search files, notes, tasks, projects…"><button id=qx title=Clear>✕</button><button class=pr id=qs>Search</button><button id=uchip data-a=gdm><i class=uav><svg width=18 height=18 viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round stroke-linejoin=round><circle cx=12 cy=8 r=4></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg></i><span id=unm></span></button></div><main id=main></main></section>
-<div id=pv2></div><div id=bd data-a=burger></div><div id=m></div><div id=d></div><input type=file id=fi multiple hidden><input type=file id=fiPh multiple hidden accept=".pdf,.doc,.docx,.dot,.dotx,.rtf,.odt,.ods,.odp,.xls,.xlsx,.xlsm,.csv,.tsv,.ppt,.pptx,.potx,.txt,.md,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,text/plain,text/csv"><input type=file id=fiDir multiple hidden webkitdirectory><input type=file id=fi2 accept="image/*" multiple hidden>
+<div id=pv2></div><div id=bd data-a=burger></div><div id=m></div><div id=d></div><input type=file id=fi multiple hidden><input type=file id=fiPh multiple hidden accept=".pdf,.doc,.docx,.dot,.dotx,.rtf,.odt,.ods,.odp,.xls,.xlsx,.xlsm,.csv,.tsv,.ppt,.pptx,.potx,.txt,.md,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,text/plain,text/csv"><input type=file id=fiDir multiple hidden webkitdirectory><input type=file id=fiUF multiple hidden webkitdirectory><input type=file id=fi2 accept="image/*" multiple hidden>
 <script>
 const DB=new Promise((res,rej)=>{const r=indexedDB.open('imvannda',1);r.onupgradeneeded=()=>r.result.createObjectStore('items',{keyPath:'id'});r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});
 const tx=async(m,f)=>{const d=await DB;return new Promise((res,rej)=>{const t=d.transaction('items',m);const o=f(t.objectStore('items'));t.oncomplete=()=>res(o&&o.result);t.onerror=()=>rej(t.error)})};
@@ -696,14 +696,14 @@ const ext=n=>{const p=String(n||'').split('.'),e=p.length>1?p.pop().toLowerCase(
 const fi=i=>{const e=ext(i.name);return e=='pdf'?'📕':/xlsx?|csv/.test(e)?'📗':/docx?/.test(e)?'📘':/pptx?/.test(e)?'📙':/^image/.test(i.mime)?'🖼':'📄'};
 const ico=i=>i.type=='project'?(i.icon||'📘'):i.type=='folder'?'📁':i.type=='meeting'?'👥':i.type=='plan'?(i.done?'☑':'☐'):i.type=='note'?'📝':i.type=='task'?(i.done?'☑':'☐'):i.type=='goal'?'🎯':i.type=='link'?'🔗':i.type=='video'?'🎬':fi(i);
 const sz=b=>b>1e6?(b/1e6).toFixed(1)+' MB':Math.ceil(b/1e3)+' KB';
-const fmenuF=i=>`${view.k=='folder'?'<button data-a=up title="Move up">▲</button><button data-a=dn title="Move down">▼</button>':''}<span class=mw><button class=mb data-a=fmenu title="More">⋯</button><div class=fm><button data-a=star>${i.starred?'★ Unstar':'☆ Star'}</button><button data-a=ren>✏ Rename</button><button data-a=mv>➜ Move</button>${fmX(i)}${view.k!='documents'?pubBtn(i):''}<button data-a=dl>⬇ Download</button>${RMF?'<button data-a=rcrm>✕ Remove from Recent</button>':''}<button data-a=del class=fd>🗑 Delete</button></div></span>`;
+const fmenuF=i=>`${view.k=='folder'?'<button data-a=up title="Move up">▲</button><button data-a=dn title="Move down">▼</button>':''}<span class=mw><button class=mb data-a=fmenu title="More">⋯</button><div class=fm><button data-a=star>${i.starred?'★ Unstar':'☆ Star'}</button><button data-a=ren>✏ Rename</button><button data-a=mv>➜ Move</button>${fmX(i)}<button data-a=dl>⬇ Download</button>${RMF?'<button data-a=rcrm>✕ Remove from Recent</button>':''}<button data-a=del class=fd>🗑 Delete</button></div></span>`;
 const meta=i=>{const p=i.parent&&get(i.parent);let s=isC(i)?[desc(i.id).filter(x=>!x.trashed&&!isM(x)).length+' items']:[i.type];if(i.type=='link')s=[i.url||''];if(i.type=='task')s=[i.status||'todo',i.priority||'medium',i.due?'📅 '+dmy(i.due)+(i.time?' ⏰ '+i.time:''):'no due date'];if(i.type=='meeting')s=['📅 '+dmy(i.date)+(i.dateEnd?' → '+dmy(i.dateEnd):'')+(i.time?' ⏰ '+i.time:''),i.place].filter(Boolean);if(i.type=='plan')s=['🗓 '+dmy(i.date)+(i.time?' ⏰ '+i.time:'')];if(i.type=='file')s.push(sz(i.size));if(p)s.push('in '+p.name);s.push(dmy(iso(new Date(i.updated))));return['task','meeting','plan'].includes(i.type)?s.map(x=>`<span class=mt>${esc(x)}</span>`).join(''):esc(s.join(' · '))};
-const row=(i,pre='')=>`<div class="row r${ur(i)} k-${i.type} p-${i.priority||''}" data-id=${i.id}>${pre}${selPre(i)}<span class=ic data-a=${['task','plan'].includes(i.type)?'tgl':'open'} style="${isC(i)?`background:${i.type=='project'?i.color||'#2563eb':'#f59e0b'}22;width:40px;height:40px;border-radius:11px;display:grid;place-items:center`:''}">${ico(i)}</span><div class=nm data-a=open>${esc(i.name||'Untitled')}<small>${meta(i)}</small>${i.desc&&isC(i)?`<small>📝 ${esc(i.desc.slice(0,90))}</small>`:''}</div>${bdg(ur(i))}${i.by?`<span class="pill by" title="${esc(i.by.e||'')}">👤 ${esc(i.by.n)}</span>`:''}${i.type=='file'&&ext(i.name)?`<span class=pill>${esc(ext(i.name).toUpperCase())}</span>`:''}${view.k!='documents'?pubPill(i):''}${gdPill(i)}${i.type=='project'?`<span class=pill>${i.pstatus||'ongoing'}</span>`:''}<span class=acts>${i.trashed?'<button data-a=res>Restore</button><button data-a=kill>Delete forever</button>':i.type=='file'?fmenuF(i):i.type=='note'?noteMenu(i):RMF&&!isC(i)?`<span class=mw><button class=mb data-a=fmenu title="More">⋯</button><div class=fm><button data-a=star>${i.starred?'★ Unstar':'☆ Star'}</button><button data-a=ren>✏ Rename</button><button data-a=mv>➜ Move</button><button data-a=rcrm>✕ Remove from Recent</button><button data-a=del class=fd>🗑 Delete</button></div></span>`:`<button data-a=star>${i.starred?'★':'☆'}</button>${isC(i)?'<button data-a=up title="Move up">▲</button><button data-a=dn title="Move down">▼</button><button data-a=qn title="Add note">＋📝 Note</button><button data-a=edesc>✎ Desc</button>':''}<button data-a=ren>Rename</button><button data-a=mv>Move</button>${i.type=='file'?'<button data-a=dl>⬇</button>':''}<button data-a=del>🗑</button>`}${RMF&&!i.trashed&&i.type!='file'&&i.type!='note'&&isC(i)?RMENU:''}</span></div>`;
+const row=(i,pre='')=>`<div class="row r${ur(i)} k-${i.type} p-${i.priority||''}" data-id=${i.id}>${pre}${selPre(i)}<span class=ic data-a=${['task','plan'].includes(i.type)?'tgl':'open'} style="${isC(i)?`background:${i.type=='project'?i.color||'#2563eb':'#f59e0b'}22;width:40px;height:40px;border-radius:11px;display:grid;place-items:center`:''}">${ico(i)}</span><div class=nm data-a=open>${esc(i.name||'Untitled')}<small>${meta(i)}</small>${i.desc&&isC(i)?`<small>📝 ${esc(i.desc.slice(0,90))}</small>`:''}</div>${bdg(ur(i))}${i.by?`<span class="pill by" title="${esc(i.by.e||'')}">👤 ${esc(i.by.n)}</span>`:''}${i.type=='file'&&ext(i.name)?`<span class=pill>${esc(ext(i.name).toUpperCase())}</span>`:''}${gdPill(i)}${i.type=='project'?`<span class=pill>${i.pstatus||'ongoing'}</span>`:''}<span class=acts>${i.trashed?'<button data-a=res>Restore</button><button data-a=kill>Delete forever</button>':i.type=='file'?fmenuF(i):i.type=='note'?noteMenu(i):RMF&&!isC(i)?`<span class=mw><button class=mb data-a=fmenu title="More">⋯</button><div class=fm><button data-a=star>${i.starred?'★ Unstar':'☆ Star'}</button><button data-a=ren>✏ Rename</button><button data-a=mv>➜ Move</button><button data-a=rcrm>✕ Remove from Recent</button><button data-a=del class=fd>🗑 Delete</button></div></span>`:`<button data-a=star>${i.starred?'★':'☆'}</button>${isC(i)?'<button data-a=up title="Move up">▲</button><button data-a=dn title="Move down">▼</button><button data-a=qn title="Add note">＋📝 Note</button><button data-a=edesc>✎ Desc</button>':''}<button data-a=ren>Rename</button><button data-a=mv>Move</button>${i.type=='file'?'<button data-a=dl>⬇</button>':''}<button data-a=del>🗑</button>`}${RMF&&!i.trashed&&i.type!='file'&&i.type!='note'&&isC(i)?RMENU:''}</span></div>`;
 const FC=[['#2f6fe4','#5b9cff'],['#9b51e0','#b983f0'],['#12a97a','#3fd3a1'],['#f0a020','#ffc247'],['#0f9aa0','#2cc7cc'],['#e8489a','#ff7bb8']];
 const fcol=i=>{let h=0;for(const c of String(i.id))h=(h*31+c.charCodeAt(0))>>>0;return FC[h%FC.length]};
 const ago=t=>{const m=(Date.now()-t)/6e4|0,h=m/60|0,d=h/24|0;return d>=14?(d/7|0)+' weeks ago':d>=7?'1 week ago':d>=2?d+' days ago':d==1?'1 day ago':h>=1?h+' hr ago':m>=1?m+' min ago':'just now'};
 const fsvg=c=>`<svg viewBox="0 0 64 52" width=58 height=48><path d="M4 10a6 6 0 0 1 6-6h14l6 6h24a6 6 0 0 1 6 6v6H4z" fill="${c[0]}"/><rect x=4 y=14 width=56 height=34 rx=7 fill="${c[1]}"/></svg>`;
-const fcard=i=>{const o=OPEN.has(i.id);return `<div class="fc ${o?'op':''}" data-id=${i.id}><div class=fch><button class="fx ${o?'o':''}" data-a=exp title="Expand">›</button><div class=fcb data-a=open>${fsvg(fcol(i))}<div class=fn><b title="${esc(i.name||'Untitled')}">${esc(i.name||'Untitled')}</b><small>${desc(i.id).filter(x=>!x.trashed&&!isM(x)).length} items · Updated ${ago(i.updated)}</small><small>${pubPill(i)}</small>${i.by?`<small style="color:#0e7490;font-weight:600">👤 ${esc(i.by.n)}</small>`:''}</div></div></div><button class=fb data-a=fmenu title="More">⋯</button><div class=fm><button data-a=open>📂 Open</button><button data-a=star>${i.starred?'★ Unstar':'☆ Star'}</button><button data-a=qn>＋📝 Add note</button><button data-a=edesc>✎ Description</button><button data-a=ren>✏ Rename</button><button data-a=mv>➜ Move</button><button data-a=fdz>⬇ Download</button>${pubBtn(i)}<button data-a=up>▲ Move up</button><button data-a=dn>▼ Move down</button>${RMF?'<button data-a=rcrm>✕ Remove from Recent</button>':''}<button data-a=del class=fd>🗑 Delete</button></div>${o?fsub(i):''}</div>`};
+const fcard=i=>{const o=OPEN.has(i.id);return `<div class="fc ${o?'op':''}" data-id=${i.id}><div class=fch><button class="fx ${o?'o':''}" data-a=exp title="Expand">›</button><div class=fcb data-a=open>${fsvg(fcol(i))}<div class=fn><b title="${esc(i.name||'Untitled')}">${esc(i.name||'Untitled')}</b><small>${desc(i.id).filter(x=>!x.trashed&&!isM(x)).length} items · Updated ${ago(i.updated)}</small>${i.by?`<small style="color:#0e7490;font-weight:600">👤 ${esc(i.by.n)}</small>`:''}</div></div></div><button class=fb data-a=fmenu title="More">⋯</button><div class=fm><button data-a=open>📂 Open</button><button data-a=star>${i.starred?'★ Unstar':'☆ Star'}</button><button data-a=qn>＋📝 Add note</button><button data-a=edesc>✎ Description</button><button data-a=ren>✏ Rename</button><button data-a=mv>➜ Move</button><button data-a=fdz>⬇ Download</button><button data-a=up>▲ Move up</button><button data-a=dn>▼ Move down</button>${RMF?'<button data-a=rcrm>✕ Remove from Recent</button>':''}<button data-a=del class=fd>🗑 Delete</button></div>${o?fsub(i):''}</div>`};
 function fsub(i){return `<div class=fsub>${kids(i.id).filter(x=>!isM(x)).sort((a,b)=>isC(b)-isC(a)||ord(a,b)).map(x=>{const c=isC(x),o=c&&OPEN.has(x.id);return `<div data-id=${x.id}><div class=fsr data-a=open>${c?`<button class="fx ${o?'o':''}" data-a=exp title="Expand">›</button>`:''}<span>${ico(x)}</span><span class=fsn>${esc(x.name||'Untitled')}</span><small>${c?desc(x.id).filter(y=>!y.trashed&&!isM(y)).length+' items':x.type=='file'?sz(x.size):x.type}</small></div>${o?fsub(x):''}</div>`}).join('')||'<div class=fse>Empty</div>'}</div>`}
 let RH=new Set();try{RH=new Set(JSON.parse(localStorage.getItem('imv_rh')||'[]'))}catch(e){}
 let RMF=0;const RMENU='<span class=mw><button class=mb data-a=fmenu title="More">⋯</button><div class=fm><button data-a=rcrm>✕ Remove from Recent</button></div></span>';
@@ -747,7 +747,7 @@ function main(){
   <div class=abp><div class=abpt><i>${sv('<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/>',22)}</i><h3>❤️ Support This Project</h3></div><div class=abpb><div><p>This platform is free to use and independently developed. Your voluntary donation helps support maintenance, hosting, and future improvements.</p><p><b>Every contribution is appreciated. Thank you for your support! ❤️</b></p></div><div class=qr><img src="qrcode.jpg" alt="Donation QR code" onerror="this.parentNode.classList.add('nq')"><span class=qrf>QR Code<small>qrcode.jpg</small></span></div></div></div></div></div>`}
  const c=get(view.id);if(!c||c.trashed){view={k:'projects'};return main()}
  const K=kids(c.id),cr=path(c.id).map(p=>`<a data-a=nav data-v=folder data-id=${p.id}>${esc(p.name)}</a>`).join(' / ');
- return hd(esc(c.name),'<button data-a=back>← Back</button>'+fselBtn()+'<button data-a=newf>+ Folder</button><button data-a=newn>+ Note</button><button data-a=newt>+ Task</button><button data-a=addl>🔗 Add Link</button><button data-a=addv>🎬 Add Video</button><button data-a=addi>🖼 Add Image</button><button class=pr data-a=pick>Upload</button>')+`<p class=crumb><a data-a=nav data-v=projects>Projects &amp; Files</a> / ${cr}</p>`+dsc(c)+fselBar()+mediaSec(c)+drop+[['Folders',x=>isC(x)],['Notes',x=>x.type=='note'],['Tasks',x=>x.type=='task'],['Meetings',x=>x.type=='meeting'],['Links',x=>x.type=='link'],['Files',x=>x.type=='file'&&!x.media]].map(([n,f])=>K.filter(f).length?`<h3>${n}</h3>`+(n=='Folders'?`<div class=fg>${pgr(K.filter(f)).map(fcard).join('')}</div>${pgb(K.filter(f))}`:list(K.filter(f))):'').join('')+(K.length?'':'<div class=empty>This folder is empty.</div>');
+ return hd(esc(c.name),'<button data-a=back>← Back</button>'+fselBtn()+'<button data-a=newf>+ Folder</button><button data-a=newn>+ Note</button><button data-a=newt>+ Task</button><button data-a=addl>🔗 Add Link</button><button data-a=addv>🎬 Add Video</button><button data-a=addi>🖼 Add Image</button><button class=pr data-a=pick>Upload</button><button data-a=pickd>📁 Upload Folder</button>')+`<p class=crumb><a data-a=nav data-v=projects>Projects &amp; Files</a> / ${cr}</p>`+dsc(c)+fselBar()+mediaSec(c)+drop+[['Folders',x=>isC(x)],['Notes',x=>x.type=='note'],['Tasks',x=>x.type=='task'],['Meetings',x=>x.type=='meeting'],['Links',x=>x.type=='link'],['Files',x=>x.type=='file'&&!x.media]].map(([n,f])=>K.filter(f).length?`<h3>${n}</h3>`+(n=='Folders'?`<div class=fg>${pgr(K.filter(f)).map(fcard).join('')}</div>${pgb(K.filter(f))}`:list(K.filter(f))):'').join('')+(K.length?'':'<div class=empty>This folder is empty.</div>');
 }
 function wRange(){const t=TD(),m=view.wr||'week';if(m=='month'){const b=view.wm||t.slice(0,7),[y,mo]=b.split('-').map(Number);return[b+'-01',b+'-'+String(new Date(y,mo,0).getDate()).padStart(2,'0')]}if(m=='custom'){const f=view.wf||t,e=view.wt||addD(f,6);return f<=e?[f,e]:[e,f]}const w=view.w||mon(t);return[w,addD(w,6)]}
 function weeklyView(L){const t=TD(),[f,e]=wRange(),m=view.wr||'week',H=view.wh||[],vv=view.wv=='agenda'?'agenda':'week',days=[];for(let d=f;d<=e&&days.length<400;d=addD(d,1))days.push(d);
@@ -1496,6 +1496,7 @@ document.addEventListener('click',async e=>{
  else if(act=='edesc'){const n=await dlg({title:'Description',msg:i.name,label:'Description',input:i.desc||'',area:1,empty:1,icon:'📝',ok:'Save'});if(n!==null){i.desc=n;await save(i)}}
  else if(act=='savem'){const g=s=>$('#'+s)?.value||'',d0=g('fd')||TD(),d1=g('fde');if(g('fdm')=='2'&&d1&&d1<d0){toast('ថ្ងៃបញ្ចប់ត្រូវនៅក្រោយថ្ងៃចាប់ផ្តើម');return}Object.assign(ed,{name:g('fn').trim()||'Untitled',date:d0,dateEnd:(g('fdm')=='2'&&d1>d0)?d1:'',time:g('ft'),place:g('fp'),link:g('fl').trim(),people:g('fg'),agenda:g('fa'),notes:g('fo')});if($('#tl'))ed.parent=$('#tl').value||null;await commit(ed);await attCommit();close();return}
  else if(act=='fdz'){await folderZip(i);return}
+ else if(act=='pickd'){ufPick();return}
  else if(act=='dsync'){synOpen();return}
  else if(act=='dsrc'){synPick(a.dataset.v);return}
  else if(act=='dsgo'){synRun();return}
@@ -1519,6 +1520,7 @@ document.addEventListener('change',e=>{if(e.target.id=='np'&&ed){ed.parent=e.tar
 document.addEventListener('paste',e=>{if(e.target.id=='ne'){e.preventDefault();document.execCommand('insertText',false,e.clipboardData.getData('text/plain'))}});
 $('#fi').onchange=e=>{upload(e.target.files);e.target.value=''};
 $('#fiPh').onchange=e=>{const fs=[...e.target.files];e.target.value='';synFromFiles(fs,false)};
+$('#fiUF').onchange=e=>{const fs=[...e.target.files];e.target.value='';ufFiles(fs)};
 $('#fiDir').onchange=e=>{const fs=[...e.target.files];e.target.value='';synFromFiles(fs,true)};
 $('#fi2').onchange=e=>{const fs=[...e.target.files];e.target.value='';if(fs.length)imgM(fs)};
 let qT;$('#q').oninput=e=>{q=e.target.value.trim();view.p=1;$('#qx').style.display=q?'':'none';clearTimeout(qT);qT=setTimeout(()=>{render();if(q&&view.k=='documents')idxAll()},200)};
@@ -1598,6 +1600,43 @@ async function folderZip(f){
  finally{pg.remove()}
 }
 
+/* ===== Projects & Files: Upload Folder (select a folder, keep its structure) ===== */
+const UF_MAX=5000,UF_SKIP=/^(thumbs\.db|desktop\.ini|\.ds_store)$/i;
+async function ufScan(dh,base,out){
+ for await(const [n,h] of dh.entries()){
+  if(out.length>=UF_MAX)return;
+  if(h.kind=='directory'){if(n[0]=='.'||n[0]=='$'||/^(node_modules|System Volume Information)$/i.test(n))continue;await ufScan(h,[...base,n],out)}
+  else if(!UF_SKIP.test(n)&&!n.startsWith('~$'))out.push({n,dir:base,get:()=>h.getFile()})
+ }
+}
+async function ufPick(){
+ if(!window.showDirectoryPicker){$('#fiUF').click();return}
+ let dh;try{dh=await showDirectoryPicker({id:'imvuf',mode:'read'})}catch(e){if(!e||e.name!='AbortError')toast('This folder cannot be opened by the browser. Please choose a subfolder.');return}
+ const out=[];toast('Scanning “'+dh.name+'”…');try{await ufScan(dh,[],out)}catch(e){}
+ ufRun(dh.name,out)
+}
+function ufFiles(fs){
+ if(!fs.length)return;const out=[],root=(fs[0].webkitRelativePath||'').split('/')[0]||'Folder';
+ for(const f of fs){const p=(f.webkitRelativePath||f.name).split('/');if(UF_SKIP.test(f.name)||f.name.startsWith('~$')||p.slice(1,-1).some(x=>x[0]=='.'||x[0]=='$'))continue;if(out.length>=UF_MAX)break;out.push({n:f.name,dir:p.slice(1,-1),get:async()=>f})}
+ ufRun(root,out)
+}
+async function ufRun(root,E){
+ if(!E.length){toast('This folder has no files to upload');return}
+ const par0=cur(),cache=new Map(),N=[],pg=document.createElement('div');pg.className='ts';document.body.append(pg);let ok=0,bad=0;
+ const mkdir=async dirs=>{let par=par0,key='';for(const d of dirs){key+='/'+d;let fo=cache.get(key);if(!fo){fo=await add('folder',d,{parent:par});cache.set(key,fo)}par=fo.id}return par};
+ try{
+  for(const e of E){
+   try{const f=await e.get(),par=await mkdir([root,...e.dir]);N.push(await add('file',e.n,{parent:par,blob:f,size:f.size,mime:f.type}));ok++}catch(er){bad++}
+   pg.textContent='Uploading folder… '+(ok+bad)+' / '+E.length;
+   if((ok+bad)%5==0)await new Promise(r=>setTimeout(r))
+  }
+ }finally{pg.remove()}
+ OPEN.add(par0);render();
+ if(gdCfg()&&GD.get().auto!==false)N.forEach(x=>gdQ(x));
+ if(N.length)idxAll();
+ toast('✔ Uploaded '+ok+' file(s) from “'+root+'”'+(bad?' — '+bad+' failed':''))
+}
+
 /* ===== Documents: Sync from device (PC Local C / Local D, Phone) ===== */
 const SYN={step:'src',src:'',label:'',root:'',files:[],cut:0,done:0,skip:0,fail:0,n:0,busy:false,drive:0};
 const SYX=/^(pdf|docx?|dotx?|rtf|odt|ods|odp|xlsx?|xlsm|csv|tsv|pptx?|potx?|txt|md)$/,SYN_MAX=3000,SYN_BIG=150e6,SYN_ROOT='Document from your device';
@@ -1609,10 +1648,8 @@ function synHtml(){
  if(S.step=='src')return synHead('Sync documents from your device','Bring files from your computer or phone into Documents.')+synSteps(0)+
   `<div class="syn ${c?'ok':'wn'}"><div class=sni>${c?'☁':'📴'}</div><div><b>${c?'Google Drive is connected'+(em?' · '+em:''):'You are not signed in to Google'}</b><p>Every file you sync from your device is sent to your Google Drive, into a new folder named <b>${SYN_ROOT}</b>.${c?'':' Without a Google account, synced files stay on this device and can only be viewed offline.'}</p>${c?'':'<button class="pr sm" data-a=gdall>Sign in with Google</button>'}</div></div>`+
   `<div class=sylb>Choose where to sync from</div><div class=syg>`+
-  `<button class=syc data-a=dsrc data-v=c><span class=syq>🖥</span><b>Local Disk (C:)</b><small>This PC · choose a folder</small></button>`+
-  `<button class=syc data-a=dsrc data-v=d><span class="syq b">💽</span><b>Local Disk (D:)</b><small>This PC · choose a folder</small></button>`+
-  `<button class=syc data-a=dsrc data-v=phone><span class="syq c">📱</span><b>Phone</b><small>Choose documents on your phone</small></button></div>`+
-  `<div class=syt>Tip: choose a folder inside the drive (for example <i>Documents</i> or <i>Work</i>). Browsers do not allow selecting an entire drive root.</div>`+
+  `<button class=syc data-a=dsrc data-v=dev><span class=syq>📂</span><b>Select from device</b><small>On a computer, choose a folder. On a phone, choose documents.</small></button></div>`+
+  `<div class=syt>Tip: on a computer you can pick a folder from Local Disk (C:) or (D:), for example <i>Documents</i> or <i>Work</i>. Browsers do not allow selecting an entire drive root.</div>`+
   `<ul class=syl><li>PDF, Word, Excel, PowerPoint and text files · subfolders keep their structure</li><li>Search every word inside synced files, including Khmer text</li><li>Files already synced are skipped, so nothing is duplicated</li></ul>`;
  if(S.step=='scan')return synHead('Scanning folder…','Looking for documents in “'+esc(S.root)+'”.')+synSteps(0)+`<div class=empty style="padding:30px 0">${SPN} Please wait…</div>`;
  if(S.step=='review'){
@@ -1642,10 +1679,12 @@ async function synScan(dh,base,out){
 }
 function synFiles(out){const S=SYN;if(!out.length){S.step='src';synRender();toast('No supported documents found here');return}S.files=out;S.step='review';synRender()}
 async function synPick(v){
- const S=SYN;S.src=v;S.label=v=='c'?'Local Disk (C:)':v=='d'?'Local Disk (D:)':'Phone';S.cut=0;
- if(v=='phone'){$('#fiPh').click();return}
+ const S=SYN;S.src='dev';S.cut=0;
+ const mob=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&matchMedia('(pointer:coarse)').matches);
+ S.label=mob?'Phone':'This PC';
+ if(mob){$('#fiPh').click();return}
  if(!window.showDirectoryPicker){$('#fiDir').click();return}
- let dh;try{dh=await showDirectoryPicker({id:'imv'+v,mode:'read',startIn:'documents'})}catch(e){if(!e||e.name!='AbortError')toast('This folder cannot be opened by the browser. Please choose a subfolder.');return}
+ let dh;try{dh=await showDirectoryPicker({id:'imvsyn',mode:'read',startIn:'documents'})}catch(e){if(!e||e.name!='AbortError')toast('This folder cannot be opened by the browser. Please choose a subfolder.');return}
  S.root=dh.name||S.label;S.step='scan';synRender();
  const out=[];try{await synScan(dh,[],out)}catch(e){}
  synFiles(out)
